@@ -1,0 +1,25 @@
+{
+  "name": "cypress-cartes-gouv-fr",
+  "version": "1.0.0",
+  "description": "Cypress E2E tests for cartes.gouv.fr",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test": "cypress run",
+    "test:chrome": "cypress run --browser chrome",
+    "test:firefox": "cypress run --browser firefox",
+    "test:headed": "cypress run --headed",
+    "test:spec": "cypress run --spec"
+  },
+  "keywords": [
+    "cypress",
+    "e2e",
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^15.11.0"
+  }
+}
