@@ -34,6 +34,9 @@ describe('Search Functionality', () => {
     dismissModal()
     // Ensure no modal is blocking
     cy.wait(500)
+
+    // Intercept geocoding/search API calls
+    cy.intercept('GET', '**/completion**').as('searchCompletion')
   })
 
   it('should have a search input field', () => {
@@ -53,6 +56,9 @@ describe('Search Functionality', () => {
       .filter(':enabled')
       .first()
       .should('have.value', 'Paris')
+
+    // Wait for search results to be loaded
+    cy.wait('@searchCompletion', { timeout: 15000 })
   })
 
   it('should display search results or suggestions', () => {
@@ -64,6 +70,9 @@ describe('Search Functionality', () => {
       .filter(':enabled')
       .first()
       .should('have.value', 'Paris')
+
+    // Wait for search results to be loaded
+    cy.wait('@searchCompletion', { timeout: 15000 })
 
     cy.contains(/paris/i, { timeout: 15000 }).should('exist')
   })

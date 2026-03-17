@@ -1,25 +1,21 @@
 // ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
+// Custom commands for cartes.gouv.fr E2E tests
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+/**
+ * Accept cookies by clicking the "Tout accepter" button
+ * on the cookie consent banner, if it is present.
+ */
+Cypress.Commands.add('acceptCookies', () => {
+  cy.get('body').then($body => {
+    // Look for the "Tout accepter" button in the cookie consent banner
+    const toutAccepterBtn = $body.find('button').filter(function () {
+      return /Tout accepter/i.test(this.textContent)
+    })
+
+    if (toutAccepterBtn.length > 0) {
+      cy.wrap(toutAccepterBtn.first()).click({ force: true })
+    }
+  })
+})

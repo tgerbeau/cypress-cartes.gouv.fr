@@ -1,7 +1,7 @@
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
-  projectId: 'ejionw',
+  projectId: '66ited',
   e2e: {
     experimentalPromptCommand: true,
     baseUrl: 'https://cartes.gouv.fr',

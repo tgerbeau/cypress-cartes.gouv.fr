@@ -16,13 +16,7 @@ describe('Homepage Tests', () => {
       }
     })
 
-    // Accept cookies only if consent banner is visible
-    cy.get('body').then($body => {
-      const allowAllSelector = '#my-consent button[title="Autoriser tous les cookies"]'
-      if ($body.find(allowAllSelector).length > 0) {
-        cy.get(allowAllSelector).first().click({ force: true })
-      }
-    })
+    // Cookie consent is handled globally via cy.acceptCookies() in support/e2e.js
   })
 
   it('should display the main title or heading', () => {
