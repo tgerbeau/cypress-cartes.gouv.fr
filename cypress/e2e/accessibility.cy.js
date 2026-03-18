@@ -61,4 +61,31 @@ describe('Accessibility Tests', () => {
       .should('be.visible')
       .trigger('focus')
   })
+
+  it('should have ARIA landmark regions (RGAA)', () => {
+    // Un site public français doit avoir les régions landmark
+    cy.get('header, [role="banner"]').should('exist')
+    cy.get('nav, [role="navigation"]').should('exist')
+    cy.get('footer, [role="contentinfo"]').should('exist')
+  })
+
+  it('should have labeled interactive controls', () => {
+    // Chaque champ de formulaire visible doit avoir un nom accessible
+    cy.get('input:visible, select:visible, textarea:visible').each(($el) => {
+      const type = $el.attr('type')
+      if (type === 'hidden' || type === 'submit' || type === 'button') return
+
+      const ariaLabel = $el.attr('aria-label') || ''
+      const ariaLabelledby = $el.attr('aria-labelledby') || ''
+      const title = $el.attr('title') || ''
+      const placeholder = $el.attr('placeholder') || ''
+      const id = $el.attr('id') || ''
+      const hasForLabel = id ? Cypress.$(`label[for="${id}"]`).length > 0 : false
+
+      expect(
+        Boolean(ariaLabel || ariaLabelledby || title || hasForLabel || placeholder),
+        `control should have accessible name: ${$el.prop('outerHTML').substring(0, 120)}`
+      ).to.be.true
+    })
+  })
 })

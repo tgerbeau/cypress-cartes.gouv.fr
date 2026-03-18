@@ -35,6 +35,12 @@ afterEach(() => {
 // Override cy.visit to accept cookies after each navigation
 Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
   originalFn(url, options)
-  cy.wait(1000)
-  cy.acceptCookies()
+  cy.document().then((doc) => {
+    const btn = doc.querySelector(
+      '[data-testid="accept-cookies"], button[aria-label*="accepter"], .fr-consent-banner button'
+    )
+    if (btn) {
+      btn.click()
+    }
+  })
 })

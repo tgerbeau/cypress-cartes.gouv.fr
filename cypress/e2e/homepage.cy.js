@@ -28,17 +28,16 @@ describe('Homepage Tests', () => {
     cy.title().should('not.be.empty')
   })
 
-  it('should be responsive', () => {
-    // Test mobile viewport
-    cy.viewport('iphone-x')
-    cy.get('body').should('be.visible')
-    
-    // Test tablet viewport
-    cy.viewport('ipad-2')
-    cy.get('body').should('be.visible')
-    
-    // Test desktop viewport
-    cy.viewport(1920, 1080)
-    cy.get('body').should('be.visible')
+  it('should show mobile navigation on small viewports', () => {
+    cy.viewport(375, 667)
+    // Fermer la modale si présente après resize
+    cy.get('body').then(($body) => {
+      if ($body.find('dialog.fr-modal--opened, .welcome-modal[open]').length) {
+        cy.get('body').type('{esc}')
+      }
+    })
+    // Le DSFR affiche un bouton burger sur mobile
+    cy.get('.fr-btn--menu, button[data-fr-opened], .fr-header__menu-links button', { timeout: 5000 })
+      .should('be.visible')
   })
 })
