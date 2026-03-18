@@ -43,3 +43,24 @@ jobs:
           name: cypress-videos
           path: cypress/videos
           retention-days: 7
+
+      # ─── Notification email ─────────────────────────────────────────
+
+      - name: Send email on failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.MAIL_SERVER }}
+          server_port: ${{ secrets.MAIL_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "🔴 Cypress E2E échoué — cartes.gouv.fr"
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_FROM }}
+          body: |
+            Les tests Cypress E2E pour cartes.gouv.fr ont échoué.
+
+            Branche : ${{ github.ref_name }}
+            Détails : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Vérifiez les screenshots et vidéos dans les artifacts du run.
