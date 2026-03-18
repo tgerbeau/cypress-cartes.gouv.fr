@@ -15,6 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import 'cypress-axe'
 
 // Automatically accept cookies after every page visit
 beforeEach(() => {

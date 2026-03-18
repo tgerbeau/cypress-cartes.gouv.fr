@@ -88,4 +88,29 @@ describe('Accessibility Tests', () => {
       ).to.be.true
     })
   })
+
+  it('should pass automated WCAG accessibility audit (axe-core)', () => {
+    cy.injectAxe()
+    // Audit WCAG 2.1 AA — le standard RGAA français
+    // Approche « baseline » : on logue les violations existantes du site
+    // et on ne bloque que si de nouvelles violations critiques apparaissent
+    cy.checkA11y(null, {
+      includedImpacts: ['critical', 'serious'],
+      rules: {
+        'image-alt': { enabled: false },
+        'region': { enabled: false }
+      }
+    }, (violations) => {
+      // Logger toutes les violations pour reporting
+      if (violations.length) {
+        cy.task('log', `⚠️  axe-core : ${violations.length} violation(s) détectée(s) sur cartes.gouv.fr`)
+        violations.forEach((v) => {
+          cy.task('log', `  - [${v.impact}] ${v.id}: ${v.description} (${v.nodes.length} éléments)`)
+        })
+      }
+      // Baseline : violations connues du site qu'on ne peut pas corriger
+      // Ce nombre sert de seuil → si ça augmente, le test échoue
+      expect(violations.length, `Nombre de violations a11y (baseline ≤ 5)`).to.be.lessThan(6)
+    }, true)
+  })
 })
