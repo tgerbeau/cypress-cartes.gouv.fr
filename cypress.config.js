@@ -11,6 +11,10 @@ module.exports = defineConfig({
     screenshotOnRunFailure: true,
     defaultCommandTimeout: 10000,
     pageLoadTimeout: 120000,
+    retries: {
+      runMode: 2,   // CI : 2 retries automatiques par test
+      openMode: 0   // Local : pas de retry
+    },
     setupNodeEvents(on, config) {
       on('task', {
         log(message) {

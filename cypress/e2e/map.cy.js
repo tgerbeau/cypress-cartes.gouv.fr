@@ -5,19 +5,9 @@
  */
 
 describe('Carte interactive', () => {
-  // Fermer la modale d'accueil si présente
-  const dismissModal = () => {
-    cy.get('body').then(($body) => {
-      if ($body.find('dialog.fr-modal--opened, .welcome-modal[open]').length) {
-        cy.get('body').type('{esc}')
-        cy.get('dialog.fr-modal--opened, .welcome-modal[open]').should('not.exist')
-      }
-    })
-  }
-
   beforeEach(() => {
     cy.visit('/')
-    dismissModal()
+    cy.dismissModal()
     cy.get('.ol-viewport', { timeout: 15000 }).should('be.visible')
   })
 
