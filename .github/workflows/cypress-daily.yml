@@ -4,7 +4,8 @@ on:
   schedule:
     # Every day at 6:00 AM UTC
     - cron: '0 6 * * *'
-  workflow_dispatch: # Allow manual trigger
+  pull_request:        # Run on PRs (needed for Copilot agent auto-fix)
+  workflow_dispatch:   # Allow manual trigger
 
 jobs:
   cypress-run:
