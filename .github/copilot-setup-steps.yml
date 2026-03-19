@@ -1,0 +1,12 @@
+# Configuration pour GitHub Copilot Coding Agent
+# Ce fichier indique à l'agent comment préparer l'environnement de travail
+
+setup:
+  - name: Setup Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: 22
+      cache: npm
+
+  - name: Install dependencies
+    run: npm ci
