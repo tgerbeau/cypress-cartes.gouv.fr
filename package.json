@@ -10,7 +10,14 @@
     "test:chrome": "cypress run --browser chrome",
     "test:firefox": "cypress run --browser firefox",
     "test:headed": "cypress run --headed",
-    "test:spec": "cypress run --spec"
+    "test:spec": "cypress run --spec",
+    "clean:reports": "rm -rf cypress/reports && mkdir -p cypress/reports/json cypress/reports/html",
+    "report:merge": "mochawesome-merge cypress/reports/json/*.json > cypress/reports/report.json",
+    "report:generate": "marge cypress/reports/report.json --reportDir cypress/reports/html --inline",
+    "report": "npm run report:merge && npm run report:generate",
+    "test:report": "npm run clean:reports && npm test && npm run report",
+    "monitor": "cypress run --spec cypress/e2e/monitoring.cy.js",
+    "crawl": "cypress run --spec cypress/e2e/site-crawler.cy.js"
   },
   "keywords": [
     "cypress",
@@ -22,6 +29,9 @@
   "devDependencies": {
     "axe-core": "^4.11.1",
     "cypress": "^15.11.0",
-    "cypress-axe": "^1.7.0"
+    "cypress-axe": "^1.7.0",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2"
   }
 }

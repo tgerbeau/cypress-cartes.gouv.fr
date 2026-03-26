@@ -1,14 +1,13 @@
-name: Cypress E2E Tests — cartes.gouv.fr
+name: 🩺 Monitoring — cartes.gouv.fr
 
 on:
   schedule:
-    # Every day at 6:00 AM UTC
-    - cron: '0 6 * * *'
-  pull_request:        # Run on PRs (needed for Copilot agent auto-fix)
-  workflow_dispatch:   # Allow manual trigger
+    # Toutes les 2 heures
+    - cron: '0 */2 * * *'
+  workflow_dispatch: # Déclenchement manuel
 
 jobs:
-  cypress-run:
+  monitoring:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,43 +25,41 @@ jobs:
       - name: Préparer le dossier de rapports
         run: npm run prereport
 
-      - name: Run Cypress tests
+      - name: Run monitoring tests
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           headless: true
+          spec: cypress/e2e/monitoring.cy.js
+          install: false
+
+      - name: Fusionner les rapports JSON
+        if: always()
+        run: npm run report:merge || true
 
       - name: Générer le rapport HTML
         if: always()
-        run: npm run report:merge && npm run report:generate || true
+        run: npm run report:generate || true
 
       - name: Upload rapport HTML
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: test-report-${{ github.run_number }}
+          name: monitoring-report-${{ github.run_number }}
           path: cypress/reports/html/
-          retention-days: 14
+          retention-days: 30
 
       - name: Upload screenshots on failure
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots
+          name: monitoring-screenshots-${{ github.run_number }}
           path: cypress/screenshots
-          retention-days: 7
+          retention-days: 14
 
-      - name: Upload videos
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: cypress-videos
-          path: cypress/videos
-          retention-days: 7
+      # ─── Notification en cas de panne ───────────────────────────────
 
-      # ─── Notification email ─────────────────────────────────────────
-
-      - name: Send email on failure
+      - name: Send alert on failure
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
@@ -70,13 +67,13 @@ jobs:
           server_port: ${{ secrets.MAIL_PORT }}
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "🔴 Cypress E2E échoué — cartes.gouv.fr"
+          subject: "🔴 ALERTE MONITORING — cartes.gouv.fr est peut-être en panne"
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
           body: |
-            Les tests Cypress E2E pour cartes.gouv.fr ont échoué.
+            ⚠️ Le monitoring synthétique de cartes.gouv.fr a détecté un problème.
 
-            Branche : ${{ github.ref_name }}
+            Date : ${{ github.event.repository.updated_at || 'scheduled' }}
             Détails : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-            Vérifiez les screenshots et vidéos dans les artifacts du run.
+            Vérifiez le rapport et les screenshots dans les artifacts.
