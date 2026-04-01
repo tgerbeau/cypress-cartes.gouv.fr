@@ -1,0 +1,125 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-03-27T09:48:36.810Z",
+    "end": "2026-03-27T09:48:38.632Z",
+    "duration": 1822,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "8311fd9b-d186-4d13-914c-9bc349941704",
+      "title": "",
+      "fullFile": "cypress/e2e/forms.cy.js",
+      "file": "cypress/e2e/forms.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a7f723b8-fc60-4e1a-83c0-0840df835446",
+          "title": "Formulaires",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "le formulaire « Nous écrire » est complet et fonctionnel",
+              "fullTitle": "Formulaires le formulaire « Nous écrire » est complet et fonctionnel",
+              "timedOut": null,
+              "duration": 1661,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/aide/fr/nous-ecrire/');\ncy.contains('h1', 'Nous écrire', {\n  timeout: 10000\n}).should('be.visible');\n// Champs attendus\ncy.get('input, textarea, select').should('have.length.greaterThan', 3);\ncy.contains('Votre adresse électronique').should('be.visible');\ncy.get('input[type=\"email\"], input[name*=\"email\"]').should('exist');\n// Bouton d'envoi\ncy.contains('button', 'Envoyer').should('exist').and('be.visible');\n// Soumission à vide → on reste sur la page\ncy.contains('button', 'Envoyer').click();\ncy.url().should('include', 'nous-ecrire');",
+              "err": {},
+              "uuid": "a9b57f8b-259c-4286-a6a4-04265d57bc32",
+              "parentUUID": "a7f723b8-fc60-4e1a-83c0-0840df835446",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la bannière cookies s'affiche lors de la première visite",
+              "fullTitle": "Formulaires la bannière cookies s'affiche lors de la première visite",
+              "timedOut": null,
+              "duration": 86,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearCookies();\ncy.clearLocalStorage();\ncy.visit('/', {\n  onBeforeLoad(win) {\n    win.localStorage.clear();\n  }\n});\ncy.get('body').then($body => {\n  const banner = $body.find('.fr-consent-banner, [data-testid=\"cookie-banner\"], [class*=\"cookie\"], [class*=\"tarteaucitron\"]');\n  if (banner.length) {\n    cy.wrap(banner).should('be.visible');\n    cy.wrap(banner).find('button').should('have.length.greaterThan', 0);\n  }\n});",
+              "err": {},
+              "uuid": "e23e58d6-661d-4b6f-8d94-e9f9c4ae93a0",
+              "parentUUID": "a7f723b8-fc60-4e1a-83c0-0840df835446",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "a9b57f8b-259c-4286-a6a4-04265d57bc32",
+            "e23e58d6-661d-4b6f-8d94-e9f9c4ae93a0"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1747,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

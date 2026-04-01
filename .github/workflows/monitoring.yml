@@ -1,1 +1,30 @@
-name: Monitoring\n\non:\n  push:\n    branches:\n      - main\n\njobs:\n  node:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Check out code\n        uses: actions/checkout@v2\n      - name: Setup Node.js\n        uses: actions/setup-node@v2\n        with:\n          node-version: '14'\n      - name: Install dependencies\n        run: npm install\n      - name: Run pre-report\n        run: npm run clean:reports\n      - name: Upload Reports\n        uses: actions/upload-artifact@v2\n        with:\n          name: reports\n          path: ./reports/*\n
+name: Monitoring
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run pre-report
+        run: npm run clean:reports
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: ./reports/*

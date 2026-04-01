@@ -12,6 +12,7 @@
     "test:headed": "cypress run --headed",
     "test:spec": "cypress run --spec",
     "clean:reports": "rm -rf cypress/reports && mkdir -p cypress/reports/json cypress/reports/html",
+    "prereport": "mkdir -p cypress/reports/html cypress/reports/mochawesome && rm -rf cypress/reports/html/*",
     "report:merge": "mochawesome-merge cypress/reports/json/*.json > cypress/reports/report.json",
     "report:generate": "marge cypress/reports/report.json --reportDir cypress/reports/html --inline",
     "report": "npm run report:merge && npm run report:generate",
