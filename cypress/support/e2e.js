@@ -33,7 +33,7 @@ afterEach(() => {
   // Cleanup if needed
 })
 
-// Override cy.visit to accept cookies after each navigation
+// Override cy.visit to accept cookies and dismiss welcome modal
 Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
   originalFn(url, options)
   cy.document().then((doc) => {
@@ -42,6 +42,15 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
     )
     if (btn) {
       btn.click()
+    }
+  })
+  // Fermer la popup "Bienvenue sur cartes.gouv.fr" si elle apparaît
+  // Attendre que le DOM soit prêt (la modale est chargée par le JS du SPA)
+  cy.wait(3000)
+  cy.get('body').then(($body) => {
+    const closeBtn = $body.find('dialog.welcome-modal button, .fr-modal--opened button').filter(':contains("Fermer")')
+    if (closeBtn.length) {
+      closeBtn.first().trigger('click')
     }
   })
 })
