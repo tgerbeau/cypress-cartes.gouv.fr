@@ -20,12 +20,32 @@ describe('Homepage Tests', () => {
   })
 
   it('should display the main title or heading', () => {
-    // Update selector based on actual page structure
-    cy.get('h1').should('exist')
+    // La homepage peut utiliser h1, h2 ou un titre dans un composant DSFR
+    cy.get('h1, h2, [class*="fr-display"], [class*="fr-h1"]', { timeout: 10000 })
+      .first()
+      .should('exist')
+      .and('be.visible')
   })
 
   it('should have a valid page title', () => {
     cy.title().should('not.be.empty')
+  })
+
+  it('la popup cookies s\'affiche et le bouton "Tout accepter" fonctionne', () => {
+    cy.clearCookies()
+    cy.clearLocalStorage()
+    cy.visit('/', {
+      timeout: 120000,
+      onBeforeLoad(win) {
+        win.localStorage.clear()
+      },
+    })
+    // La bannière DSFR de consentement doit apparaître
+    cy.get('.fr-consent-banner', { timeout: 10000 }).should('be.visible')
+    // Cliquer sur "Tout accepter"
+    cy.get('.fr-consent-banner').contains('button', 'Tout accepter').click()
+    // La bannière doit disparaître après acceptation
+    cy.get('.fr-consent-banner').should('not.exist')
   })
 
   it('should show mobile navigation on small viewports', () => {

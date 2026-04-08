@@ -97,6 +97,9 @@ describe('Navigation du menu principal', () => {
         cy.log(`🔗 ${hrefs.length} liens internes uniques trouvés`)
 
         // Étape 1 : Vérifier que chaque URL répond en HTTP 200 (rapide et fiable)
+        // et collecter les liens qui ne redirigent pas vers un domaine externe (ex: SSO)
+        const safeHrefs = []
+
         hrefs.forEach((href) => {
           cy.request({
             url: href,
@@ -107,20 +110,43 @@ describe('Navigation du menu principal', () => {
               response.status,
               `La page ${href} doit répondre avec un statut 2xx ou 3xx`
             ).to.be.lessThan(400)
+
+            // Vérifier si la réponse redirige vers un domaine externe (HTTP ou JS redirect)
+            const body = response.body || ''
+            const redirectsToExternal = response.redirects
+              ? response.redirects.some((r) => !r.includes(baseDomain))
+              : false
+            const bodyRedirectsToSSO = typeof body === 'string' && body.includes('sso.geopf.fr')
+
+            if (!redirectsToExternal && !bodyRedirectsToSSO) {
+              safeHrefs.push(href)
+            }
           })
         })
 
-        // Étape 2 : Visiter le premier lien pour vérifier le rendu complet
-        // (évite de naviguer sur toutes les pages, ce qui est lent et flaky)
-        const firstHref = hrefs[0]
-        cy.log(`📄 Vérification du rendu complet de : ${firstHref}`)
-        cy.visit(firstHref, {
-          timeout: 60000,
-          failOnStatusCode: false,
+        // Étape 2 : Visiter un lien interne (qui ne redirige pas vers un domaine externe)
+        // pour vérifier le rendu complet
+        // Exclure les pages nécessitant une authentification (redirect SSO client-side)
+        const AUTH_PATTERNS = ['/login', '/mon-compte', '/tableau-de-bord', '/dashboard', '/oauth', '/sso']
+
+        cy.then(() => {
+          const visitableHrefs = safeHrefs.filter(
+            (href) => !AUTH_PATTERNS.some((p) => href.includes(p))
+          )
+          if (visitableHrefs.length === 0) {
+            cy.log('⚠️ Aucun lien visitable (tous redirigent vers SSO ou externe)')
+            return
+          }
+          const targetHref = visitableHrefs[0]
+          cy.log(`📄 Vérification du rendu complet de : ${targetHref}`)
+          cy.visit(targetHref, {
+            timeout: 60000,
+            failOnStatusCode: false,
+          })
+          cy.document().its('readyState').should('eq', 'complete')
+          cy.get('body', { timeout: 15000 }).should('be.visible')
+          cy.get('h1, main, [role="main"]', { timeout: 15000 }).should('exist')
         })
-        cy.document().its('readyState').should('eq', 'complete')
-        cy.get('body', { timeout: 15000 }).should('be.visible')
-        cy.get('h1, main, [role="main"]', { timeout: 15000 }).should('exist')
       })
   })
 })

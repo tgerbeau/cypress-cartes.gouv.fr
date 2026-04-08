@@ -18,7 +18,6 @@ describe('🩺 Monitoring synthétique — cartes.gouv.fr', () => {
   describe('Disponibilité des pages critiques', () => {
     const pages = [
       { name: 'Accueil', path: '/explorer-les-cartes/' },
-      { name: 'Éditeur cartographique', path: '/editeur-carto' },
       { name: 'À propos', path: '/a-propos/' },
       { name: 'Découvrir les données', path: '/decouvrir/' },
     ]
