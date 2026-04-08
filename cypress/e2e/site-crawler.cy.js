@@ -343,7 +343,7 @@ describe('🕷️ Crawl automatique du site — cartes.gouv.fr', () => {
                     status: res.status,
                   }
                   brokenLinks.push(broken)
-                  cy.task('log', `   ❌ [${res.status}] ${broken.link} (trouvé sur ${pagePath})`)
+                  cy.task('log', `   ⚠️ [${res.status}] ${broken.link} (trouvé sur ${pagePath})`)
                 }
               })
             })
@@ -354,9 +354,9 @@ describe('🕷️ Crawl automatique du site — cartes.gouv.fr', () => {
         // Le but est de DÉTECTER et REPORTER, pas de bloquer
         cy.then(() => {
           if (brokenLinks.length > 0) {
-            cy.task('log', `\n🚨 ${brokenLinks.length} lien(s) cassé(s) détecté(s) :`)
+            cy.task('log', `\n⚠️ ${brokenLinks.length} lien(s) cassé(s) détecté(s) (warning) :`)
             brokenLinks.forEach((b) => {
-              cy.task('log', `   ❌ [${b.status}] ${b.link} — trouvé sur ${b.page}`)
+              cy.task('log', `   ⚠️ [${b.status}] ${b.link} — trouvé sur ${b.page}`)
             })
             // Soft assert : on log un warning mais on ne bloque pas le test
             // Pour activer le mode strict, décommenter la ligne ci-dessous :
