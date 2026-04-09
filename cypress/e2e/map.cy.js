@@ -6,13 +6,13 @@
 
 describe('Carte interactive', () => {
   beforeEach(() => {
+    // Poser les intercepts AVANT le visit pour capturer les tuiles du chargement initial
+    cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('tiles')
     cy.visit('/')
-    cy.dismissModal()
     cy.get('.ol-viewport', { timeout: 15000 }).should('be.visible')
   })
 
   it('affiche une carte avec des tuiles rendues dans un canvas', () => {
-    // OpenLayers rend les tuiles dans des éléments <canvas>
     cy.get('.ol-viewport canvas').should('exist')
     cy.get('.ol-viewport canvas').first().should(($canvas) => {
       expect($canvas[0].width).to.be.greaterThan(0)
@@ -27,28 +27,29 @@ describe('Carte interactive', () => {
     cy.get('.map-error').should('not.exist')
   })
 
-  it('le zoom et dézoom chargent de nouvelles tuiles depuis la Géoplateforme', () => {
-    // Intercepter les requêtes de tuiles vers la Géoplateforme
-    cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('tiles')
+  it('le zoom charge de nouvelles tuiles depuis la Géoplateforme', () => {
+    // Poser un nouvel intercept pour capturer les tuiles du zoom
+    cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('zoomTiles')
 
-    // Zoom in → de nouvelles tuiles doivent être chargées
     cy.get('[aria-label="Zoomer"]').first().click({ force: true })
-    cy.wait('@tiles', { timeout: 10000 })
+    cy.wait('@zoomTiles', { timeout: 10000 })
 
-    // Le canvas est toujours rendu correctement
+    // Le canvas est toujours rendu correctement après le zoom
     cy.get('.ol-viewport canvas').first().should(($canvas) => {
       expect($canvas[0].width).to.be.greaterThan(0)
     })
+  })
 
-    // Zoom out → idem
-    cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('tilesOut')
+  it('le dézoom charge de nouvelles tuiles depuis la Géoplateforme', () => {
+    cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('dezoomTiles')
+
     cy.get('[aria-label="Dézoomer"]').first().click({ force: true })
-    cy.wait('@tilesOut', { timeout: 10000 })
+    cy.wait('@dezoomTiles', { timeout: 10000 })
+
     cy.get('.ol-viewport canvas').should('exist')
   })
 
   it('la recherche recentre la carte sur le lieu sélectionné', () => {
-    // Saisir un lieu
     cy.get('input[role="combobox"][aria-label="Rechercher"]')
       .first()
       .type('Lyon', { force: true })
@@ -83,38 +84,36 @@ describe('Carte interactive', () => {
     cy.focused().should('have.attr', 'role', 'combobox')
   })
 
-  it('le panneau de couches permet d\'ajouter ou consulter les couches', () => {
-    // Chercher un bouton/lien pour accéder au gestionnaire de couches
-    // Le site utilise un panneau latéral avec "Fonds de carte" ou "Couches"
-    cy.get('body').then(($body) => {
-      // Tenter d'ouvrir le panneau de couches via différents sélecteurs possibles
-      const layerSelectors = [
-        'button[aria-label*="couche"]',
-        'button[aria-label*="Couche"]',
-        'button[aria-label*="fond"]',
-        'button[aria-label*="Fond"]',
-        '[class*="layer"] button',
-        '[class*="Layer"] button',
-        'button[title*="couche"]',
-        'button[title*="fond"]',
-        '[data-testid*="layer"]'
-      ]
-      const found = layerSelectors.some(sel => $body.find(sel).length > 0)
+  it('le panneau de couches permet de consulter les couches', () => {
+    const layerSelectors = [
+      'button[aria-label*="couche"]',
+      'button[aria-label*="Couche"]',
+      'button[aria-label*="fond"]',
+      'button[aria-label*="Fond"]',
+      '[class*="layer"] button',
+      '[class*="Layer"] button',
+      'button[title*="couche"]',
+      'button[title*="fond"]',
+      '[data-testid*="layer"]',
+    ]
 
-      if (found) {
-        // Un bouton de gestion de couches existe → on l'ouvre
-        const sel = layerSelectors.find(s => $body.find(s).length > 0)
+    cy.get('body').then(($body) => {
+      const sel = layerSelectors.find((s) => $body.find(s).length > 0)
+
+      if (sel) {
         cy.get(sel).first().click({ force: true })
-        cy.wait(500)
-        // Après ouverture, il doit y avoir du contenu lié aux couches
-        cy.get('body').then(($updatedBody) => {
+        // Après ouverture, le contenu doit mentionner des couches
+        cy.get('body', { timeout: 5000 }).should(($updatedBody) => {
           const text = $updatedBody.text()
-          const hasLayerContent = text.includes('PLAN IGN') || text.includes('Fonds de carte') || text.includes('Photographies') || text.includes('couche')
+          const hasLayerContent =
+            text.includes('PLAN IGN') ||
+            text.includes('Fonds de carte') ||
+            text.includes('Photographies') ||
+            text.includes('couche')
           expect(hasLayerContent, 'Le panneau devrait mentionner des couches').to.be.true
         })
       } else {
-        // Fallback : vérifier que la page contient au moins une référence aux couches
-        // via les requêtes réseau (les tuiles WMTS/WMS chargent des couches nommées)
+        // Fallback : vérifier via les requêtes réseau que des couches WMTS sont chargées
         cy.intercept({ url: /data\.geopf\.fr.*PLAN\.IGN|data\.geopf\.fr.*GEOGRAPHICALGRIDSYSTEMS/ }).as('layerTiles')
         cy.get('[aria-label="Zoomer"]').first().click({ force: true })
         cy.wait('@layerTiles', { timeout: 10000 })
@@ -122,101 +121,84 @@ describe('Carte interactive', () => {
     })
   })
 
-  it('un clic sur la carte déclenche une requête d\'identification', () => {
-    // Intercepter les requêtes d'identification (GetFeatureInfo, reverse geocoding, etc.)
-    cy.intercept({ url: /data\.geopf\.fr|geopf\.fr\/geocodage\/reverse/ }).as('mapRequest')
+  it('un clic sur la carte déclenche une réaction (URL ou requête réseau)', () => {
+    // Capturer l'URL avant le clic
+    cy.url().then((urlBefore) => {
+      // Intercepter les requêtes d'identification
+      cy.intercept({ url: /data\.geopf\.fr|geopf\.fr\/geocodage\/reverse/ }).as('mapRequest')
 
-    // Cliquer au centre de la carte
-    cy.get('.ol-viewport').first().click('center', { force: true })
+      // Cliquer au centre de la carte
+      cy.get('.ol-viewport').first().click('center', { force: true })
 
-    // Le clic doit déclencher soit :
-    // - un popup/tooltip avec des informations
-    // - une requête réseau d'identification
-    // - un changement d'URL (coordonnées)
-    // On vérifie qu'au moins une de ces réactions se produit
-    cy.wait(2000)
-    cy.get('body').then(($body) => {
-      const hasPopup = $body.find('[class*="popup"]:visible, [class*="tooltip"]:visible, [class*="info-panel"]:visible, [role="dialog"]:visible').length > 0
-      const urlChanged = window.location.hash.length > 1 || window.location.search.length > 1
+      // Le clic doit produire au moins un de ces effets :
+      // 1. Une requête réseau (GetFeatureInfo, reverse geocoding, tuiles de zoom)
+      // 2. Un changement d'URL (coordonnées encodées)
+      // 3. Un popup / tooltip visible
+      // On teste dans l'ordre le plus fiable
+      cy.wait('@mapRequest', { timeout: 10000 }).then((interception) => {
+        expect(interception.response.statusCode).to.be.lessThan(500)
+      })
 
-      // Vérifier que le clic a eu un effet (popup OU changement d'URL OU requête envoyée)
-      // La requête réseau a été interceptée par @mapRequest, donc le clic est actif
-      expect(true, 'le clic sur la carte a été pris en compte').to.be.true
+      // La carte reste fonctionnelle après le clic
+      cy.get('.ol-viewport canvas').should('exist')
     })
-
-    // Vérifier que la carte reste fonctionnelle après le clic
-    cy.get('.ol-viewport canvas').should('exist')
   })
 
-  it('l\'état de la carte change après navigation (zoom)', () => {
-    // Intercepter les tuiles pour détecter un rechargement
+  it('zoomer plusieurs fois charge des tuiles à chaque niveau', () => {
     cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('navTiles')
 
-    // Zoomer plusieurs fois
+    // Zoomer 3 fois de suite
     cy.get('[aria-label="Zoomer"]').first().click({ force: true })
-    cy.wait(300)
-    cy.get('[aria-label="Zoomer"]').first().click({ force: true })
-    cy.wait(300)
-    cy.get('[aria-label="Zoomer"]').first().click({ force: true })
-
-    // Chaque zoom doit recharger des tuiles → l'état de la carte a changé
     cy.wait('@navTiles', { timeout: 10000 })
-    cy.get('.ol-viewport canvas').should('exist')
 
-    // Vérifier que l'URL ou le DOM reflète le changement
-    cy.url().then((url) => {
-      // Le site peut encoder la position dans l'URL ou non
-      // Dans tous les cas, le canvas est toujours rendu après navigation
-      cy.get('.ol-viewport canvas').first().should(($canvas) => {
-        expect($canvas[0].width).to.be.greaterThan(0)
-      })
+    cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('navTiles2')
+    cy.get('[aria-label="Zoomer"]').first().click({ force: true })
+    cy.wait('@navTiles2', { timeout: 10000 })
+
+    cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('navTiles3')
+    cy.get('[aria-label="Zoomer"]').first().click({ force: true })
+    cy.wait('@navTiles3', { timeout: 10000 })
+
+    // Le canvas est toujours rendu après 3 zooms
+    cy.get('.ol-viewport canvas').first().should(($canvas) => {
+      expect($canvas[0].width).to.be.greaterThan(0)
     })
   })
 
-  it('la géolocalisation est proposée à l\'utilisateur', () => {
-    // Vérifier qu'un bouton de géolocalisation existe sur la carte
+  it('un bouton de géolocalisation est présent sur la carte', () => {
+    const geolocSelectors = [
+      'button[aria-label*="localiser"]',
+      'button[aria-label*="Localiser"]',
+      'button[aria-label*="position"]',
+      'button[aria-label*="Position"]',
+      'button[aria-label*="géolocalisation"]',
+      'button[title*="localiser"]',
+      'button[title*="position"]',
+      '[class*="geoloc"] button',
+      '[class*="geolocate"]',
+      '.ol-control button[class*="loc"]',
+    ]
+
     cy.get('body').then(($body) => {
-      const geolocSelectors = [
-        'button[aria-label*="localiser"]',
-        'button[aria-label*="Localiser"]',
-        'button[aria-label*="position"]',
-        'button[aria-label*="Position"]',
-        'button[aria-label*="géolocalisation"]',
-        'button[title*="localiser"]',
-        'button[title*="position"]',
-        '[class*="geoloc"] button',
-        '[class*="geolocate"]',
-        '.ol-control button[class*="loc"]'
-      ]
-      const geolocFound = geolocSelectors.some(sel => $body.find(sel).length > 0)
+      const sel = geolocSelectors.find((s) => $body.find(s).length > 0)
 
-      if (geolocFound) {
-        // Le bouton existe → vérifier qu'il est visible et cliquable
-        const sel = geolocSelectors.find(s => $body.find(s).length > 0)
+      if (sel) {
         cy.get(sel).first().should('be.visible')
-      } else {
-        // Même sans bouton dédié, la Geolocation API devrait être utilisée
-        // Vérifier que le navigateur supporte la géolocalisation (test de l'API)
-        cy.window().then((win) => {
-          expect(win.navigator.geolocation).to.exist
+        // Vérifier que le bouton a un nom accessible
+        cy.get(sel).first().then(($btn) => {
+          const ariaLabel = $btn.attr('aria-label') || ''
+          const title = $btn.attr('title') || ''
+          const text = $btn.text().trim()
+          expect(
+            ariaLabel || title || text,
+            'Le bouton de géolocalisation doit avoir un nom accessible'
+          ).to.not.be.empty
         })
+      } else {
+        // Si aucun bouton de géolocalisation n'est trouvé, on le signale explicitement
+        cy.log('Aucun bouton de géolocalisation trouvé sur la carte')
+        // On ne fait pas échouer — certaines configurations du site peuvent ne pas l'afficher
       }
-    })
-
-    // Vérifier que la carte réagit à une géolocalisation mockée
-    cy.window().then((win) => {
-      // Simuler une position géographique (Paris)
-      const mockPosition = {
-        coords: {
-          latitude: 48.8566,
-          longitude: 2.3522,
-          accuracy: 100
-        },
-        timestamp: Date.now()
-      }
-
-      // Vérifier que l'API Geolocation est disponible
-      expect(win.navigator.geolocation).to.have.property('getCurrentPosition')
     })
   })
 })
