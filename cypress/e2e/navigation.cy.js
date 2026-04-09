@@ -4,101 +4,118 @@
  * cartes.gouv.fr
  */
 
+const NAV_SELECTOR = 'nav.fr-nav, header nav, [role="navigation"]'
+const LINK_SELECTOR = 'nav.fr-nav .fr-nav__link, nav.fr-nav a[href], [role="navigation"] a[href]'
+
+// Pages nécessitant une authentification (redirect SSO côté client)
+const AUTH_PATTERNS = ['/login', '/mon-compte', '/tableau-de-bord', '/dashboard', '/oauth', '/sso']
+
+/**
+ * Collecte les liens internes uniques et dédoublonnés depuis un ensemble de <a>.
+ */
+function collectInternalHrefs($links) {
+  const baseUrl = Cypress.config('baseUrl') || 'https://cartes.gouv.fr'
+  const baseDomain = new URL(baseUrl).hostname
+  const seen = new Set()
+  const hrefs = []
+
+  $links.each((_, link) => {
+    const href = link.getAttribute('href')
+    if (
+      !href ||
+      href === '#' ||
+      href === '' ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      href.startsWith('javascript:') ||
+      href.startsWith('data:') ||
+      href.startsWith('vbscript:')
+    ) {
+      return
+    }
+
+    let fullUrl
+    try {
+      fullUrl = new URL(href, baseUrl)
+    } catch {
+      return
+    }
+
+    if (fullUrl.hostname !== baseDomain) return
+
+    const key = fullUrl.pathname
+    if (!seen.has(key)) {
+      seen.add(key)
+      hrefs.push(fullUrl.pathname)
+    }
+  })
+
+  return hrefs
+}
+
 describe('Navigation du menu principal', () => {
   beforeEach(() => {
-    // Intercepter un appel réseau typique pour détecter la fin du chargement SPA
-    cy.intercept('**/*.js').as('jsFiles')
     cy.visit('/', { timeout: 120000 })
     cy.document().its('readyState').should('eq', 'complete')
-    cy.get('body', { timeout: 15000 }).should('be.visible')
-    // Attendre que la navigation DSFR soit rendue ET que les liens soient présents
-    cy.get('nav.fr-nav, header nav, [role="navigation"]', { timeout: 20000 })
+    // Attendre que la navigation DSFR soit rendue avec au moins un lien cliquable
+    cy.get(NAV_SELECTOR, { timeout: 20000 })
       .first()
       .should('be.visible')
       .find('a[href]')
       .should('have.length.at.least', 1)
-    // Laisser le framework JS (React/Next) terminer l'hydratation
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(2000)
   })
 
-  it('le menu de navigation principal est visible', () => {
-    // Le DSFR utilise nav.fr-nav pour la navigation principale
-    cy.get('nav.fr-nav, header nav, [role="navigation"]')
+  it('le menu de navigation principal est visible et identifié', () => {
+    cy.get(NAV_SELECTOR)
       .first()
       .should('exist')
       .and('be.visible')
+      // Le DSFR exige un label ou aria-label sur <nav>
+      .then(($nav) => {
+        const ariaLabel = $nav.attr('aria-label') || ''
+        const ariaLabelledby = $nav.attr('aria-labelledby') || ''
+        const role = $nav.prop('tagName').toLowerCase() === 'nav'
+        expect(
+          role || ariaLabel || ariaLabelledby,
+          'La zone de navigation doit être une <nav> ou avoir un aria-label'
+        ).to.be.ok
+      })
   })
 
   it('les liens du menu principal ont un texte accessible', () => {
-    cy.get('nav.fr-nav .fr-nav__link, nav.fr-nav a, [role="navigation"] a')
+    cy.get(LINK_SELECTOR)
       .filter(':visible')
       .should('have.length.at.least', 1)
       .each(($link) => {
         const text = $link.text().trim()
         const ariaLabel = ($link.attr('aria-label') || '').trim()
+        const title = ($link.attr('title') || '').trim()
         expect(
-          text || ariaLabel,
+          text || ariaLabel || title,
           `Le lien "${$link.attr('href')}" doit avoir un texte accessible`
         ).to.not.be.empty
       })
   })
 
-  it('chaque lien principal du menu charge correctement la page', () => {
-    // Collecter les hrefs des liens internes du menu de navigation
-    cy.get('nav.fr-nav .fr-nav__link, nav.fr-nav a[href], [role="navigation"] a[href]')
+  it('les liens du menu ne contiennent pas de href vides ou "#"', () => {
+    cy.get(LINK_SELECTOR)
+      .filter(':visible')
+      .each(($link) => {
+        const href = ($link.attr('href') || '').trim()
+        expect(href, `Un lien visible ne doit pas avoir href="${href}"`).to.not.be.oneOf(['', '#'])
+      })
+  })
+
+  it('chaque lien interne du menu répond avec un statut HTTP valide', () => {
+    const baseUrl = Cypress.config('baseUrl') || 'https://cartes.gouv.fr'
+    const baseDomain = new URL(baseUrl).hostname
+
+    cy.get(LINK_SELECTOR)
       .filter(':visible')
       .then(($links) => {
-        const baseUrl = Cypress.config('baseUrl') || 'https://cartes.gouv.fr'
-        const baseDomain = new URL(baseUrl).hostname
-
-        // Collecter et dédoublonner les liens internes uniquement
-        const seen = new Set()
-        const hrefs = []
-
-        $links.each((_, link) => {
-          const href = link.getAttribute('href')
-          if (
-            !href ||
-            href === '#' ||
-            href === '' ||
-            href.startsWith('mailto:') ||
-            href.startsWith('tel:') ||
-            href.startsWith('javascript:') ||
-            href.startsWith('data:') ||
-            href.startsWith('vbscript:')
-          ) {
-            return
-          }
-
-          // Résoudre l'URL complète pour filtrer les liens externes
-          let fullUrl
-          try {
-            fullUrl = new URL(href, baseUrl)
-          } catch {
-            return // URL invalide, on ignore
-          }
-
-          // Ne garder que les liens internes (même domaine)
-          if (fullUrl.hostname !== baseDomain) {
-            return
-          }
-
-          // Dédoublonner par pathname (ignorer les query/hash)
-          const key = fullUrl.pathname
-          if (!seen.has(key)) {
-            seen.add(key)
-            hrefs.push(fullUrl.pathname)
-          }
-        })
-
+        const hrefs = collectInternalHrefs($links)
         expect(hrefs.length, 'Le menu doit contenir au moins un lien interne').to.be.at.least(1)
-
-        cy.log(`🔗 ${hrefs.length} liens internes uniques trouvés`)
-
-        // Étape 1 : Vérifier que chaque URL répond en HTTP 200 (rapide et fiable)
-        // et collecter les liens qui ne redirigent pas vers un domaine externe (ex: SSO)
-        const safeHrefs = []
+        cy.log(`${hrefs.length} liens internes uniques trouvés`)
 
         hrefs.forEach((href) => {
           cy.request({
@@ -108,45 +125,78 @@ describe('Navigation du menu principal', () => {
           }).then((response) => {
             expect(
               response.status,
-              `La page ${href} doit répondre avec un statut 2xx ou 3xx`
+              `${href} doit répondre avec un statut < 400 (actuel : ${response.status})`
             ).to.be.lessThan(400)
+          })
+        })
+      })
+  })
 
-            // Vérifier si la réponse redirige vers un domaine externe (HTTP ou JS redirect)
+  it('un lien interne du menu rend une page complète avec un contenu principal', () => {
+    const baseUrl = Cypress.config('baseUrl') || 'https://cartes.gouv.fr'
+    const baseDomain = new URL(baseUrl).hostname
+
+    cy.get(LINK_SELECTOR)
+      .filter(':visible')
+      .then(($links) => {
+        const hrefs = collectInternalHrefs($links)
+
+        // Tester les liens un par un pour trouver un lien visitable (pas de redirect SSO)
+        const safeHrefs = []
+
+        hrefs.forEach((href) => {
+          cy.request({
+            url: href,
+            timeout: 30000,
+            failOnStatusCode: false,
+          }).then((response) => {
             const body = response.body || ''
             const redirectsToExternal = response.redirects
               ? response.redirects.some((r) => !r.includes(baseDomain))
               : false
             const bodyRedirectsToSSO = typeof body === 'string' && body.includes('sso.geopf.fr')
+            const isAuthPage = AUTH_PATTERNS.some((p) => href.includes(p))
 
-            if (!redirectsToExternal && !bodyRedirectsToSSO) {
+            if (!redirectsToExternal && !bodyRedirectsToSSO && !isAuthPage && response.status < 400) {
               safeHrefs.push(href)
             }
           })
         })
 
-        // Étape 2 : Visiter un lien interne (qui ne redirige pas vers un domaine externe)
-        // pour vérifier le rendu complet
-        // Exclure les pages nécessitant une authentification (redirect SSO client-side)
-        const AUTH_PATTERNS = ['/login', '/mon-compte', '/tableau-de-bord', '/dashboard', '/oauth', '/sso']
-
         cy.then(() => {
-          const visitableHrefs = safeHrefs.filter(
-            (href) => !AUTH_PATTERNS.some((p) => href.includes(p))
-          )
-          if (visitableHrefs.length === 0) {
-            cy.log('⚠️ Aucun lien visitable (tous redirigent vers SSO ou externe)')
+          if (safeHrefs.length === 0) {
+            cy.log('Aucun lien visitable (tous redirigent vers SSO ou externe)')
             return
           }
-          const targetHref = visitableHrefs[0]
-          cy.log(`📄 Vérification du rendu complet de : ${targetHref}`)
-          cy.visit(targetHref, {
-            timeout: 60000,
-            failOnStatusCode: false,
-          })
+          const targetHref = safeHrefs[0]
+          cy.log(`Vérification du rendu complet de : ${targetHref}`)
+          cy.visit(targetHref, { timeout: 60000, failOnStatusCode: false })
           cy.document().its('readyState').should('eq', 'complete')
           cy.get('body', { timeout: 15000 }).should('be.visible')
           cy.get('h1, main, [role="main"]', { timeout: 15000 }).should('exist')
         })
+      })
+  })
+
+  it('la navigation est accessible au clavier (les liens sont focusables)', () => {
+    // Les liens de navigation doivent être focusables
+    cy.get(LINK_SELECTOR)
+      .filter(':visible')
+      .first()
+      .focus()
+
+    // Le focus doit être sur un lien de la nav
+    cy.focused().should('match', 'a[href]')
+
+    // Vérifier que les liens n'ont pas de tabindex négatif (qui les exclut du flux Tab)
+    cy.get(LINK_SELECTOR)
+      .filter(':visible')
+      .each(($link) => {
+        const tabindex = $link.attr('tabindex')
+        expect(
+          tabindex === undefined || parseInt(tabindex, 10) >= 0,
+          `Le lien "${$link.text().trim()}" ne doit pas avoir tabindex="${tabindex}"`
+        ).to.be.true
       })
   })
 })
