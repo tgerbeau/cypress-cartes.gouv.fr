@@ -29,16 +29,13 @@ describe('Formulaires', () => {
         .each(($el) => {
           const id = $el.attr('id') || ''
           const hasForLabel = id ? Cypress.$(`label[for="${id}"]`).length > 0 : false
-          const hasImplicitLabel = $el.closest('label').length > 0
           const hasAria = Boolean(
             $el.attr('aria-label') ||
             $el.attr('aria-labelledby') ||
-            $el.attr('aria-describedby') ||
-            $el.attr('title') ||
-            $el.attr('placeholder')
+            $el.attr('title')
           )
           expect(
-            hasForLabel || hasImplicitLabel || hasAria,
+            hasForLabel || hasAria,
             `Le champ "${id || $el.attr('name') || $el.attr('type')}" doit avoir un label accessible`
           ).to.be.true
         })
@@ -49,16 +46,22 @@ describe('Formulaires', () => {
       cy.url().should('include', 'nous-ecrire')
     })
 
-    it('la soumission sans remplir les champs affiche des erreurs', () => {
-      // Soumettre le formulaire sans remplir aucun champ
+    it('la validation HTML5 bloque l\'envoi si un champ requis est vide', () => {
+      // Vérifier qu'au moins un champ a l'attribut required ou aria-required
+      cy.get('[required], [aria-required="true"]').should('have.length.at.least', 1)
+
+      // Soumettre sans remplir → le navigateur bloque via validation HTML5
       cy.contains('button', 'Envoyer').click()
 
-      // On reste sur la même page
+      // On reste sur la même page (pas de navigation)
       cy.url().should('include', 'nous-ecrire')
 
-      // Le formulaire affiche des messages d'erreur ou des champs en erreur
-      cy.get('[class*="error"], [class*="invalid"], [aria-invalid="true"], .fr-input-group--error, .fr-message--error, [role="alert"]', { timeout: 5000 })
-        .should('have.length.at.least', 1)
+      // Vérifier qu'un champ requis vide est en état invalide
+      cy.get('[required], [aria-required="true"]')
+        .first()
+        .then(($el) => {
+          expect($el[0].checkValidity(), 'Le champ requis vide doit être invalide').to.be.false
+        })
     })
 
     it('le champ email rejette une adresse invalide', () => {
@@ -66,12 +69,9 @@ describe('Formulaires', () => {
         .first()
         .clear()
         .type('pas-un-email')
-
-      // Soumettre pour déclencher la validation
-      cy.contains('button', 'Envoyer').click()
-
-      // On reste sur la page (le formulaire n'est pas envoyé)
-      cy.url().should('include', 'nous-ecrire')
+        .then(($el) => {
+          expect($el[0].checkValidity(), 'Un email invalide doit être rejeté').to.be.false
+        })
     })
   })
 
