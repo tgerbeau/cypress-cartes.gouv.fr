@@ -1,0 +1,179 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 0,
+    "pending": 0,
+    "failures": 4,
+    "start": "2026-04-09T15:18:54.702Z",
+    "end": "2026-04-09T15:19:06.395Z",
+    "duration": 11693,
+    "testsRegistered": 4,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "456f1b89-86f9-488c-96a3-9a53bad469ba",
+      "title": "",
+      "fullFile": "cypress/e2e/editeur-carto.cy.js",
+      "file": "cypress/e2e/editeur-carto.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "d73feeae-ab56-46f9-bece-132b495df687",
+          "title": "Éditeur cartographique",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "la page de l'éditeur se charge correctement",
+              "fullTitle": "Éditeur cartographique la page de l'éditeur se charge correctement",
+              "timedOut": null,
+              "duration": 488,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.document().its('readyState').should('eq', 'complete');\ncy.title().should('not.be.empty');\n// Vérifier qu'un contenu significatif est rendu\ncy.get('header, nav, [role=\"banner\"], .fr-header').should('exist');",
+              "err": {
+                "message": "NotFoundError: The following error originated from your application code, not from Cypress.\n\n  > Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application",
+                "estack": "NotFoundError: The following error originated from your application code, not from Cypress.\n\n  > Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application\n    at new InputColor (https://ignf.github.io/cartes.gouv.fr-editeur-carto/assets/index-DpV5gTlg.js:18361:18392)\n    at <unknown> (https://ignf.github.io/cartes.gouv.fr-editeur-carto/assets/index-DpV5gTlg.js:18361:19900)",
+                "diff": null
+              },
+              "uuid": "6061537e-2065-438f-89fa-8a84e59d4c2e",
+              "parentUUID": "d73feeae-ab56-46f9-bece-132b495df687",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "le bouton « Créer » est visible et cliquable",
+              "fullTitle": "Éditeur cartographique le bouton « Créer » est visible et cliquable",
+              "timedOut": null,
+              "duration": 446,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Le bouton peut contenir \"Créer\", \"CRÉER\" ou \"Créer une carte\"\ncy.contains('button, a', /cr[ée]er/i, {\n  timeout: 10000\n}).should('be.visible').click({\n  force: true\n});\n// Après le clic, un changement doit se produire (nouvelle vue, carte, modale…)\ncy.get('body').should('be.visible');",
+              "err": {
+                "message": "NotFoundError: The following error originated from your application code, not from Cypress.\n\n  > Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application",
+                "estack": "NotFoundError: The following error originated from your application code, not from Cypress.\n\n  > Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application\n    at new InputColor (https://ignf.github.io/cartes.gouv.fr-editeur-carto/assets/index-DpV5gTlg.js:18361:18392)\n    at <unknown> (https://ignf.github.io/cartes.gouv.fr-editeur-carto/assets/index-DpV5gTlg.js:18361:19900)",
+                "diff": null
+              },
+              "uuid": "44181789-8171-4e4c-86f6-0932aec5855d",
+              "parentUUID": "d73feeae-ab56-46f9-bece-132b495df687",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "un champ de recherche est disponible",
+              "fullTitle": "Éditeur cartographique un champ de recherche est disponible",
+              "timedOut": null,
+              "duration": 854,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Chercher un input de recherche via des sélecteurs accessibles\ncy.get('input[type=\"search\"], input[role=\"combobox\"], input[aria-label*=\"echerch\"], input[placeholder*=\"echerch\"], input[name*=\"search\"]', {\n  timeout: 10000\n}).first().should('be.visible');",
+              "err": {
+                "message": "NotFoundError: The following error originated from your application code, not from Cypress.\n\n  > Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application",
+                "estack": "NotFoundError: The following error originated from your application code, not from Cypress.\n\n  > Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application\n    at new InputColor (https://ignf.github.io/cartes.gouv.fr-editeur-carto/assets/index-DpV5gTlg.js:18361:18392)\n    at <unknown> (https://ignf.github.io/cartes.gouv.fr-editeur-carto/assets/index-DpV5gTlg.js:18361:19900)",
+                "diff": null
+              },
+              "uuid": "51bc32a5-4bbf-4ce6-b110-2917e249a7dc",
+              "parentUUID": "d73feeae-ab56-46f9-bece-132b495df687",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la recherche d'un lieu affiche des suggestions",
+              "fullTitle": "Éditeur cartographique la recherche d'un lieu affiche des suggestions",
+              "timedOut": null,
+              "duration": 900,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('input[type=\"search\"], input[role=\"combobox\"], input[aria-label*=\"echerch\"], input[placeholder*=\"echerch\"], input[name*=\"search\"]', {\n  timeout: 10000\n}).first().clear({\n  force: true\n}).type('toulouse', {\n  force: true,\n  delay: 100\n});\n// Des suggestions doivent apparaître\ncy.get('[role=\"listbox\"] [role=\"option\"], [class*=\"autoComplete\"], [class*=\"suggestion\"], [class*=\"result\"]', {\n  timeout: 5000\n}).should('have.length.greaterThan', 0);",
+              "err": {
+                "message": "NotFoundError: The following error originated from your application code, not from Cypress.\n\n  > Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application",
+                "estack": "NotFoundError: The following error originated from your application code, not from Cypress.\n\n  > Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application\n    at new InputColor (https://ignf.github.io/cartes.gouv.fr-editeur-carto/assets/index-DpV5gTlg.js:18361:18392)\n    at <unknown> (https://ignf.github.io/cartes.gouv.fr-editeur-carto/assets/index-DpV5gTlg.js:18361:19900)",
+                "diff": null
+              },
+              "uuid": "5bbb88e6-897e-459b-b50b-ae338a5807d9",
+              "parentUUID": "d73feeae-ab56-46f9-bece-132b495df687",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "6061537e-2065-438f-89fa-8a84e59d4c2e",
+            "44181789-8171-4e4c-86f6-0932aec5855d",
+            "51bc32a5-4bbf-4ce6-b110-2917e249a7dc",
+            "5bbb88e6-897e-459b-b50b-ae338a5807d9"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 2688,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

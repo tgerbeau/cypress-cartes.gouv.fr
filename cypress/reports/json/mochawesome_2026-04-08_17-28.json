@@ -1,0 +1,400 @@
+{
+  "stats": {
+    "suites": 6,
+    "tests": 11,
+    "passes": 10,
+    "pending": 0,
+    "failures": 1,
+    "start": "2026-04-08T15:27:48.859Z",
+    "end": "2026-04-08T15:28:05.618Z",
+    "duration": 16759,
+    "testsRegistered": 11,
+    "passPercent": 90.9090909090909,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "216b7e49-89d0-4500-a067-150762e7e7fc",
+      "title": "",
+      "fullFile": "cypress/e2e/monitoring.cy.js",
+      "file": "cypress/e2e/monitoring.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "d63abc82-ab0b-4d94-89a1-5a94041a36bd",
+          "title": "🩺 Monitoring synthétique — cartes.gouv.fr",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "367e2181-7b18-4153-ba6d-311bc7997091",
+              "title": "Disponibilité des pages critiques",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "[UPTIME] Accueil (/explorer-les-cartes/) répond en < 5s avec un statut 2xx",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Disponibilité des pages critiques [UPTIME] Accueil (/explorer-les-cartes/) répond en < 5s avec un statut 2xx",
+                  "timedOut": null,
+                  "duration": 91,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const start = Date.now();\ncy.request({\n  url: path,\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  const duration = Date.now() - start;\n  // Vérifier le statut HTTP\n  expect(response.status, `${name} doit répondre avec un statut 2xx`).to.be.within(200, 399);\n  // Vérifier le temps de réponse\n  expect(duration, `${name} doit répondre en moins de 5 secondes (actuel: ${duration}ms)`).to.be.lessThan(5000);\n  // Vérifier que le body n'est pas vide\n  expect(response.body).to.not.be.empty;\n  // Log pour le rapport\n  cy.task('log', `✅ ${name}: ${response.status} en ${duration}ms`);\n});",
+                  "err": {},
+                  "uuid": "67c2f3bc-d0ba-4a09-b82b-012a63a082b7",
+                  "parentUUID": "367e2181-7b18-4153-ba6d-311bc7997091",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "[UPTIME] Éditeur cartographique (/editeur-carto) répond en < 5s avec un statut 2xx",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Disponibilité des pages critiques [UPTIME] Éditeur cartographique (/editeur-carto) répond en < 5s avec un statut 2xx",
+                  "timedOut": null,
+                  "duration": 186,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "const start = Date.now();\ncy.request({\n  url: path,\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  const duration = Date.now() - start;\n  // Vérifier le statut HTTP\n  expect(response.status, `${name} doit répondre avec un statut 2xx`).to.be.within(200, 399);\n  // Vérifier le temps de réponse\n  expect(duration, `${name} doit répondre en moins de 5 secondes (actuel: ${duration}ms)`).to.be.lessThan(5000);\n  // Vérifier que le body n'est pas vide\n  expect(response.body).to.not.be.empty;\n  // Log pour le rapport\n  cy.task('log', `✅ ${name}: ${response.status} en ${duration}ms`);\n});",
+                  "err": {
+                    "message": "AssertionError: Éditeur cartographique doit répondre avec un statut 2xx: expected 404 to be within 200..399",
+                    "estack": "AssertionError: Éditeur cartographique doit répondre avec un statut 2xx: expected 404 to be within 200..399\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/e2e/monitoring.cy.js:41:18)\n    at getRet (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:122806:20)\n    at tryCatcher (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise.attempt.Promise.try (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:4285:29)\n    at Context.thenFn (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:122817:66)\n    at Context.then (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:123068:21)",
+                    "diff": null
+                  },
+                  "uuid": "674d348f-e49f-425d-bdca-2b2b93f8a638",
+                  "parentUUID": "367e2181-7b18-4153-ba6d-311bc7997091",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "[UPTIME] À propos (/a-propos/) répond en < 5s avec un statut 2xx",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Disponibilité des pages critiques [UPTIME] À propos (/a-propos/) répond en < 5s avec un statut 2xx",
+                  "timedOut": null,
+                  "duration": 45,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const start = Date.now();\ncy.request({\n  url: path,\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  const duration = Date.now() - start;\n  // Vérifier le statut HTTP\n  expect(response.status, `${name} doit répondre avec un statut 2xx`).to.be.within(200, 399);\n  // Vérifier le temps de réponse\n  expect(duration, `${name} doit répondre en moins de 5 secondes (actuel: ${duration}ms)`).to.be.lessThan(5000);\n  // Vérifier que le body n'est pas vide\n  expect(response.body).to.not.be.empty;\n  // Log pour le rapport\n  cy.task('log', `✅ ${name}: ${response.status} en ${duration}ms`);\n});",
+                  "err": {},
+                  "uuid": "47e10369-35dd-4eb0-b7d6-2a28197fe4ed",
+                  "parentUUID": "367e2181-7b18-4153-ba6d-311bc7997091",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "[UPTIME] Découvrir les données (/decouvrir/) répond en < 5s avec un statut 2xx",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Disponibilité des pages critiques [UPTIME] Découvrir les données (/decouvrir/) répond en < 5s avec un statut 2xx",
+                  "timedOut": null,
+                  "duration": 101,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const start = Date.now();\ncy.request({\n  url: path,\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  const duration = Date.now() - start;\n  // Vérifier le statut HTTP\n  expect(response.status, `${name} doit répondre avec un statut 2xx`).to.be.within(200, 399);\n  // Vérifier le temps de réponse\n  expect(duration, `${name} doit répondre en moins de 5 secondes (actuel: ${duration}ms)`).to.be.lessThan(5000);\n  // Vérifier que le body n'est pas vide\n  expect(response.body).to.not.be.empty;\n  // Log pour le rapport\n  cy.task('log', `✅ ${name}: ${response.status} en ${duration}ms`);\n});",
+                  "err": {},
+                  "uuid": "a47f8c36-9406-4a5e-bc40-b6161f4e983b",
+                  "parentUUID": "367e2181-7b18-4153-ba6d-311bc7997091",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "67c2f3bc-d0ba-4a09-b82b-012a63a082b7",
+                "47e10369-35dd-4eb0-b7d6-2a28197fe4ed",
+                "a47f8c36-9406-4a5e-bc40-b6161f4e983b"
+              ],
+              "failures": [
+                "674d348f-e49f-425d-bdca-2b2b93f8a638"
+              ],
+              "pending": [],
+              "skipped": [],
+              "duration": 423,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "9a93e607-c6d7-4a84-9128-fd7c5309c5e2",
+              "title": "Santé des API",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "[API] Géoplateforme WMTS (data.geopf.fr) est accessible",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Santé des API [API] Géoplateforme WMTS (data.geopf.fr) est accessible",
+                  "timedOut": null,
+                  "duration": 321,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const start = Date.now();\ncy.request({\n  url: 'https://data.geopf.fr/wmts?service=WMTS&request=GetCapabilities',\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  const duration = Date.now() - start;\n  expect(response.status).to.be.within(200, 399);\n  expect(duration).to.be.lessThan(10000);\n  cy.task('log', `✅ API Géoplateforme WMTS: ${response.status} en ${duration}ms`);\n});",
+                  "err": {},
+                  "uuid": "b4dd5378-fa93-45eb-b90f-83c4233be985",
+                  "parentUUID": "9a93e607-c6d7-4a84-9128-fd7c5309c5e2",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "[API] Géocodage (data.geopf.fr/geocodage) répond correctement",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Santé des API [API] Géocodage (data.geopf.fr/geocodage) répond correctement",
+                  "timedOut": null,
+                  "duration": 2409,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const start = Date.now();\ncy.request({\n  url: 'https://data.geopf.fr/geocodage/search?q=Paris&limit=1',\n  timeout: 10000,\n  failOnStatusCode: false\n}).then(response => {\n  const duration = Date.now() - start;\n  expect(response.status).to.eq(200);\n  expect(duration).to.be.lessThan(5000);\n  // Vérifier la structure de la réponse\n  expect(response.body).to.have.property('features');\n  expect(response.body.features).to.have.length.at.least(1);\n  cy.task('log', `✅ API Géocodage: ${response.status} en ${duration}ms`);\n});",
+                  "err": {},
+                  "uuid": "8cb5fd42-214a-413d-9296-0ac3c43d4b70",
+                  "parentUUID": "9a93e607-c6d7-4a84-9128-fd7c5309c5e2",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "b4dd5378-fa93-45eb-b90f-83c4233be985",
+                "8cb5fd42-214a-413d-9296-0ac3c43d4b70"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 2730,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "94b17036-f173-4bd9-b4ca-3bdcd7c95b36",
+              "title": "Performance de chargement",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "[PERF] la page d'accueil se charge complètement en < 15s",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Performance de chargement [PERF] la page d'accueil se charge complètement en < 15s",
+                  "timedOut": null,
+                  "duration": 3271,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const start = Date.now();\ncy.visit('/', {\n  timeout: 30000\n});\ncy.document().its('readyState').should('eq', 'complete');\ncy.get('body').should('be.visible');\n// Attendre un élément significatif de la page\ncy.get('header, nav, [role=\"banner\"]', {\n  timeout: 15000\n}).should('be.visible').then(() => {\n  const loadTime = Date.now() - start;\n  cy.task('log', `⏱️ Chargement complet accueil: ${loadTime}ms`);\n  expect(loadTime, `La page doit se charger en moins de 15 secondes (actuel: ${loadTime}ms)`).to.be.lessThan(15000);\n});",
+                  "err": {},
+                  "uuid": "7a996bf0-bbb9-4fad-9931-de2ba91ff851",
+                  "parentUUID": "94b17036-f173-4bd9-b4ca-3bdcd7c95b36",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "[PERF] l'éditeur cartographique se charge en < 20s",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Performance de chargement [PERF] l'éditeur cartographique se charge en < 20s",
+                  "timedOut": null,
+                  "duration": 3100,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const start = Date.now();\ncy.visit('/editeur', {\n  timeout: 30000,\n  failOnStatusCode: false\n});\ncy.document().its('readyState').should('eq', 'complete');\ncy.get('body', {\n  timeout: 20000\n}).should('be.visible');\n// L'éditeur est un SPA lourd — on vérifie simplement qu'il rend un body non vide\ncy.get('body').then($body => {\n  const loadTime = Date.now() - start;\n  cy.task('log', `⏱️ Chargement éditeur carto: ${loadTime}ms`);\n  expect($body.text().trim().length).to.be.greaterThan(0);\n  expect(loadTime, `L'éditeur carto doit se charger en moins de 20 secondes (actuel: ${loadTime}ms)`).to.be.lessThan(20000);\n});",
+                  "err": {},
+                  "uuid": "7ab90d35-b459-426b-82ad-e21b57b96b12",
+                  "parentUUID": "94b17036-f173-4bd9-b4ca-3bdcd7c95b36",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "7a996bf0-bbb9-4fad-9931-de2ba91ff851",
+                "7ab90d35-b459-426b-82ad-e21b57b96b12"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 6371,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "0d8d5839-b00d-49eb-b9c4-5c5f40aa1a69",
+              "title": "Erreurs JavaScript",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "[JS] la page d'accueil ne produit pas d'erreurs console critiques",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Erreurs JavaScript [JS] la page d'accueil ne produit pas d'erreurs console critiques",
+                  "timedOut": null,
+                  "duration": 6077,
+                  "state": "passed",
+                  "speed": "medium",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const consoleErrors = [];\ncy.on('window:before:load', win => {\n  cy.stub(win.console, 'error').callsFake((...args) => {\n    consoleErrors.push(args.join(' '));\n  });\n});\ncy.visit('/', {\n  timeout: 30000\n});\ncy.document().its('readyState').should('eq', 'complete');\n// eslint-disable-next-line cypress/no-unnecessary-waiting\ncy.wait(3000); // Laisser le JS s'exécuter\ncy.then(() => {\n  // Filtrer les erreurs connues/acceptables\n  const criticalErrors = consoleErrors.filter(err => {\n    const ignoredPatterns = ['favicon', 'third-party', 'analytics', 'matomo', 'tarteaucitron', 'cookie', 'ResizeObserver'];\n    return !ignoredPatterns.some(pattern => err.toLowerCase().includes(pattern.toLowerCase()));\n  });\n  if (criticalErrors.length > 0) {\n    cy.task('log', `⚠️ ${criticalErrors.length} erreur(s) JS détectée(s)`);\n    criticalErrors.forEach(err => cy.task('log', `  ❌ ${err.substring(0, 200)}`));\n  } else {\n    cy.task('log', '✅ Aucune erreur JS critique détectée');\n  }\n  // On log mais on ne fait pas échouer le test pour les erreurs non critiques\n  // Décommenter la ligne ci-dessous pour être strict :\n  // expect(criticalErrors, 'Erreurs JS critiques').to.have.length(0)\n});",
+                  "err": {},
+                  "uuid": "1be7c76f-5bd8-42fa-b2e6-985af7025ce2",
+                  "parentUUID": "0d8d5839-b00d-49eb-b9c4-5c5f40aa1a69",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "1be7c76f-5bd8-42fa-b2e6-985af7025ce2"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 6077,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "acb7db39-1009-4223-a72c-0737063a5c08",
+              "title": "Sécurité",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "[SSL] le site est accessible en HTTPS",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Sécurité [SSL] le site est accessible en HTTPS",
+                  "timedOut": null,
+                  "duration": 157,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.request({\n  url: 'https://cartes.gouv.fr',\n  timeout: 10000\n}).then(response => {\n  expect(response.status).to.eq(200);\n  cy.task('log', '✅ HTTPS OK');\n});",
+                  "err": {},
+                  "uuid": "8c6897b6-ed0a-40ce-8d63-c7af33acbe69",
+                  "parentUUID": "acb7db39-1009-4223-a72c-0737063a5c08",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "[SECURITY] les headers de sécurité sont présents",
+                  "fullTitle": "🩺 Monitoring synthétique — cartes.gouv.fr Sécurité [SECURITY] les headers de sécurité sont présents",
+                  "timedOut": null,
+                  "duration": 179,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.request({\n  url: 'https://cartes.gouv.fr',\n  timeout: 10000\n}).then(response => {\n  const headers = response.headers;\n  // Vérifier les headers de sécurité importants\n  const securityHeaders = {\n    'x-frame-options': 'Protection contre le clickjacking',\n    'x-content-type-options': 'Protection contre le MIME sniffing',\n    'strict-transport-security': 'HSTS activé'\n  };\n  Object.entries(securityHeaders).forEach(([header, description]) => {\n    if (headers[header]) {\n      cy.task('log', `✅ ${description}: ${headers[header]}`);\n    } else {\n      cy.task('log', `⚠️ Header manquant: ${header} (${description})`);\n    }\n  });\n  // Au minimum, vérifier que le content-type est correct\n  expect(headers['content-type']).to.include('text/html');\n});",
+                  "err": {},
+                  "uuid": "dc84af82-2737-4124-b8c0-0825ec3810fa",
+                  "parentUUID": "acb7db39-1009-4223-a72c-0737063a5c08",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "8c6897b6-ed0a-40ce-8d63-c7af33acbe69",
+                "dc84af82-2737-4124-b8c0-0825ec3810fa"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 336,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

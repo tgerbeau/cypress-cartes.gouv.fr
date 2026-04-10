@@ -1,0 +1,144 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-03-31T16:01:25.975Z",
+    "end": "2026-03-31T16:01:41.006Z",
+    "duration": 15031,
+    "testsRegistered": 3,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "10c0b707-cf50-46f9-a666-f0b75ec325ae",
+      "title": "",
+      "fullFile": "cypress/e2e/editeur-carto.cy.js",
+      "file": "cypress/e2e/editeur-carto.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9535d2ad-29a2-4297-97c3-dddee1fb0ca6",
+          "title": "Editeur Carto Tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should open the editor and click \"Créer une carte\" button",
+              "fullTitle": "Editeur Carto Tests should open the editor and click \"Créer une carte\" button",
+              "timedOut": null,
+              "duration": 4353,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Test passes if beforeEach handled the popup\ncy.get('body').should('be.visible');",
+              "err": {},
+              "uuid": "b4856033-5301-4be8-b7de-0c72d4adbd7c",
+              "parentUUID": "9535d2ad-29a2-4297-97c3-dddee1fb0ca6",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should type \"Paris\" in the search input box",
+              "fullTitle": "Editeur Carto Tests should type \"Paris\" in the search input box",
+              "timedOut": null,
+              "duration": 3325,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Find and type in the search input - try multiple selectors\ncy.get('input').then($inputs => {\n  // Find the visible input that could be a search box\n  const $searchInput = $inputs.filter(':visible').first();\n  cy.wrap($searchInput).type('Paris', {\n    force: true,\n    delay: 100\n  });\n  // Wait for the value to be set\n  cy.wait(500);\n});",
+              "err": {},
+              "uuid": "11325144-bc39-4448-8289-c90639a8a260",
+              "parentUUID": "9535d2ad-29a2-4297-97c3-dddee1fb0ca6",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should type \"toulouse\" and select \"Toulouse, 31000\" from results",
+              "fullTitle": "Editeur Carto Tests should type \"toulouse\" and select \"Toulouse, 31000\" from results",
+              "timedOut": null,
+              "duration": 5743,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Find and type in the search input\ncy.get('input').then($inputs => {\n  const $searchInput = $inputs.filter(':visible').first();\n  cy.wrap($searchInput).clear({\n    force: true\n  }).type('toulouse', {\n    force: true,\n    delay: 100\n  });\n});\n// Wait for search results to appear\ncy.wait(2000);\n// Select \"Toulouse, 31000\" from the results - try different variations\ncy.get('body').then($body => {\n  const bodyText = $body.text();\n  if (bodyText.includes('Toulouse') && bodyText.includes('31000')) {\n    // Click on the result containing both Toulouse and 31000\n    cy.contains(/Toulouse.*31000|31000.*Toulouse/i, {\n      timeout: 5000\n    }).click({\n      force: true\n    });\n  } else if (bodyText.includes('Toulouse')) {\n    // Fallback: click on any Toulouse result\n    cy.contains('Toulouse', {\n      timeout: 5000\n    }).first().click({\n      force: true\n    });\n  }\n});\n// Wait for the selection to complete\ncy.wait(500);",
+              "err": {},
+              "uuid": "ef184420-a81a-4304-9e75-ab078b3f0b1a",
+              "parentUUID": "9535d2ad-29a2-4297-97c3-dddee1fb0ca6",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b4856033-5301-4be8-b7de-0c72d4adbd7c",
+            "11325144-bc39-4448-8289-c90639a8a260",
+            "ef184420-a81a-4304-9e75-ab078b3f0b1a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 13421,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

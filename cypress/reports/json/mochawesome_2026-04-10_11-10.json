@@ -1,0 +1,168 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 3,
+    "pending": 0,
+    "failures": 1,
+    "start": "2026-04-10T09:08:28.971Z",
+    "end": "2026-04-10T09:10:35.188Z",
+    "duration": 126217,
+    "testsRegistered": 4,
+    "passPercent": 75,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "22e334dc-ccd7-49a4-94e1-d9ebd47d98da",
+      "title": "",
+      "fullFile": "cypress/e2e/editeur-carto.cy.js",
+      "file": "cypress/e2e/editeur-carto.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9d123792-70fa-49f5-b0ae-1d887b0d6567",
+          "title": "Éditeur cartographique",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "la page de l'éditeur se charge correctement",
+              "fullTitle": "Éditeur cartographique la page de l'éditeur se charge correctement",
+              "timedOut": null,
+              "duration": 20204,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.document().its('readyState').should('eq', 'complete');\ncy.title().should('not.be.empty');\n// Vérifier qu'un contenu significatif est rendu\ncy.get('header, nav, [role=\"banner\"], .fr-header').should('exist');",
+              "err": {},
+              "uuid": "3af4bf5f-5552-45cd-96e4-569ab252628a",
+              "parentUUID": "9d123792-70fa-49f5-b0ae-1d887b0d6567",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "le bouton « Créer » est visible et cliquable",
+              "fullTitle": "Éditeur cartographique le bouton « Créer » est visible et cliquable",
+              "timedOut": null,
+              "duration": 68334,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Le bouton peut contenir \"Créer\", \"CRÉER\" ou \"Créer une carte\"\ncy.contains('button, a', /cr[ée]er/i, {\n  timeout: 10000\n}).should('be.visible').click({\n  force: true\n});\n// Après le clic, un changement doit se produire (nouvelle vue, carte, modale…)\ncy.get('body').should('be.visible');",
+              "err": {},
+              "uuid": "b7e36fd2-b4f4-49ea-935e-3486ff9235bd",
+              "parentUUID": "9d123792-70fa-49f5-b0ae-1d887b0d6567",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la page contient des éléments interactifs de carte",
+              "fullTitle": "Éditeur cartographique la page contient des éléments interactifs de carte",
+              "timedOut": null,
+              "duration": 43,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Vérifier que l'éditeur rend des contrôles de carte ou un canvas\ncy.get('.ol-viewport, canvas, [class*=\"map\"], svg', {\n  timeout: 15000\n}).should('have.length.at.least', 1);",
+              "err": {},
+              "uuid": "daf59c18-78a9-4207-8c8a-7f425ffb9a00",
+              "parentUUID": "9d123792-70fa-49f5-b0ae-1d887b0d6567",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "le footer DSFR est présent",
+              "fullTitle": "Éditeur cartographique le footer DSFR est présent",
+              "timedOut": null,
+              "duration": 11820,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('footer, .fr-footer, [role=\"contentinfo\"]').should('exist').and('contain.text', 'cartes.gouv.fr');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: expected '[ <footer.fr-footer>, 1 more... ]' to contain text 'cartes.gouv.fr', but the text was ' République  FrançaiseCartes.gouv.fr est le service public des cartes et données du territoire français. \\n  Porté par l\\'IGN et ses partenaires, il offre à tous un accès à la référence de la cartographie publique \\n  et permet à chacun de créer, d\\'héberger et de publier ses propres données et représentations.info.gouv.frservice-public.gouv.frlegifrance.gouv.frdata.gouv.frNos partenairesPlan du siteAccessibilité : partiellement conformeMentions légalesConditions générales d\\'utilisationDonnées personnellesGestion des cookies Paramètres d\\'affichage Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous \\n        \\n        licence etalab-2.0\\n         République  FrançaiseCartes.gouv.fr est le service public des cartes et données du territoire français. \\n  Porté par l\\'IGN et ses partenaires, il offre à tous un accès à la référence de la cartographie publique \\n  et permet à chacun de créer, d\\'héberger et de publier ses propres données et représentations.info.gouv.frservice-public.gouv.frlegifrance.gouv.frdata.gouv.frNos partenairesPlan du siteAccessibilité : partiellement conformeMentions légalesConditions générales d\\'utilisationDonnées personnellesGestion des cookies Paramètres d\\'affichage Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous \\n        \\n        licence etalab-2.0\\n        '",
+                "estack": "AssertionError: Timed out retrying after 10000ms: expected '[ <footer.fr-footer>, 1 more... ]' to contain text 'cartes.gouv.fr', but the text was ' République  FrançaiseCartes.gouv.fr est le service public des cartes et données du territoire français. \\n  Porté par l\\'IGN et ses partenaires, il offre à tous un accès à la référence de la cartographie publique \\n  et permet à chacun de créer, d\\'héberger et de publier ses propres données et représentations.info.gouv.frservice-public.gouv.frlegifrance.gouv.frdata.gouv.frNos partenairesPlan du siteAccessibilité : partiellement conformeMentions légalesConditions générales d\\'utilisationDonnées personnellesGestion des cookies Paramètres d\\'affichage Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous \\n        \\n        licence etalab-2.0\\n         République  FrançaiseCartes.gouv.fr est le service public des cartes et données du territoire français. \\n  Porté par l\\'IGN et ses partenaires, il offre à tous un accès à la référence de la cartographie publique \\n  et permet à chacun de créer, d\\'héberger et de publier ses propres données et représentations.info.gouv.frservice-public.gouv.frlegifrance.gouv.frdata.gouv.frNos partenairesPlan du siteAccessibilité : partiellement conformeMentions légalesConditions générales d\\'utilisationDonnées personnellesGestion des cookies Paramètres d\\'affichage Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous \\n        \\n        licence etalab-2.0\\n        '\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/e2e/editeur-carto.cy.js:57:7)",
+                "diff": "- ' République  FrançaiseCartes.gouv.fr est le service public des cartes et données du territoire français. \\n  Porté par l\\'IGN et ses partenaires, il offre à tous un accès à la référence de la cartographie publique \\n  et permet à chacun de créer, d\\'héberger et de publier ses propres données et représentations.info.gouv.frservice-public.gouv.frlegifrance.gouv.frdata.gouv.frNos partenairesPlan du siteAccessibilité : partiellement conformeMentions légalesConditions générales d\\'utilisationDonnées personnellesGestion des cookies Paramètres d\\'affichage Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous \\n        \\n        licence etalab-2.0\\n         République  FrançaiseCartes.gouv.fr est le service public des cartes et données du territoire français. \\n  Porté par l\\'IGN et ses partenaires, il offre à tous un accès à la référence de la cartographie publique \\n  et permet à chacun de créer, d\\'héberger et de publier ses propres données et représentations.info.gouv.frservice-public.gouv.frlegifrance.gouv.frdata.gouv.frNos partenairesPlan du siteAccessibilité : partiellement conformeMentions légalesConditions générales d\\'utilisationDonnées personnellesGestion des cookies Paramètres d\\'affichage Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous \\n        \\n        licence etalab-2.0\\n        '\n+ 'cartes.gouv.fr'\n"
+              },
+              "uuid": "6ff0bfed-efbb-4aff-a569-4daa2609ae16",
+              "parentUUID": "9d123792-70fa-49f5-b0ae-1d887b0d6567",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "3af4bf5f-5552-45cd-96e4-569ab252628a",
+            "b7e36fd2-b4f4-49ea-935e-3486ff9235bd",
+            "daf59c18-78a9-4207-8c8a-7f425ffb9a00"
+          ],
+          "failures": [
+            "6ff0bfed-efbb-4aff-a569-4daa2609ae16"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 100401,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

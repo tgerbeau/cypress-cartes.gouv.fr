@@ -1,0 +1,261 @@
+{
+  "stats": {
+    "suites": 5,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-04-09T15:02:24.776Z",
+    "end": "2026-04-09T15:02:57.701Z",
+    "duration": 32925,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "14a83893-2622-4125-9d38-92b7b4012425",
+      "title": "",
+      "fullFile": "cypress/e2e/site-crawler.cy.js",
+      "file": "cypress/e2e/site-crawler.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "89972bc7-5cae-4ca2-9d7e-2d0213715b0b",
+          "title": "🕷️ Crawl automatique du site — cartes.gouv.fr",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "427860ac-53a9-47f0-91a3-f931f01ef988",
+              "title": "Sitemap.xml — pages référencées",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "le sitemap.xml est accessible et contient des URLs",
+                  "fullTitle": "🕷️ Crawl automatique du site — cartes.gouv.fr Sitemap.xml — pages référencées le sitemap.xml est accessible et contient des URLs",
+                  "timedOut": null,
+                  "duration": 60,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.request({\n  url: SITEMAP_URL,\n  timeout: REQUEST_TIMEOUT_MS,\n  headers: {\n    Accept: 'application/xml'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.include('<loc>');\n  // Extraire et compter les URLs\n  const urls = response.body.match(/<loc>([^<]+)<\\/loc>/g) || [];\n  cy.task('log', `📍 Sitemap: ${urls.length} URLs référencées`);\n  expect(urls.length).to.be.at.least(1);\n});",
+                  "err": {},
+                  "uuid": "fa9e85b2-cecb-4658-8d34-da74acf3ab4a",
+                  "parentUUID": "427860ac-53a9-47f0-91a3-f931f01ef988",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "chaque page du sitemap répond correctement",
+                  "fullTitle": "🕷️ Crawl automatique du site — cartes.gouv.fr Sitemap.xml — pages référencées chaque page du sitemap répond correctement",
+                  "timedOut": null,
+                  "duration": 541,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.request({\n  url: SITEMAP_URL,\n  timeout: REQUEST_TIMEOUT_MS\n}).then(response => {\n  // Parser les URLs du sitemap\n  const matches = response.body.match(/<loc>([^<]+)<\\/loc>/g) || [];\n  const urls = matches.map(m => m.replace(/<\\/?loc>/g, ''));\n  cy.task('log', `\\n🕷️ Crawl de ${urls.length} pages du sitemap...\\n`);\n  const results = [];\n  // Tester chaque URL\n  urls.forEach(url => {\n    if (!isValidInternalUrl(url)) return;\n    const path = normalizePath(url);\n    cy.request({\n      url,\n      timeout: REQUEST_TIMEOUT_MS,\n      failOnStatusCode: false,\n      followRedirect: true\n    }).then(res => {\n      const result = {\n        url: path,\n        status: res.status,\n        ok: res.status >= 200 && res.status < 400,\n        hasTitle: (res.body || '').includes('<title'),\n        size: (res.body || '').length\n      };\n      results.push(result);\n      const icon = result.ok ? '✅' : '❌';\n      cy.task('log', `${icon} [${res.status}] ${path}`);\n      // Assertions\n      expect(res.status, `${path} doit répondre avec un statut 2xx/3xx`).to.be.lessThan(400);\n    });\n  });\n  // Résumé final\n  cy.then(() => {\n    const passed = results.filter(r => r.ok).length;\n    const failed = results.filter(r => !r.ok).length;\n    cy.task('log', `\\n📊 Résultat sitemap: ${passed} OK, ${failed} KO sur ${results.length} pages`);\n  });\n});",
+                  "err": {},
+                  "uuid": "9399c23f-4fc5-42f3-9b81-fb2073cbada3",
+                  "parentUUID": "427860ac-53a9-47f0-91a3-f931f01ef988",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "fa9e85b2-cecb-4658-8d34-da74acf3ab4a",
+                "9399c23f-4fc5-42f3-9b81-fb2073cbada3"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 601,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "81b9cc6f-49fe-477d-bbdf-49b393f31389",
+              "title": "Découverte dynamique — liens sur la homepage",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "chaque lien interne de la homepage répond correctement",
+                  "fullTitle": "🕷️ Crawl automatique du site — cartes.gouv.fr Découverte dynamique — liens sur la homepage chaque lien interne de la homepage répond correctement",
+                  "timedOut": null,
+                  "duration": 6906,
+                  "state": "passed",
+                  "speed": "medium",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.visit('/', {\n  timeout: 60000\n});\ncy.document().its('readyState').should('eq', 'complete');\n// eslint-disable-next-line cypress/no-unnecessary-waiting\ncy.wait(2000); // Attendre l'hydratation SPA\n// Collecter TOUS les liens internes de la page\ncy.get('a[href]').then($links => {\n  const seen = new Set();\n  const urls = [];\n  $links.each((_, link) => {\n    const href = link.getAttribute('href');\n    if (!isValidInternalUrl(href)) return;\n    const path = normalizePath(href);\n    if (seen.has(path)) return;\n    seen.add(path);\n    urls.push({\n      path,\n      href\n    });\n  });\n  cy.task('log', `\\n🔗 ${urls.length} liens internes uniques trouvés sur la homepage\\n`);\n  const results = [];\n  urls.forEach(({\n    path,\n    href\n  }) => {\n    // Résoudre l'URL complète\n    let fullUrl;\n    try {\n      fullUrl = new URL(href, BASE_URL).toString();\n    } catch (_unused3) {\n      return;\n    }\n    cy.request({\n      url: fullUrl,\n      timeout: REQUEST_TIMEOUT_MS,\n      failOnStatusCode: false,\n      followRedirect: true\n    }).then(res => {\n      results.push({\n        path,\n        status: res.status,\n        ok: res.status >= 200 && res.status < 400\n      });\n      const icon = res.status < 400 ? '✅' : '❌';\n      cy.task('log', `${icon} [${res.status}] ${path}`);\n      expect(res.status, `Le lien ${path} trouvé sur la homepage doit répondre en 2xx/3xx`).to.be.lessThan(400);\n    });\n  });\n  // Résumé\n  cy.then(() => {\n    const passed = results.filter(r => r.ok).length;\n    const failed = results.filter(r => !r.ok).length;\n    cy.task('log', `\\n📊 Résultat homepage: ${passed} OK, ${failed} KO sur ${results.length} liens`);\n  });\n});",
+                  "err": {},
+                  "uuid": "8784e768-f19d-4226-b7c2-1425f38e31a9",
+                  "parentUUID": "81b9cc6f-49fe-477d-bbdf-49b393f31389",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "8784e768-f19d-4226-b7c2-1425f38e31a9"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 6906,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "0266703c-7efa-40e1-9730-f1ae999a6702",
+              "title": "Temps de réponse par page",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "toutes les pages du sitemap répondent en moins de 5 secondes",
+                  "fullTitle": "🕷️ Crawl automatique du site — cartes.gouv.fr Temps de réponse par page toutes les pages du sitemap répondent en moins de 5 secondes",
+                  "timedOut": null,
+                  "duration": 604,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.request({\n  url: SITEMAP_URL,\n  timeout: REQUEST_TIMEOUT_MS\n}).then(response => {\n  const matches = response.body.match(/<loc>([^<]+)<\\/loc>/g) || [];\n  const urls = matches.map(m => m.replace(/<\\/?loc>/g, '')).filter(isValidInternalUrl);\n  cy.task('log', `\\n⏱️ Mesure des temps de réponse...\\n`);\n  const timings = [];\n  urls.forEach(url => {\n    const path = normalizePath(url);\n    const start = Date.now();\n    cy.request({\n      url,\n      timeout: REQUEST_TIMEOUT_MS,\n      failOnStatusCode: false,\n      followRedirect: true\n    }).then(res => {\n      const duration = Date.now() - start;\n      timings.push({\n        path,\n        duration,\n        status: res.status\n      });\n      const icon = duration < MAX_RESPONSE_TIME_MS ? '⚡' : '🐢';\n      cy.task('log', `${icon} ${duration}ms — [${res.status}] ${path}`);\n      expect(duration, `${path} doit répondre en moins de ${MAX_RESPONSE_TIME_MS}ms (actuel: ${duration}ms)`).to.be.lessThan(MAX_RESPONSE_TIME_MS);\n    });\n  });\n  // Résumé avec stats\n  cy.then(() => {\n    if (timings.length === 0) return;\n    const durations = timings.map(t => t.duration);\n    const avg = Math.round(durations.reduce((a, b) => a + b, 0) / durations.length);\n    const max = Math.max(...durations);\n    const min = Math.min(...durations);\n    const slowest = timings.find(t => t.duration === max);\n    const fastest = timings.find(t => t.duration === min);\n    cy.task('log', `\\n📊 Performance — ${timings.length} pages testées`);\n    cy.task('log', `   Moyenne : ${avg}ms`);\n    cy.task('log', `   Plus rapide : ${min}ms (${fastest.path})`);\n    cy.task('log', `   Plus lente  : ${max}ms (${slowest.path})`);\n  });\n});",
+                  "err": {},
+                  "uuid": "2cbc27cb-b50c-499f-8579-30fb464bc77d",
+                  "parentUUID": "0266703c-7efa-40e1-9730-f1ae999a6702",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "2cbc27cb-b50c-499f-8579-30fb464bc77d"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 604,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "c5f78947-a1ce-40ee-8dca-e2460428d0e3",
+              "title": "Détection de liens cassés (deep crawl)",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "signale les liens internes cassés trouvés sur les pages du sitemap",
+                  "fullTitle": "🕷️ Crawl automatique du site — cartes.gouv.fr Détection de liens cassés (deep crawl) signale les liens internes cassés trouvés sur les pages du sitemap",
+                  "timedOut": null,
+                  "duration": 24688,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.request({\n  url: SITEMAP_URL,\n  timeout: REQUEST_TIMEOUT_MS\n}).then(response => {\n  const matches = response.body.match(/<loc>([^<]+)<\\/loc>/g) || [];\n  // On prend les 5 premières pages pour ne pas exploser le temps\n  const urls = matches.map(m => m.replace(/<\\/?loc>/g, '')).filter(isValidInternalUrl).slice(0, 5);\n  cy.task('log', `\\n🔎 Deep crawl — vérification des liens sur ${urls.length} pages\\n`);\n  const brokenLinks = [];\n  urls.forEach(pageUrl => {\n    const pagePath = normalizePath(pageUrl);\n    cy.visit(pageUrl, {\n      timeout: 30000,\n      failOnStatusCode: false\n    });\n    // eslint-disable-next-line cypress/no-unnecessary-waiting\n    cy.wait(1000);\n    cy.get('a[href]').then($links => {\n      const seen = new Set();\n      const internalLinks = [];\n      $links.each((_, link) => {\n        const href = link.getAttribute('href');\n        if (!isValidInternalUrl(href)) return;\n        const path = normalizePath(href);\n        if (seen.has(path)) return;\n        seen.add(path);\n        internalLinks.push(href);\n      });\n      cy.task('log', `📄 ${pagePath}: ${internalLinks.length} liens internes`);\n      internalLinks.forEach(href => {\n        let fullUrl;\n        try {\n          fullUrl = new URL(href, BASE_URL).toString();\n        } catch (_unused4) {\n          return;\n        }\n        // Utiliser maxRedirects pour éviter les boucles infinies\n        cy.request({\n          url: fullUrl,\n          timeout: REQUEST_TIMEOUT_MS,\n          failOnStatusCode: false,\n          followRedirect: false // Gérer les redirections manuellement\n        }).then(res => {\n          // Considérer 3xx comme OK (redirect), 4xx/5xx comme cassé\n          if (res.status >= 400) {\n            const broken = {\n              page: pagePath,\n              link: normalizePath(href),\n              status: res.status\n            };\n            brokenLinks.push(broken);\n            cy.task('log', `   ⚠️ [${res.status}] ${broken.link} (trouvé sur ${pagePath})`);\n          }\n        });\n      });\n    });\n  });\n  // Résumé — on log les liens cassés mais on ne fait pas échouer le test\n  // Le but est de DÉTECTER et REPORTER, pas de bloquer\n  cy.then(() => {\n    if (brokenLinks.length > 0) {\n      cy.task('log', `\\n⚠️ ${brokenLinks.length} lien(s) cassé(s) détecté(s) (warning) :`);\n      brokenLinks.forEach(b => {\n        cy.task('log', `   ⚠️ [${b.status}] ${b.link} — trouvé sur ${b.page}`);\n      });\n      // Soft assert : on log un warning mais on ne bloque pas le test\n      // Pour activer le mode strict, décommenter la ligne ci-dessous :\n      // expect(brokenLinks, 'Liens cassés détectés').to.have.length(0)\n    } else {\n      cy.task('log', '\\n✅ Aucun lien cassé détecté');\n    }\n  });\n});",
+                  "err": {},
+                  "uuid": "2a3cb595-da6c-4418-9188-b17d6b761d00",
+                  "parentUUID": "c5f78947-a1ce-40ee-8dca-e2460428d0e3",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "2a3cb595-da6c-4418-9188-b17d6b761d00"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 24688,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

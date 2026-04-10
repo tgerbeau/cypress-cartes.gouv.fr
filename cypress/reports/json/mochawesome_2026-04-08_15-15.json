@@ -1,0 +1,149 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 2,
+    "pending": 0,
+    "failures": 1,
+    "start": "2026-04-08T13:14:03.363Z",
+    "end": "2026-04-08T13:15:08.855Z",
+    "duration": 65492,
+    "testsRegistered": 3,
+    "passPercent": 66.66666666666666,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "6410ce43-407f-421b-b3a1-bcd9661ab30f",
+      "title": "",
+      "fullFile": "cypress/e2e/navigation.cy.js",
+      "file": "cypress/e2e/navigation.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "e5d470a0-7c97-46bd-b9b8-de59a585fef1",
+          "title": "Navigation du menu principal",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "le menu de navigation principal est visible",
+              "fullTitle": "Navigation du menu principal le menu de navigation principal est visible",
+              "timedOut": null,
+              "duration": 5102,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Le DSFR utilise nav.fr-nav pour la navigation principale\ncy.get('nav.fr-nav, header nav, [role=\"navigation\"]').first().should('exist').and('be.visible');",
+              "err": {},
+              "uuid": "a8e015c8-22c3-48e0-8eae-2e1e004f952d",
+              "parentUUID": "e5d470a0-7c97-46bd-b9b8-de59a585fef1",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "les liens du menu principal ont un texte accessible",
+              "fullTitle": "Navigation du menu principal les liens du menu principal ont un texte accessible",
+              "timedOut": null,
+              "duration": 5101,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('nav.fr-nav .fr-nav__link, nav.fr-nav a, [role=\"navigation\"] a').filter(':visible').should('have.length.at.least', 1).each($link => {\n  const text = $link.text().trim();\n  const ariaLabel = ($link.attr('aria-label') || '').trim();\n  expect(text || ariaLabel, `Le lien \"${$link.attr('href')}\" doit avoir un texte accessible`).to.not.be.empty;\n});",
+              "err": {},
+              "uuid": "4ca2b698-7fe4-4acd-bcbb-052d1ada0139",
+              "parentUUID": "e5d470a0-7c97-46bd-b9b8-de59a585fef1",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "chaque lien principal du menu charge correctement la page",
+              "fullTitle": "Navigation du menu principal chaque lien principal du menu charge correctement la page",
+              "timedOut": null,
+              "duration": 18550,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Collecter les hrefs des liens internes du menu de navigation\ncy.get('nav.fr-nav .fr-nav__link, nav.fr-nav a[href], [role=\"navigation\"] a[href]').filter(':visible').then($links => {\n  const baseUrl = Cypress.config('baseUrl') || 'https://cartes.gouv.fr';\n  const baseDomain = new URL(baseUrl).hostname;\n  // Collecter et dédoublonner les liens internes uniquement\n  const seen = new Set();\n  const hrefs = [];\n  $links.each((_, link) => {\n    const href = link.getAttribute('href');\n    if (!href || href === '#' || href === '' || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:') || href.startsWith('data:') || href.startsWith('vbscript:')) {\n      return;\n    }\n    // Résoudre l'URL complète pour filtrer les liens externes\n    let fullUrl;\n    try {\n      fullUrl = new URL(href, baseUrl);\n    } catch (_unused) {\n      return; // URL invalide, on ignore\n    }\n    // Ne garder que les liens internes (même domaine)\n    if (fullUrl.hostname !== baseDomain) {\n      return;\n    }\n    // Dédoublonner par pathname (ignorer les query/hash)\n    const key = fullUrl.pathname;\n    if (!seen.has(key)) {\n      seen.add(key);\n      hrefs.push(fullUrl.pathname);\n    }\n  });\n  expect(hrefs.length, 'Le menu doit contenir au moins un lien interne').to.be.at.least(1);\n  cy.log(`🔗 ${hrefs.length} liens internes uniques trouvés`);\n  // Étape 1 : Vérifier que chaque URL répond en HTTP 200 (rapide et fiable)\n  hrefs.forEach(href => {\n    cy.request({\n      url: href,\n      timeout: 30000,\n      failOnStatusCode: false\n    }).then(response => {\n      expect(response.status, `La page ${href} doit répondre avec un statut 2xx ou 3xx`).to.be.lessThan(400);\n    });\n  });\n  // Étape 2 : Visiter le premier lien pour vérifier le rendu complet\n  // (évite de naviguer sur toutes les pages, ce qui est lent et flaky)\n  const firstHref = hrefs[0];\n  cy.log(`📄 Vérification du rendu complet de : ${firstHref}`);\n  cy.visit(firstHref, {\n    timeout: 60000,\n    failOnStatusCode: false\n  });\n  cy.document().its('readyState').should('eq', 'complete');\n  cy.get('body', {\n    timeout: 15000\n  }).should('be.visible');\n  cy.get('h1, main, [role=\"main\"]', {\n    timeout: 15000\n  }).should('exist');\n});",
+              "err": {
+                "message": "CypressError: Timed out retrying after 10000ms: The command was expected to run against origin `https://cartes.gouv.fr` but the application is at origin `https://sso.geopf.fr`.\n\nThis commonly happens when you have either not navigated to the expected origin or have navigated away unexpectedly.\n\nUsing `cy.origin()` to wrap the commands run on `https://sso.geopf.fr` will likely fix this issue.\n\n`cy.origin('https://sso.geopf.fr', () => {`\n`  <commands targeting https://sso.geopf.fr go here>`\n`})`\n\nhttps://on.cypress.io/cy-visit-succeeded-but-commands-fail",
+                "estack": "CypressError: Timed out retrying after 10000ms: The command was expected to run against origin `https://cartes.gouv.fr` but the application is at origin `https://sso.geopf.fr`.\n\nThis commonly happens when you have either not navigated to the expected origin or have navigated away unexpectedly.\n\nUsing `cy.origin()` to wrap the commands run on `https://sso.geopf.fr` will likely fix this issue.\n\n`cy.origin('https://sso.geopf.fr', () => {`\n`  <commands targeting https://sso.geopf.fr go here>`\n`})`\n\nhttps://on.cypress.io/cy-visit-succeeded-but-commands-fail\n    at cypressErr (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:78375:18)\n    at Object.errByPath (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:78443:10)\n    at Object.commandCanCommunicateWithAUT (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:153321:90)\n    at <unknown> (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:135519:22)\n    at Object.subjectFn (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:152144:16)\n    at $Cy.verifyUpcomingAssertions (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:151472:31)\n    at onRetry (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:152135:15)\n    at tryCatcher (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise.attempt.Promise.try (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:4285:29)\n    at whenStable (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:152022:68)\n    at <unknown> (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:151963:14)\n    at tryCatcher (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise._settlePromiseFromHandler (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1489:31)\n    at Promise._settlePromise (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1546:18)\n    at Promise._settlePromise0 (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1591:10)\n    at Promise._settlePromises (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1671:18)\n    at Promise._fulfill (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1615:18)\n    at <unknown> (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:5420:46)\nFrom Your Spec Code:\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/support/e2e.js:50:5)\n    at overridden.fn (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:114266:21)\n    at wrapped (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:146318:43)",
+                "diff": null
+              },
+              "uuid": "559169c4-9933-42be-8ed0-eb0b1b7b3c65",
+              "parentUUID": "e5d470a0-7c97-46bd-b9b8-de59a585fef1",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "a8e015c8-22c3-48e0-8eae-2e1e004f952d",
+            "4ca2b698-7fe4-4acd-bcbb-052d1ada0139"
+          ],
+          "failures": [
+            "559169c4-9933-42be-8ed0-eb0b1b7b3c65"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 28753,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}
