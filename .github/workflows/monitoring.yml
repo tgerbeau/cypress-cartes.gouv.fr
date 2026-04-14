@@ -1,12 +1,16 @@
-name: Monitoring
+name: Monitoring — cartes.gouv.fr
 
 on:
   push:
     branches:
       - main
+  schedule:
+    # Every day at 7:00 AM UTC
+    - cron: '0 7 * * *'
+  workflow_dispatch:
 
 jobs:
-  node:
+  monitoring:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -21,11 +25,33 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run pre-report
+      - name: Préparer le dossier de rapports
         run: npm run clean:reports
 
-      - name: Upload Reports
-        uses: actions/upload-artifact@v4
+      - name: Run monitoring tests
+        uses: cypress-io/github-action@v6
         with:
-          name: reports
-          path: ./reports/*
+          browser: chrome
+          headless: true
+          spec: cypress/e2e/monitoring.cy.js
+          install: false
+
+      - name: Générer le rapport HTML
+        if: always()
+        run: npm run report:merge && npm run report:generate || true
+
+      - name: Upload rapport HTML
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: monitoring-report-${{ github.run_number }}
+          path: cypress/reports/html/
+          retention-days: 14
+
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: monitoring-screenshots-${{ github.run_number }}
+          path: cypress/screenshots
+          retention-days: 7
