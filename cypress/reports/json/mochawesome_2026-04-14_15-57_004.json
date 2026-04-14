@@ -1,0 +1,280 @@
+{
+  "stats": {
+    "suites": 5,
+    "tests": 4,
+    "passes": 0,
+    "pending": 6,
+    "failures": -2,
+    "start": "2026-04-14T13:57:20.597Z",
+    "end": "2026-04-14T13:57:20.656Z",
+    "duration": 59,
+    "testsRegistered": 6,
+    "passPercent": null,
+    "pendingPercent": 100,
+    "other": 2,
+    "hasOther": true,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "d3d30d1a-7830-48da-a24a-45201ce4204d",
+      "title": "",
+      "fullFile": "cypress/e2e/dataset-detail.cy.js",
+      "file": "cypress/e2e/dataset-detail.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fff41505-d33b-4cb2-ad0f-539c16e3c718",
+          "title": "Fiche détail d'un jeu de données",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "1935d246-c789-44d7-96cd-1c8379689922",
+              "title": "BD ORTHO® — disponibilité et contenu",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "la page répond en 200 et contient le titre BD ORTHO",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® — disponibilité et contenu la page répond en 200 et contient le titre BD ORTHO",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.request('https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO').then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.include('BD ORTHO');\n});",
+                  "err": {},
+                  "uuid": "b62104bb-9cee-4269-acc9-3f97b1b85d26",
+                  "parentUUID": "1935d246-c789-44d7-96cd-1c8379689922",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "la page se charge dans le navigateur avec header et footer",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® — disponibilité et contenu la page se charge dans le navigateur avec header et footer",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.on('uncaught:exception', () => false);\ncy.visit('/rechercher-une-donnee/dataset/IGNF_BD-ORTHO', {\n  timeout: 30000\n});\ncy.get('header, .fr-header', {\n  timeout: 15000\n}).should('exist');\ncy.get('footer, .fr-footer').should('exist');",
+                  "err": {},
+                  "uuid": "3e67c729-ba04-4a97-9584-211eb632aefb",
+                  "parentUUID": "1935d246-c789-44d7-96cd-1c8379689922",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "la page contient les métadonnées essentielles dans le HTML",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® — disponibilité et contenu la page contient les métadonnées essentielles dans le HTML",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.request('https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO').then(response => {\n  // Le titre est présent\n  expect(response.body).to.include('BD ORTHO');\n  // Le producteur IGN est référencé\n  expect(response.body).to.include('IGN');\n  // L'identifiant GeoNetwork est présent\n  expect(response.body).to.include('IGNF_BD-ORTHO');\n});",
+                  "err": {},
+                  "uuid": "f6d5bdbe-2d5a-4a41-872b-1dadd75304a9",
+                  "parentUUID": "1935d246-c789-44d7-96cd-1c8379689922",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [],
+              "pending": [
+                "b62104bb-9cee-4269-acc9-3f97b1b85d26",
+                "3e67c729-ba04-4a97-9584-211eb632aefb",
+                "f6d5bdbe-2d5a-4a41-872b-1dadd75304a9"
+              ],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "c4fb0d74-0157-489d-b81d-cc6d923b9eb8",
+              "title": "BD TOPO® — disponibilité",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "la fiche BD TOPO répond en 200",
+                  "fullTitle": "Fiche détail d'un jeu de données BD TOPO® — disponibilité la fiche BD TOPO répond en 200",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.request('https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-TOPO').then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.include('BD TOPO');\n});",
+                  "err": {},
+                  "uuid": "5acf15f0-85f3-4c57-855e-460891a15c7a",
+                  "parentUUID": "c4fb0d74-0157-489d-b81d-cc6d923b9eb8",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [],
+              "pending": [
+                "5acf15f0-85f3-4c57-855e-460891a15c7a"
+              ],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "94da7071-8c44-40aa-80c6-3e0f2e205ebf",
+              "title": "Fiche inexistante",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "une fiche avec un identifiant inconnu retourne une erreur gérée",
+                  "fullTitle": "Fiche détail d'un jeu de données Fiche inexistante une fiche avec un identifiant inconnu retourne une erreur gérée",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.on('uncaught:exception', () => false);\ncy.visit('/rechercher-une-donnee/dataset/DATASET_INEXISTANT_XYZ', {\n  failOnStatusCode: false,\n  timeout: 30000\n});\ncy.get('body').should('not.be.empty');",
+                  "err": {},
+                  "uuid": "a4652884-3b12-46b0-b715-4499d78acea3",
+                  "parentUUID": "94da7071-8c44-40aa-80c6-3e0f2e205ebf",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [],
+              "pending": [
+                "a4652884-3b12-46b0-b715-4499d78acea3"
+              ],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "16e007d9-6b9d-42bc-b25b-31cc178f2462",
+              "title": "API catalogue sous-jacente",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "l'API GeoNetwork retourne les métadonnées BD ORTHO en JSON",
+                  "fullTitle": "Fiche détail d'un jeu de données API catalogue sous-jacente l'API GeoNetwork retourne les métadonnées BD ORTHO en JSON",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.request({\n  url: 'https://data.geopf.fr/catalog/api/records/IGNF_BD-ORTHO',\n  headers: {\n    'Accept': 'application/json'\n  },\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.be.lessThan(500);\n});",
+                  "err": {},
+                  "uuid": "da988907-17f5-4cca-a211-08311a843205",
+                  "parentUUID": "16e007d9-6b9d-42bc-b25b-31cc178f2462",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [],
+              "pending": [
+                "da988907-17f5-4cca-a211-08311a843205"
+              ],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

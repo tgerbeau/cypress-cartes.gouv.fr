@@ -1,0 +1,50 @@
+name: Smoke Tests — cartes.gouv.fr
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Every hour from 7 AM to 7 PM UTC on weekdays
+    - cron: '0 7-19 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run smoke tests
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headless: true
+          env: grepTags=@smoke
+
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: smoke-screenshots-${{ github.run_number }}
+          path: cypress/screenshots
+          retention-days: 7
+
+      - name: Upload videos
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: smoke-videos-${{ github.run_number }}
+          path: cypress/videos
+          retention-days: 7

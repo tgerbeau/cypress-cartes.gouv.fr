@@ -1,0 +1,182 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 5,
+    "failures": -4,
+    "start": "2026-04-14T13:58:09.964Z",
+    "end": "2026-04-14T13:58:09.983Z",
+    "duration": 19,
+    "testsRegistered": 5,
+    "passPercent": null,
+    "pendingPercent": 100,
+    "other": 4,
+    "hasOther": true,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "6222fa7a-5aa2-44f2-a3e3-7020dc9c5f7f",
+      "title": "",
+      "fullFile": "cypress/e2e/homepage.cy.js",
+      "file": "cypress/e2e/homepage.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b58f91e8-ac20-4d37-b640-e04050127637",
+          "title": "Homepage Tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should load the homepage successfully",
+              "fullTitle": "Homepage Tests should load the homepage successfully",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.url().should('include', 'cartes.gouv.fr');\n// Close welcome modal only if present/visible\ncy.get('body').then($body => {\n  const closeSelector = '#fr-modal-1 button.fr-btn--icon-right span';\n  if ($body.find(closeSelector).length > 0) {\n    cy.get(closeSelector).first().click({\n      force: true\n    });\n  }\n});\n// Cookie consent is handled globally via cy.acceptCookies() in support/e2e.js",
+              "err": {},
+              "uuid": "f49ad462-2783-4588-8bf1-cb3c9f997a3d",
+              "parentUUID": "b58f91e8-ac20-4d37-b640-e04050127637",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should display the main title or heading",
+              "fullTitle": "Homepage Tests should display the main title or heading",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "// La homepage peut utiliser h1, h2 ou un titre dans un composant DSFR\ncy.get('h1, h2, [class*=\"fr-display\"], [class*=\"fr-h1\"]', {\n  timeout: 10000\n}).first().should('exist').and('be.visible');",
+              "err": {},
+              "uuid": "9bb78280-7d35-48a6-acb4-a02e0fd6ecf9",
+              "parentUUID": "b58f91e8-ac20-4d37-b640-e04050127637",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should have a valid page title",
+              "fullTitle": "Homepage Tests should have a valid page title",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.title().should('not.be.empty');",
+              "err": {},
+              "uuid": "db709cd4-5535-45a5-8a0b-48ee47b19ce7",
+              "parentUUID": "b58f91e8-ac20-4d37-b640-e04050127637",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la popup cookies s'affiche et le bouton \"Tout accepter\" fonctionne",
+              "fullTitle": "Homepage Tests la popup cookies s'affiche et le bouton \"Tout accepter\" fonctionne",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.clearCookies();\ncy.clearLocalStorage();\ncy.visit('/', {\n  timeout: 120000,\n  onBeforeLoad(win) {\n    win.localStorage.clear();\n  }\n});\n// La bannière DSFR de consentement doit apparaître\ncy.get('.fr-consent-banner', {\n  timeout: 10000\n}).should('be.visible');\n// Cliquer sur \"Tout accepter\"\ncy.get('.fr-consent-banner').contains('button', 'Tout accepter').click();\n// La bannière doit disparaître après acceptation\ncy.get('.fr-consent-banner').should('not.exist');",
+              "err": {},
+              "uuid": "ecd9afdb-49e8-4de6-9153-42385cbad779",
+              "parentUUID": "b58f91e8-ac20-4d37-b640-e04050127637",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should show mobile navigation on small viewports",
+              "fullTitle": "Homepage Tests should show mobile navigation on small viewports",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.viewport(375, 667);\n// Fermer la modale si présente après resize\ncy.get('body').then($body => {\n  if ($body.find('dialog.fr-modal--opened, .welcome-modal[open]').length) {\n    cy.get('body').type('{esc}');\n  }\n});\n// Le DSFR affiche un bouton burger sur mobile\ncy.get('.fr-btn--menu, button[data-fr-opened], .fr-header__menu-links button', {\n  timeout: 5000\n}).should('be.visible');",
+              "err": {},
+              "uuid": "f338b533-406a-4ce9-b3b0-0285f6703f0f",
+              "parentUUID": "b58f91e8-ac20-4d37-b640-e04050127637",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [],
+          "pending": [
+            "f49ad462-2783-4588-8bf1-cb3c9f997a3d",
+            "9bb78280-7d35-48a6-acb4-a02e0fd6ecf9",
+            "db709cd4-5535-45a5-8a0b-48ee47b19ce7",
+            "ecd9afdb-49e8-4de6-9153-42385cbad779",
+            "f338b533-406a-4ce9-b3b0-0285f6703f0f"
+          ],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

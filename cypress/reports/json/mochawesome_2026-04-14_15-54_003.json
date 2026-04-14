@@ -1,0 +1,163 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 4,
+    "failures": -3,
+    "start": "2026-04-14T13:54:12.660Z",
+    "end": "2026-04-14T13:54:12.676Z",
+    "duration": 16,
+    "testsRegistered": 4,
+    "passPercent": null,
+    "pendingPercent": 100,
+    "other": 3,
+    "hasOther": true,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "ca513f7d-5d2f-4ed6-a8c9-7bb51b56ff90",
+      "title": "",
+      "fullFile": "cypress/e2e/auth.cy.js",
+      "file": "cypress/e2e/auth.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ecdc2c57-6aa7-4809-863c-c547b56de973",
+          "title": "Authentification — parcours critique",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "affiche un bouton de connexion visible sur la page d'accueil",
+              "fullTitle": "Authentification — parcours critique affiche un bouton de connexion visible sur la page d'accueil",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.visit('/');\ncy.get('[data-testid=\"login-btn\"], [aria-label*=\"connexion\"], a[href*=\"login\"], a[href*=\"connexion\"]').should('exist').and('be.visible');",
+              "err": {},
+              "uuid": "d5bf631b-a1d8-4d4b-bbc5-d35254444d01",
+              "parentUUID": "ecdc2c57-6aa7-4809-863c-c547b56de973",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "redirige vers le SSO Géoplateforme au clic sur connexion",
+              "fullTitle": "Authentification — parcours critique redirige vers le SSO Géoplateforme au clic sur connexion",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.visit('/');\ncy.get('[data-testid=\"login-btn\"], [aria-label*=\"connexion\"], a[href*=\"login\"]').first().click();\ncy.url().should('include', 'sso.geopf.fr');",
+              "err": {},
+              "uuid": "8b8c9d67-db04-4256-acef-0fa462f8ee01",
+              "parentUUID": "ecdc2c57-6aa7-4809-863c-c547b56de973",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la page SSO propose un formulaire de connexion complet",
+              "fullTitle": "Authentification — parcours critique la page SSO propose un formulaire de connexion complet",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.visit('/');\ncy.get('[data-testid=\"login-btn\"], [aria-label*=\"connexion\"], a[href*=\"login\"]').first().click();\ncy.origin('https://sso.geopf.fr', () => {\n  cy.get('input[type=\"text\"], input[type=\"email\"], input[name*=\"username\"]').should('exist');\n  cy.get('input[type=\"password\"]').should('exist');\n  cy.get('button[type=\"submit\"], input[type=\"submit\"]').should('exist');\n});",
+              "err": {},
+              "uuid": "54942908-9a8e-45a2-a627-aecc0328626d",
+              "parentUUID": "ecdc2c57-6aa7-4809-863c-c547b56de973",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "affiche une erreur avec des identifiants invalides",
+              "fullTitle": "Authentification — parcours critique affiche une erreur avec des identifiants invalides",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.visit('/login', {\n  failOnStatusCode: false\n});\ncy.get('input[type=\"email\"], input[type=\"text\"], input[name*=\"email\"], input[name*=\"username\"], input[name*=\"login\"]').first().type('utilisateur_invalide@test.fr');\ncy.get('input[type=\"password\"]').type('mauvais_mot_de_passe');\ncy.get('button[type=\"submit\"], input[type=\"submit\"]').first().click();\ncy.get('[aria-live=\"polite\"], [role=\"alert\"], .alert, .error, .kc-feedback-text, [data-testid=\"login-error\"]').should('exist');",
+              "err": {},
+              "uuid": "625f363d-86c7-454c-b843-5336aeece49f",
+              "parentUUID": "ecdc2c57-6aa7-4809-863c-c547b56de973",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [],
+          "pending": [
+            "d5bf631b-a1d8-4d4b-bbc5-d35254444d01",
+            "8b8c9d67-db04-4256-acef-0fa462f8ee01",
+            "54942908-9a8e-45a2-a627-aecc0328626d",
+            "625f363d-86c7-454c-b843-5336aeece49f"
+          ],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

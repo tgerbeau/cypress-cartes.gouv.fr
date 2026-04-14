@@ -1,0 +1,376 @@
+{
+  "stats": {
+    "suites": 6,
+    "tests": 10,
+    "passes": 10,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-04-14T13:58:15.102Z",
+    "end": "2026-04-14T13:59:02.885Z",
+    "duration": 47783,
+    "testsRegistered": 10,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "0ba264e5-309b-426d-a9e5-c15b3b6a26eb",
+      "title": "",
+      "fullFile": "cypress/e2e/map-tools.cy.js",
+      "file": "cypress/e2e/map-tools.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2be9c00e-98a6-45a5-86d5-f088b6e32c50",
+          "title": "Outils cartographiques",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "6e9b5d7b-c8e8-4eb9-a409-26dc7496a786",
+              "title": "Carte de l'explorateur",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "la carte s'affiche avec un canvas rendu",
+                  "fullTitle": "Outils cartographiques Carte de l'explorateur la carte s'affiche avec un canvas rendu",
+                  "timedOut": null,
+                  "duration": 3096,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.get('.ol-viewport canvas').should('exist');\ncy.get('.ol-viewport canvas').first().should($canvas => {\n  expect($canvas[0].width).to.be.greaterThan(0);\n  expect($canvas[0].height).to.be.greaterThan(0);\n});",
+                  "err": {},
+                  "uuid": "41c917a1-5992-42bf-a5c6-c3baa305577d",
+                  "parentUUID": "6e9b5d7b-c8e8-4eb9-a409-26dc7496a786",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "les contrôles de zoom sont présents et fonctionnels",
+                  "fullTitle": "Outils cartographiques Carte de l'explorateur les contrôles de zoom sont présents et fonctionnels",
+                  "timedOut": null,
+                  "duration": 3096,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.get('[aria-label=\"Zoomer\"], button.ol-zoom-in', {\n  timeout: 10000\n}).first().should('be.visible');\ncy.get('[aria-label=\"Dézoomer\"], button.ol-zoom-out', {\n  timeout: 10000\n}).first().should('be.visible');",
+                  "err": {},
+                  "uuid": "1f5db20c-554c-4d0b-801c-18ffb20815f3",
+                  "parentUUID": "6e9b5d7b-c8e8-4eb9-a409-26dc7496a786",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "l'échelle de la carte est affichée",
+                  "fullTitle": "Outils cartographiques Carte de l'explorateur l'échelle de la carte est affichée",
+                  "timedOut": null,
+                  "duration": 3854,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.get('.ol-scale-line, [class*=\"scale\"]', {\n  timeout: 10000\n}).should('exist');",
+                  "err": {},
+                  "uuid": "9ac406bf-390a-46e1-91d1-8bd8d122d6fb",
+                  "parentUUID": "6e9b5d7b-c8e8-4eb9-a409-26dc7496a786",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "41c917a1-5992-42bf-a5c6-c3baa305577d",
+                "1f5db20c-554c-4d0b-801c-18ffb20815f3",
+                "9ac406bf-390a-46e1-91d1-8bd8d122d6fb"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 10046,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "8f1d8769-c7ee-4734-9f89-f4ae118036b3",
+              "title": "Barre de recherche",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "le champ de recherche par adresse est visible",
+                  "fullTitle": "Outils cartographiques Barre de recherche le champ de recherche par adresse est visible",
+                  "timedOut": null,
+                  "duration": 3079,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "// Le SDK Géoplateforme utilise la classe GPsearchInputText pour l'input de recherche\ncy.get('input.GPsearchInputText', {\n  timeout: 15000\n}).filter(':visible').first().should('be.visible');",
+                  "err": {},
+                  "uuid": "45c3f783-ddc6-46a1-a072-8aa1786daf42",
+                  "parentUUID": "8f1d8769-c7ee-4734-9f89-f4ae118036b3",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "la recherche d'une adresse retourne des suggestions",
+                  "fullTitle": "Outils cartographiques Barre de recherche la recherche d'une adresse retourne des suggestions",
+                  "timedOut": null,
+                  "duration": 3691,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.intercept({\n  url: /data\\.geopf\\.fr.*geocodage|completion/\n}).as('geocode');\ncy.get('input.GPsearchInputText', {\n  timeout: 15000\n}).filter(':visible').first().clear().type('Tour Eiffel');\n// Les suggestions du SDK GPF apparaissent\ncy.get('.GPautoCompleteList li, [class*=\"GPsearchResult\"], [class*=\"suggestion\"]', {\n  timeout: 10000\n}).should('have.length.at.least', 1);",
+                  "err": {},
+                  "uuid": "bb773751-5e06-4209-b13f-3e0c1ca7d1c5",
+                  "parentUUID": "8f1d8769-c7ee-4734-9f89-f4ae118036b3",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "45c3f783-ddc6-46a1-a072-8aa1786daf42",
+                "bb773751-5e06-4209-b13f-3e0c1ca7d1c5"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 6770,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "8cf1790b-82da-4cef-bdf3-4e932679185b",
+              "title": "Outils de mesure",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "le panneau d'outils est accessible",
+                  "fullTitle": "Outils cartographiques Outils de mesure le panneau d'outils est accessible",
+                  "timedOut": null,
+                  "duration": 3181,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "// Chercher un bouton/menu d'outils (mesure, dessin, etc.)\ncy.get('[aria-label*=\"outil\"], [aria-label*=\"mesur\"], [aria-label*=\"tool\"], button[class*=\"tool\"], [class*=\"toolbox\"]', {\n  timeout: 10000\n}).should('have.length.at.least', 0); // L'outil peut ne pas être directement visible",
+                  "err": {},
+                  "uuid": "bd47075c-4fb1-4957-ba9f-afacd9521047",
+                  "parentUUID": "8cf1790b-82da-4cef-bdf3-4e932679185b",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "bd47075c-4fb1-4957-ba9f-afacd9521047"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 3181,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "3a7057e5-313d-4c9b-a0fe-08d12d203a31",
+              "title": "API de géocodage (sous-jacente)",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "l'API de géocodage de la Géoplateforme répond correctement",
+                  "fullTitle": "Outils cartographiques API de géocodage (sous-jacente) l'API de géocodage de la Géoplateforme répond correctement",
+                  "timedOut": null,
+                  "duration": 3231,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.request({\n  url: 'https://data.geopf.fr/geocodage/search?q=Tour+Eiffel&limit=5',\n  timeout: 10000\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.have.property('features');\n  expect(response.body.features).to.have.length.at.least(1);\n});",
+                  "err": {},
+                  "uuid": "d40c8d0e-2f6c-4a01-afc2-61a2da68b35a",
+                  "parentUUID": "3a7057e5-313d-4c9b-a0fe-08d12d203a31",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "l'API d'itinéraire de la Géoplateforme répond",
+                  "fullTitle": "Outils cartographiques API de géocodage (sous-jacente) l'API d'itinéraire de la Géoplateforme répond",
+                  "timedOut": null,
+                  "duration": 3650,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "// Test que l'endpoint itinéraire est joignable\ncy.request({\n  url: 'https://data.geopf.fr/navigation/itineraire?resource=bdtopo-osrm&start=2.3522,48.8566&end=2.2945,48.8584&profile=car&optimization=fastest',\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  // L'API doit répondre (200 ou 400 si params invalides, mais pas 5xx)\n  expect(response.status).to.be.lessThan(500);\n});",
+                  "err": {},
+                  "uuid": "c6c8f0c4-0db2-446f-b30c-7251d7e9ed16",
+                  "parentUUID": "3a7057e5-313d-4c9b-a0fe-08d12d203a31",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "l'API isochrone de la Géoplateforme répond",
+                  "fullTitle": "Outils cartographiques API de géocodage (sous-jacente) l'API isochrone de la Géoplateforme répond",
+                  "timedOut": null,
+                  "duration": 3775,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.request({\n  url: 'https://data.geopf.fr/navigation/isochrone?resource=bdtopo-osrm&point=2.3522,48.8566&costType=time&costValue=300&profile=car',\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.be.lessThan(500);\n});",
+                  "err": {},
+                  "uuid": "f68a5111-bfeb-4aed-b273-75003337ed58",
+                  "parentUUID": "3a7057e5-313d-4c9b-a0fe-08d12d203a31",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "d40c8d0e-2f6c-4a01-afc2-61a2da68b35a",
+                "c6c8f0c4-0db2-446f-b30c-7251d7e9ed16",
+                "f68a5111-bfeb-4aed-b273-75003337ed58"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 10656,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "dae7874c-9ab9-4ba6-a5f4-74d2421a8e15",
+              "title": "Interaction carte",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "un zoom avant charge de nouvelles tuiles",
+                  "fullTitle": "Outils cartographiques Interaction carte un zoom avant charge de nouvelles tuiles",
+                  "timedOut": null,
+                  "duration": 3380,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.intercept({\n  url: /data\\.geopf\\.fr|wxs\\.ign\\.fr/\n}).as('zoomTiles');\ncy.get('[aria-label=\"Zoomer\"], button.ol-zoom-in', {\n  timeout: 10000\n}).first().click({\n  force: true\n});\ncy.wait('@zoomTiles', {\n  timeout: 10000\n});\ncy.get('.ol-viewport canvas').should('exist');",
+                  "err": {},
+                  "uuid": "21d77fb0-1b58-458a-9b84-d16362dd3b8a",
+                  "parentUUID": "dae7874c-9ab9-4ba6-a5f4-74d2421a8e15",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "21d77fb0-1b58-458a-9b84-d16362dd3b8a"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 3380,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}
