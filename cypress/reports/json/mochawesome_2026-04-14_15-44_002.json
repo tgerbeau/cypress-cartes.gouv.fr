@@ -1,0 +1,202 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 1,
+    "pending": 5,
+    "failures": -4,
+    "start": "2026-04-14T13:44:06.205Z",
+    "end": "2026-04-14T13:44:09.372Z",
+    "duration": 3167,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 83.33333333333334,
+    "other": 4,
+    "hasOther": true,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "0f387429-2bb8-418c-8c5b-9d08da1ac3f3",
+      "title": "",
+      "fullFile": "cypress/e2e/navigation.cy.js",
+      "file": "cypress/e2e/navigation.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "c2959529-887a-4d80-a0ba-af5f7c25c10d",
+          "title": "Navigation du menu principal",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "le menu de navigation principal est visible et identifié",
+              "fullTitle": "Navigation du menu principal le menu de navigation principal est visible et identifié",
+              "timedOut": null,
+              "duration": 3087,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get(NAV_SELECTOR).first().should('exist').and('be.visible')\n// Le DSFR exige un label ou aria-label sur <nav>\n.then($nav => {\n  const ariaLabel = $nav.attr('aria-label') || '';\n  const ariaLabelledby = $nav.attr('aria-labelledby') || '';\n  const role = $nav.prop('tagName').toLowerCase() === 'nav';\n  expect(role || ariaLabel || ariaLabelledby, 'La zone de navigation doit être une <nav> ou avoir un aria-label').to.be.ok;\n});",
+              "err": {},
+              "uuid": "89f07cda-6bcd-4b94-b91d-11f5ce988687",
+              "parentUUID": "c2959529-887a-4d80-a0ba-af5f7c25c10d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "les liens du menu principal ont un texte accessible",
+              "fullTitle": "Navigation du menu principal les liens du menu principal ont un texte accessible",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.get(LINK_SELECTOR).filter(':visible').should('have.length.at.least', 1).each($link => {\n  const text = $link.text().trim();\n  const ariaLabel = ($link.attr('aria-label') || '').trim();\n  const title = ($link.attr('title') || '').trim();\n  expect(text || ariaLabel || title, `Le lien \"${$link.attr('href')}\" doit avoir un texte accessible`).to.not.be.empty;\n});",
+              "err": {},
+              "uuid": "b652773e-7732-4747-ab49-2d3de9a3ef03",
+              "parentUUID": "c2959529-887a-4d80-a0ba-af5f7c25c10d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "les liens du menu ne contiennent pas de href vides ou \"#\"",
+              "fullTitle": "Navigation du menu principal les liens du menu ne contiennent pas de href vides ou \"#\"",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "cy.get(LINK_SELECTOR).filter(':visible').each($link => {\n  const href = ($link.attr('href') || '').trim();\n  expect(href, `Un lien visible ne doit pas avoir href=\"${href}\"`).to.not.be.oneOf(['', '#']);\n});",
+              "err": {},
+              "uuid": "c343ff6a-c2ec-4e92-8bdc-356b1a1d2543",
+              "parentUUID": "c2959529-887a-4d80-a0ba-af5f7c25c10d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "chaque lien interne du menu répond avec un statut HTTP valide",
+              "fullTitle": "Navigation du menu principal chaque lien interne du menu répond avec un statut HTTP valide",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "const baseUrl = Cypress.config('baseUrl') || 'https://cartes.gouv.fr';\nconst baseDomain = new URL(baseUrl).hostname;\ncy.get(LINK_SELECTOR).filter(':visible').then($links => {\n  const hrefs = collectInternalHrefs($links);\n  expect(hrefs.length, 'Le menu doit contenir au moins un lien interne').to.be.at.least(1);\n  cy.log(`${hrefs.length} liens internes uniques trouvés`);\n  hrefs.forEach(href => {\n    cy.request({\n      url: href,\n      timeout: 30000,\n      failOnStatusCode: false\n    }).then(response => {\n      expect(response.status, `${href} doit répondre avec un statut < 400 (actuel : ${response.status})`).to.be.lessThan(400);\n    });\n  });\n});",
+              "err": {},
+              "uuid": "3d71e88e-a9bf-4937-b347-878b046280fa",
+              "parentUUID": "c2959529-887a-4d80-a0ba-af5f7c25c10d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "un lien interne du menu rend une page complète avec un contenu principal",
+              "fullTitle": "Navigation du menu principal un lien interne du menu rend une page complète avec un contenu principal",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "const baseUrl = Cypress.config('baseUrl') || 'https://cartes.gouv.fr';\nconst baseDomain = new URL(baseUrl).hostname;\ncy.get(LINK_SELECTOR).filter(':visible').then($links => {\n  const hrefs = collectInternalHrefs($links);\n  // Tester les liens un par un pour trouver un lien visitable (pas de redirect SSO)\n  const safeHrefs = [];\n  hrefs.forEach(href => {\n    cy.request({\n      url: href,\n      timeout: 30000,\n      failOnStatusCode: false\n    }).then(response => {\n      const body = response.body || '';\n      const redirectsToExternal = response.redirects ? response.redirects.some(r => !r.includes(baseDomain)) : false;\n      const bodyRedirectsToSSO = typeof body === 'string' && body.includes('sso.geopf.fr');\n      const isAuthPage = AUTH_PATTERNS.some(p => href.includes(p));\n      if (!redirectsToExternal && !bodyRedirectsToSSO && !isAuthPage && response.status < 400) {\n        safeHrefs.push(href);\n      }\n    });\n  });\n  cy.then(() => {\n    if (safeHrefs.length === 0) {\n      cy.log('Aucun lien visitable (tous redirigent vers SSO ou externe)');\n      return;\n    }\n    const targetHref = safeHrefs[0];\n    cy.log(`Vérification du rendu complet de : ${targetHref}`);\n    cy.visit(targetHref, {\n      timeout: 60000,\n      failOnStatusCode: false\n    });\n    cy.document().its('readyState').should('eq', 'complete');\n    cy.get('body', {\n      timeout: 15000\n    }).should('be.visible');\n    cy.get('h1, main, [role=\"main\"]', {\n      timeout: 15000\n    }).should('exist');\n  });\n});",
+              "err": {},
+              "uuid": "62ffa403-2902-4a3e-aa52-105b2096c337",
+              "parentUUID": "c2959529-887a-4d80-a0ba-af5f7c25c10d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la navigation est accessible au clavier (les liens sont focusables)",
+              "fullTitle": "Navigation du menu principal la navigation est accessible au clavier (les liens sont focusables)",
+              "timedOut": null,
+              "duration": 0,
+              "state": "pending",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": true,
+              "context": null,
+              "code": "// Les liens de navigation doivent être focusables\ncy.get(LINK_SELECTOR).filter(':visible').first().focus();\n// Le focus doit être sur un lien de la nav\ncy.focused().should('match', 'a[href]');\n// Vérifier que les liens n'ont pas de tabindex négatif (qui les exclut du flux Tab)\ncy.get(LINK_SELECTOR).filter(':visible').each($link => {\n  const tabindex = $link.attr('tabindex');\n  expect(tabindex === undefined || parseInt(tabindex, 10) >= 0, `Le lien \"${$link.text().trim()}\" ne doit pas avoir tabindex=\"${tabindex}\"`).to.be.true;\n});",
+              "err": {},
+              "uuid": "aa7febc4-eeda-4660-939d-3a6a0a8b5259",
+              "parentUUID": "c2959529-887a-4d80-a0ba-af5f7c25c10d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "89f07cda-6bcd-4b94-b91d-11f5ce988687"
+          ],
+          "failures": [],
+          "pending": [
+            "b652773e-7732-4747-ab49-2d3de9a3ef03",
+            "c343ff6a-c2ec-4e92-8bdc-356b1a1d2543",
+            "3d71e88e-a9bf-4937-b347-878b046280fa",
+            "62ffa403-2902-4a3e-aa52-105b2096c337",
+            "aa7febc4-eeda-4660-939d-3a6a0a8b5259"
+          ],
+          "skipped": [],
+          "duration": 3087,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

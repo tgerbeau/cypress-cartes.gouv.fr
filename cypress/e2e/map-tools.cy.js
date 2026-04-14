@@ -4,7 +4,7 @@
  * cartes.gouv.fr/explorer-les-cartes
  */
 
-describe('Outils cartographiques', () => {
+describe('Outils cartographiques', { tags: '@map' }, () => {
   beforeEach(() => {
     cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('tiles')
     cy.visit('/explorer-les-cartes/')

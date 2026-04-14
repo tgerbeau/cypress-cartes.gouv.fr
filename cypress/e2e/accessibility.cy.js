@@ -1,4 +1,4 @@
-describe('Accessibility Tests', () => {
+describe('Accessibility Tests', { tags: '@a11y' }, () => {
   beforeEach(() => {
     cy.visit('/', { timeout: 120000 })
     cy.get('body').should('be.visible')

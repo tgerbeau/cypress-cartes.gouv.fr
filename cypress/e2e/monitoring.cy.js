@@ -12,7 +12,7 @@
  * via GitHub Actions ou un cron externe.
  */
 
-describe('🩺 Monitoring synthétique — cartes.gouv.fr', () => {
+describe('🩺 Monitoring synthétique — cartes.gouv.fr', { tags: '@monitoring' }, () => {
   // ─── Disponibilité & Performance des pages ──────────────────────
 
   describe('Disponibilité des pages critiques', () => {

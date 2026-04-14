@@ -60,7 +60,7 @@ function normalizePath(url) {
 
 // ─── Tests ────────────────────────────────────────────────────────
 
-describe('🕷️ Crawl automatique du site — cartes.gouv.fr', () => {
+describe('🕷️ Crawl automatique du site — cartes.gouv.fr', { tags: '@crawl' }, () => {
 
   // ════════════════════════════════════════════════════════════════
   // 1. SITEMAP.XML — Pages référencées pour le SEO

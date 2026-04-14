@@ -2,7 +2,7 @@
  * Identifie et surligne les éléments interactifs trop petits (< 24×24px)
  * puis prend un screenshot pour visualisation.
  */
-describe('Cibles tactiles trop petites', () => {
+describe('Cibles tactiles trop petites', { tags: '@visual' }, () => {
   it('identifie et capture les éléments < 24×24px', () => {
     cy.visit('/', { timeout: 120000 })
     cy.get('body', { timeout: 15000 }).should('be.visible')

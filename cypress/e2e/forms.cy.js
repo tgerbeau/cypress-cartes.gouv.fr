@@ -3,7 +3,7 @@
  * Tests E2E — Formulaires réels de cartes.gouv.fr
  */
 
-describe('Formulaires', () => {
+describe('Formulaires', { tags: '@form' }, () => {
   describe('Formulaire « Nous écrire »', () => {
     beforeEach(() => {
       cy.visit('/aide/fr/nous-ecrire/')

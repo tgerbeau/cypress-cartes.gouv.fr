@@ -54,7 +54,7 @@ function printReport() {
   cy.task('log', '='.repeat(70) + '\n')
 }
 
-describe('Audit Accessibilité NNG — cartes.gouv.fr', () => {
+describe('Audit Accessibilité NNG — cartes.gouv.fr', { tags: '@visual' }, () => {
   beforeEach(() => {
     cy.visit('/', { timeout: 120000 })
     cy.get('body', { timeout: 15000 }).should('be.visible')

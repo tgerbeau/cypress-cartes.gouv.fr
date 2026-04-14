@@ -6,7 +6,7 @@
  * Note : les fiches utilisent des web components GeoNetwork (shadow DOM).
  */
 
-describe('Fiche détail d\'un jeu de données', () => {
+describe('Fiche détail d\'un jeu de données', { tags: '@catalogue' }, () => {
   describe('BD ORTHO® — disponibilité et contenu', () => {
     it('la page répond en 200 et contient le titre BD ORTHO', () => {
       cy.request('https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO').then((response) => {

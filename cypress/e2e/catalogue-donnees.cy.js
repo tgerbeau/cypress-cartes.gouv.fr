@@ -8,7 +8,7 @@
  * visible et les liens vers les fiches de données.
  */
 
-describe('Catalogue de données', () => {
+describe('Catalogue de données', { tags: '@catalogue' }, () => {
   it('la page du catalogue répond en 200 et contient du contenu', { tags: '@smoke' }, () => {
     cy.request('https://cartes.gouv.fr/rechercher-une-donnee/').then((response) => {
       expect(response.status).to.eq(200)

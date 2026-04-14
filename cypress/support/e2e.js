@@ -18,11 +18,29 @@ import './commands'
 import 'cypress-axe'
 
 // Simple tag-based test filtering (replaces @cypress/grep)
+// Supports tags on both describe() and it() levels
 ;(function registerGrepTags() {
   const grepTags = Cypress.env('grepTags')
   if (!grepTags) return
 
   const _it = it
+  const _describe = describe
+  const suiteTagStack = []
+
+  describe = function grepDescribe(name, options, callback) {
+    if (typeof options === 'function') {
+      callback = options
+      options = {}
+    }
+    let tags = options && options.tags
+    if (typeof tags === 'string') tags = [tags]
+    suiteTagStack.push(tags || [])
+    _describe(name, options, callback)
+    suiteTagStack.pop()
+  }
+  describe.skip = _describe.skip
+  describe.only = _describe.only
+
   it = function grepIt(name, options, callback) {
     if (typeof options === 'function') {
       callback = options
@@ -31,7 +49,8 @@ import 'cypress-axe'
     if (!callback) return _it(name, options)
     let tags = options && options.tags
     if (typeof tags === 'string') tags = [tags]
-    if (tags && tags.includes(grepTags)) {
+    const allTags = suiteTagStack.flat().concat(tags || [])
+    if (allTags.includes(grepTags)) {
       return _it(name, options, callback)
     }
     return _it.skip(name, options, callback)

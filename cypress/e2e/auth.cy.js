@@ -4,7 +4,7 @@
  * cartes.gouv.fr → SSO Géoplateforme (sso.geopf.fr)
  */
 
-describe('Authentification — parcours critique', () => {
+describe('Authentification — parcours critique', { tags: '@auth' }, () => {
   // ─── Accès à la connexion depuis cartes.gouv.fr ────────────────
   it('affiche un bouton de connexion visible sur la page d\'accueil', () => {
     cy.visit('/')

@@ -4,7 +4,7 @@
  * cartes.gouv.fr
  */
 
-describe('Pages d\'erreur', () => {
+describe('Pages d\'erreur', { tags: '@nav' }, () => {
   it('une URL inexistante retourne un code 404', { tags: '@smoke' }, () => {
     cy.request({
       url: '/cette-page-nexiste-vraiment-pas-42',

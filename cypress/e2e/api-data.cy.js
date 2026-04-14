@@ -4,7 +4,7 @@
  * cartes.gouv.fr
  */
 
-describe('API et données', () => {
+describe('API et données', { tags: '@api' }, () => {
   it('l\'API Géoplateforme (data.geopf.fr) répond correctement', { tags: '@smoke' }, () => {
     cy.request({
       url: 'https://data.geopf.fr/wms-v/ows?service=WMS&version=1.3.0&request=GetCapabilities',

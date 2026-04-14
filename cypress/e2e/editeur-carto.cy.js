@@ -1,4 +1,4 @@
-describe('Editeur Carto Tests', () => {
+describe('Editeur Carto Tests', { tags: '@map' }, () => {
   beforeEach(() => {
     // Ignore uncaught exceptions from the application
     cy.on('uncaught:exception', () => false)

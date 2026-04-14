@@ -53,7 +53,7 @@ function collectInternalHrefs($links) {
   return hrefs
 }
 
-describe('Navigation du menu principal', () => {
+describe('Navigation du menu principal', { tags: '@nav' }, () => {
   beforeEach(() => {
     cy.visit('/', { timeout: 120000 })
     cy.document().its('readyState').should('eq', 'complete')

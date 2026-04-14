@@ -4,7 +4,7 @@
  * Audit WCAG 2.1 AA sur les pages non couvertes par accessibility.cy.js
  */
 
-describe('Accessibilité des pages secondaires (axe-core)', () => {
+describe('Accessibilité des pages secondaires (axe-core)', { tags: '@a11y' }, () => {
   // Violations connues à ignorer (déjà présentes sur la homepage)
   const knownViolations = ['color-contrast', 'document-title', 'html-has-lang']
 

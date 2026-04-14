@@ -4,7 +4,7 @@
  * cartes.gouv.fr
  */
 
-describe('Carte interactive', () => {
+describe('Carte interactive', { tags: '@map' }, () => {
   beforeEach(() => {
     // Poser les intercepts AVANT le visit pour capturer les tuiles du chargement initial
     cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('tiles')

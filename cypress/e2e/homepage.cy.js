@@ -1,4 +1,4 @@
-describe('Homepage Tests', () => {
+describe('Homepage Tests', { tags: '@nav' }, () => {
   beforeEach(() => {
     cy.visit('/', { timeout: 120000 })
     cy.document().its('readyState').should('eq', 'complete')
