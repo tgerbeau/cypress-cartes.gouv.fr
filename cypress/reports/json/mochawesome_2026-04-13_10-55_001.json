@@ -1,0 +1,106 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-04-13T08:55:19.918Z",
+    "end": "2026-04-13T08:55:30.300Z",
+    "duration": 10382,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "55c3a832-022a-497e-a00a-5869431fe752",
+      "title": "",
+      "fullFile": "cypress/e2e/show-small-targets.cy.js",
+      "file": "cypress/e2e/show-small-targets.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "09ea5816-d3e3-46e8-92d7-094b2b93999e",
+          "title": "Cibles tactiles trop petites",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "identifie et capture les éléments < 24×24px",
+              "fullTitle": "Cibles tactiles trop petites identifie et capture les éléments < 24×24px",
+              "timedOut": null,
+              "duration": 10310,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/', {\n  timeout: 120000\n});\ncy.get('body', {\n  timeout: 15000\n}).should('be.visible');\n// Attendre le rendu complet du SPA\ncy.wait(4000);\ncy.window().then(win => {\n  const doc = win.document;\n  const results = [];\n  doc.querySelectorAll('a, button, input, select, textarea, [role=\"button\"], [role=\"link\"], [tabindex]').forEach(el => {\n    const rect = el.getBoundingClientRect();\n    // Ignorer les éléments non visibles\n    if (rect.width === 0 || rect.height === 0) return;\n    const style = win.getComputedStyle(el);\n    if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return;\n    if (rect.width < 24 || rect.height < 24) {\n      results.push({\n        tag: el.tagName.toLowerCase(),\n        text: (el.textContent || '').trim().substring(0, 50),\n        ariaLabel: el.getAttribute('aria-label') || '',\n        title: el.getAttribute('title') || '',\n        href: el.getAttribute('href') || '',\n        width: Math.round(rect.width),\n        height: Math.round(rect.height),\n        top: Math.round(rect.top),\n        left: Math.round(rect.left)\n      });\n      // Surligner en rouge les éléments trop petits\n      el.style.outline = '3px solid #e1000f';\n      el.style.outlineOffset = '2px';\n      el.style.boxShadow = '0 0 8px rgba(225,0,15,0.5)';\n      // Ajouter un label avec la taille\n      const label = doc.createElement('div');\n      label.textContent = `${Math.round(rect.width)}×${Math.round(rect.height)}`;\n      label.style.cssText = `\n        position: fixed;\n        top: ${rect.top - 18}px;\n        left: ${rect.left}px;\n        background: #e1000f;\n        color: white;\n        font-size: 10px;\n        font-weight: bold;\n        padding: 1px 4px;\n        border-radius: 2px;\n        z-index: 999999;\n        pointer-events: none;\n        font-family: monospace;\n      `;\n      doc.body.appendChild(label);\n    }\n  });\n  // Logger les résultats\n  cy.task('log', `\\n${'='.repeat(60)}`);\n  cy.task('log', `  ${results.length} CIBLES TROP PETITES (< 24×24px)`);\n  cy.task('log', `${'='.repeat(60)}`);\n  results.forEach((r, i) => {\n    const name = r.ariaLabel || r.title || r.text || r.href || '(sans nom)';\n    cy.task('log', `  ${i + 1}. <${r.tag}> ${r.width}×${r.height}px — \"${name.substring(0, 60)}\"`);\n  });\n  cy.task('log', '='.repeat(60) + '\\n');\n});\n// Prendre un screenshot de la page avec les éléments surlignés\ncy.screenshot('cibles-trop-petites-overview', {\n  capture: 'fullPage'\n});\n// Scroll jusqu'au footer pour capturer les éléments en bas\ncy.get('footer, [role=\"contentinfo\"]').scrollIntoView({\n  duration: 0\n});\ncy.wait(500);\ncy.screenshot('cibles-trop-petites-footer', {\n  capture: 'viewport'\n});\n// Revenir en haut\ncy.scrollTo('top');\ncy.wait(500);\ncy.screenshot('cibles-trop-petites-header', {\n  capture: 'viewport'\n});",
+              "err": {},
+              "uuid": "e5b830d4-b465-4c38-a6c9-bf2b3bee69ef",
+              "parentUUID": "09ea5816-d3e3-46e8-92d7-094b2b93999e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "e5b830d4-b465-4c38-a6c9-bf2b3bee69ef"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 10310,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

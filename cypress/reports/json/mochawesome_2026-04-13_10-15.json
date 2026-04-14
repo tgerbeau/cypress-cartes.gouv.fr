@@ -1,0 +1,163 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-04-13T08:14:27.934Z",
+    "end": "2026-04-13T08:15:07.366Z",
+    "duration": 39432,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "1848952c-3a68-48e0-b858-f46427d75630",
+      "title": "",
+      "fullFile": "cypress/e2e/api-data.cy.js",
+      "file": "cypress/e2e/api-data.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "db0f70fd-a6c7-4dbd-9754-192cdaae2c5c",
+          "title": "API et données",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "l'API Géoplateforme (data.geopf.fr) répond correctement",
+              "fullTitle": "API et données l'API Géoplateforme (data.geopf.fr) répond correctement",
+              "timedOut": null,
+              "duration": 558,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  url: 'https://data.geopf.fr/wms-v/ows?service=WMS&version=1.3.0&request=GetCapabilities',\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.headers['content-type']).to.include('xml');\n  // Le XML contient bien les capabilities WMS\n  expect(response.body).to.include('WMS_Capabilities');\n  // Temps de réponse acceptable (< 10s)\n  expect(response.duration).to.be.lessThan(10000);\n});",
+              "err": {},
+              "uuid": "814b4bc4-5162-42ef-9ab7-69bd0244a21d",
+              "parentUUID": "db0f70fd-a6c7-4dbd-9754-192cdaae2c5c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la fiche d'un jeu de données connu est accessible",
+              "fullTitle": "API et données la fiche d'un jeu de données connu est accessible",
+              "timedOut": null,
+              "duration": 3091,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/rechercher-une-donnee/dataset/IGNF_BD-ORTHO', {\n  failOnStatusCode: false\n});\ncy.get('body').should('be.visible');\ncy.url().should('include', 'BD-ORTHO');",
+              "err": {},
+              "uuid": "c2780f2c-7d2a-47ba-8afb-c560ca7b2168",
+              "parentUUID": "db0f70fd-a6c7-4dbd-9754-192cdaae2c5c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la page découvrir affiche les jeux de données de référence",
+              "fullTitle": "API et données la page découvrir affiche les jeux de données de référence",
+              "timedOut": null,
+              "duration": 3110,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/decouvrir');\ncy.contains('BD ORTHO').should('exist');\ncy.contains('SCAN 25').should('exist');\ncy.get('a[href*=\"rechercher-une-donnee/dataset\"]').should('have.length.greaterThan', 0);",
+              "err": {},
+              "uuid": "5e66edd0-b6e2-4ef0-9183-7e82a4431caa",
+              "parentUUID": "db0f70fd-a6c7-4dbd-9754-192cdaae2c5c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "l'API de géocodage répond en JSON avec des résultats pertinents",
+              "fullTitle": "API et données l'API de géocodage répond en JSON avec des résultats pertinents",
+              "timedOut": null,
+              "duration": 1544,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  url: 'https://data.geopf.fr/geocodage/search?q=Paris&limit=1',\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.headers['content-type']).to.include('application/json');\n  expect(response.body.features).to.have.length.greaterThan(0);\n  // Le résultat contient un label lisible mentionnant Paris\n  const firstResult = response.body.features[0];\n  expect(firstResult.properties).to.have.property('label');\n  expect(firstResult.properties.label).to.match(/paris/i);\n  // Le résultat contient des coordonnées valides\n  expect(firstResult.geometry).to.have.property('coordinates');\n  expect(firstResult.geometry.coordinates).to.have.length(2);\n  // Temps de réponse acceptable (< 5s)\n  expect(response.duration).to.be.lessThan(5000);\n});",
+              "err": {},
+              "uuid": "d17ab783-317e-4215-b1ff-71b3eb53eff7",
+              "parentUUID": "db0f70fd-a6c7-4dbd-9754-192cdaae2c5c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "814b4bc4-5162-42ef-9ab7-69bd0244a21d",
+            "c2780f2c-7d2a-47ba-8afb-c560ca7b2168",
+            "5e66edd0-b6e2-4ef0-9183-7e82a4431caa",
+            "d17ab783-317e-4215-b1ff-71b3eb53eff7"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 8303,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

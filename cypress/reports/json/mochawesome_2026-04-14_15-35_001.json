@@ -1,0 +1,259 @@
+{
+  "stats": {
+    "suites": 3,
+    "tests": 2,
+    "passes": 0,
+    "pending": 7,
+    "failures": -5,
+    "start": "2026-04-14T13:35:07.672Z",
+    "end": "2026-04-14T13:35:07.711Z",
+    "duration": 39,
+    "testsRegistered": 7,
+    "passPercent": null,
+    "pendingPercent": 100,
+    "other": 5,
+    "hasOther": true,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "2ed2c78a-bb54-4a64-9516-1dd554119bab",
+      "title": "",
+      "fullFile": "cypress/e2e/forms.cy.js",
+      "file": "cypress/e2e/forms.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "18f87037-c985-4964-a59d-bc247f980ae2",
+          "title": "Formulaires",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "a77a4b22-a685-47b2-840c-ad0bde0591c4",
+              "title": "Formulaire « Nous écrire »",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "affiche les champs obligatoires du formulaire de contact",
+                  "fullTitle": "Formulaires Formulaire « Nous écrire » affiche les champs obligatoires du formulaire de contact",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "// Champ email\ncy.get('input#input-mail, input[name=\"email_contact\"]').should('exist').and('be.visible');\n// Zone de texte pour le message\ncy.get('textarea').should('exist').and('be.visible');\n// Bouton d'envoi\ncy.get('button').contains(/envoyer|soumettre|valider/i).should('exist').and('be.visible');",
+                  "err": {},
+                  "uuid": "57dd04e3-e9f2-4fc5-b36f-84b5ee13f81f",
+                  "parentUUID": "a77a4b22-a685-47b2-840c-ad0bde0591c4",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "les champs de formulaire ont des labels accessibles",
+                  "fullTitle": "Formulaires Formulaire « Nous écrire » les champs de formulaire ont des labels accessibles",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.get('input.fr-input:visible, textarea.fr-input:visible, select.fr-select:visible').each($el => {\n  const id = $el.attr('id') || '';\n  const hasForLabel = id ? Cypress.$(`label[for=\"${id}\"]`).length > 0 : false;\n  const hasAria = Boolean($el.attr('aria-label') || $el.attr('aria-labelledby') || $el.attr('title') || $el.attr('placeholder'));\n  expect(hasForLabel || hasAria, `Le champ \"${id || $el.attr('name') || $el.attr('type')}\" doit avoir un label accessible`).to.be.true;\n});",
+                  "err": {},
+                  "uuid": "93eba342-4cc1-44d0-a730-e6eda1ca5030",
+                  "parentUUID": "a77a4b22-a685-47b2-840c-ad0bde0591c4",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "la soumission à vide ne quitte pas la page",
+                  "fullTitle": "Formulaires Formulaire « Nous écrire » la soumission à vide ne quitte pas la page",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.get('button').contains(/envoyer|soumettre|valider/i).click();\ncy.url().should('include', 'nous-ecrire');",
+                  "err": {},
+                  "uuid": "c8015a69-fb6e-4cd8-b5db-c57775a8432b",
+                  "parentUUID": "a77a4b22-a685-47b2-840c-ad0bde0591c4",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "la validation empêche l'envoi si les champs sont vides",
+                  "fullTitle": "Formulaires Formulaire « Nous écrire » la validation empêche l'envoi si les champs sont vides",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "// Vérifier que les champs du formulaire existent\ncy.get('input#input-mail, input[name=\"email_contact\"]').should('exist');\ncy.get('textarea').should('exist');\n// Soumettre sans remplir\ncy.get('button').contains(/envoyer|soumettre|valider/i).click();\n// On reste sur la même page (pas de navigation vers une page de succès)\ncy.url().should('include', 'nous-ecrire');",
+                  "err": {},
+                  "uuid": "74ee256c-4e74-4de9-ae06-d8ebc837c927",
+                  "parentUUID": "a77a4b22-a685-47b2-840c-ad0bde0591c4",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "le champ email accepte du texte",
+                  "fullTitle": "Formulaires Formulaire « Nous écrire » le champ email accepte du texte",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.get('input#input-mail, input[name=\"email_contact\"]').first().clear().type('test@example.com').should('have.value', 'test@example.com');",
+                  "err": {},
+                  "uuid": "5e694d67-a8b2-4e74-8909-2f4b266cae2b",
+                  "parentUUID": "a77a4b22-a685-47b2-840c-ad0bde0591c4",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [],
+              "pending": [
+                "57dd04e3-e9f2-4fc5-b36f-84b5ee13f81f",
+                "93eba342-4cc1-44d0-a730-e6eda1ca5030",
+                "c8015a69-fb6e-4cd8-b5db-c57775a8432b",
+                "74ee256c-4e74-4de9-ae06-d8ebc837c927",
+                "5e694d67-a8b2-4e74-8909-2f4b266cae2b"
+              ],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "9545b5e5-532f-4fd7-b248-215264680640",
+              "title": "Bannière de consentement cookies",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "la bannière cookies s'affiche lors de la première visite",
+                  "fullTitle": "Formulaires Bannière de consentement cookies la bannière cookies s'affiche lors de la première visite",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.clearCookies();\ncy.clearLocalStorage();\n// Charger la page sans le cy.visit override pour voir la bannière\ncy.window().then(win => win.localStorage.clear());\ncy.visit('/', {\n  onBeforeLoad(win) {\n    win.localStorage.clear();\n  }\n});\n// La bannière DSFR de consentement doit apparaître\ncy.get('.fr-consent-banner', {\n  timeout: 10000\n}).should('be.visible');\n// Elle doit contenir au moins un bouton d'action\ncy.get('.fr-consent-banner button').should('have.length.at.least', 1);",
+                  "err": {},
+                  "uuid": "ee934123-83dd-4546-9ca8-e2fa13ba8f32",
+                  "parentUUID": "9545b5e5-532f-4fd7-b248-215264680640",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "cliquer « Tout accepter » ferme la bannière",
+                  "fullTitle": "Formulaires Bannière de consentement cookies cliquer « Tout accepter » ferme la bannière",
+                  "timedOut": null,
+                  "duration": 0,
+                  "state": "pending",
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": true,
+                  "context": null,
+                  "code": "cy.clearCookies();\ncy.clearLocalStorage();\ncy.visit('/', {\n  onBeforeLoad(win) {\n    win.localStorage.clear();\n  }\n});\ncy.get('.fr-consent-banner', {\n  timeout: 10000\n}).should('be.visible');\ncy.get('.fr-consent-banner').contains('button', 'Tout accepter').click();\ncy.get('.fr-consent-banner').should('not.exist');",
+                  "err": {},
+                  "uuid": "4fa1e066-8b4d-4a25-ab41-c091ac71078c",
+                  "parentUUID": "9545b5e5-532f-4fd7-b248-215264680640",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [],
+              "pending": [
+                "ee934123-83dd-4546-9ca8-e2fa13ba8f32",
+                "4fa1e066-8b4d-4a25-ab41-c091ac71078c"
+              ],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

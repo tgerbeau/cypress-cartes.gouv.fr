@@ -12,7 +12,7 @@ describe('Carte interactive', () => {
     cy.get('.ol-viewport', { timeout: 15000 }).should('be.visible')
   })
 
-  it('affiche une carte avec des tuiles rendues dans un canvas', () => {
+  it('affiche une carte avec des tuiles rendues dans un canvas', { tags: '@smoke' }, () => {
     cy.get('.ol-viewport canvas').should('exist')
     cy.get('.ol-viewport canvas').first().should(($canvas) => {
       expect($canvas[0].width).to.be.greaterThan(0)

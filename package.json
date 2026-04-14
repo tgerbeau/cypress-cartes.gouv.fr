@@ -17,6 +17,7 @@
     "report:generate": "marge cypress/reports/report.json --reportDir cypress/reports/html --inline",
     "report": "npm run report:merge && npm run report:generate",
     "test:report": "npm run clean:reports && npm test && npm run report",
+    "test:smoke": "cypress run --env grepTags=@smoke",
     "monitor": "cypress run --spec cypress/e2e/monitoring.cy.js",
     "crawl": "cypress run --spec cypress/e2e/site-crawler.cy.js"
   },
@@ -28,6 +29,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@cypress/grep": "^6.0.0",
     "axe-core": "^4.11.1",
     "cypress": "^15.11.0",
     "cypress-axe": "^1.7.0",

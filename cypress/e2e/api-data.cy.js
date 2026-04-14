@@ -5,7 +5,7 @@
  */
 
 describe('API et données', () => {
-  it('l\'API Géoplateforme (data.geopf.fr) répond correctement', () => {
+  it('l\'API Géoplateforme (data.geopf.fr) répond correctement', { tags: '@smoke' }, () => {
     cy.request({
       url: 'https://data.geopf.fr/wms-v/ows?service=WMS&version=1.3.0&request=GetCapabilities',
       failOnStatusCode: false

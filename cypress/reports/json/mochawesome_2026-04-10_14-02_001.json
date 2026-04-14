@@ -1,0 +1,206 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 5,
+    "pending": 0,
+    "failures": 1,
+    "start": "2026-04-10T12:02:14.420Z",
+    "end": "2026-04-10T12:02:28.662Z",
+    "duration": 14242,
+    "testsRegistered": 6,
+    "passPercent": 83.33333333333334,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "2549ad2a-7291-4647-ac73-afa2a1971178",
+      "title": "",
+      "fullFile": "cypress/e2e/error-pages.cy.js",
+      "file": "cypress/e2e/error-pages.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "febe7a8a-632d-406f-9942-764c1899afed",
+          "title": "Pages d'erreur",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "une URL inexistante retourne un code 404",
+              "fullTitle": "Pages d'erreur une URL inexistante retourne un code 404",
+              "timedOut": null,
+              "duration": 90,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  url: '/cette-page-nexiste-vraiment-pas-42',\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.eq(404);\n});",
+              "err": {},
+              "uuid": "82b22bc8-cf31-4114-9eb8-43ff3ac52d45",
+              "parentUUID": "febe7a8a-632d-406f-9942-764c1899afed",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la page 404 affiche un contenu lisible et pas une page vide",
+              "fullTitle": "Pages d'erreur la page 404 affiche un contenu lisible et pas une page vide",
+              "timedOut": null,
+              "duration": 3038,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/cette-page-nexiste-vraiment-pas-42', {\n  failOnStatusCode: false\n});\n// La page ne doit pas être vide\ncy.get('body').should('not.be.empty');\ncy.get('body').invoke('text').should('have.length.greaterThan', 50);",
+              "err": {},
+              "uuid": "1d92af4a-273d-4386-a0ac-d40396b4ff51",
+              "parentUUID": "febe7a8a-632d-406f-9942-764c1899afed",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la page 404 contient un moyen de revenir à l'accueil",
+              "fullTitle": "Pages d'erreur la page 404 contient un moyen de revenir à l'accueil",
+              "timedOut": null,
+              "duration": 3061,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/cette-page-nexiste-vraiment-pas-42', {\n  failOnStatusCode: false\n});\n// Un lien vers l'accueil ou un bouton de retour doit exister\ncy.get('a[href=\"/\"], a[href*=\"cartes.gouv.fr\"]', {\n  timeout: 10000\n}).should('have.length.at.least', 1);",
+              "err": {},
+              "uuid": "5e7d7cc2-ba74-4af4-8a25-b0c3af55869e",
+              "parentUUID": "febe7a8a-632d-406f-9942-764c1899afed",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "le header et le footer restent présents sur la page 404",
+              "fullTitle": "Pages d'erreur le header et le footer restent présents sur la page 404",
+              "timedOut": null,
+              "duration": 3047,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/cette-page-nexiste-vraiment-pas-42', {\n  failOnStatusCode: false\n});\n// Le header DSFR doit être visible\ncy.get('header, .fr-header', {\n  timeout: 10000\n}).should('exist');\n// Le footer DSFR doit être visible\ncy.get('footer, .fr-footer', {\n  timeout: 10000\n}).should('exist');",
+              "err": {},
+              "uuid": "f9f2ffa5-e201-43dd-9873-d67ec7e4d26a",
+              "parentUUID": "febe7a8a-632d-406f-9942-764c1899afed",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "une route invalide sous /rechercher-une-donnee retourne une erreur gérée",
+              "fullTitle": "Pages d'erreur une route invalide sous /rechercher-une-donnee retourne une erreur gérée",
+              "timedOut": null,
+              "duration": 3040,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/rechercher-une-donnee/dataset/DATASET_QUI_NEXISTE_PAS_999', {\n  failOnStatusCode: false\n});\n// La page ne doit pas crasher (pas d'écran blanc)\ncy.get('body').should('not.be.empty');",
+              "err": {},
+              "uuid": "a1fa0aac-7666-43a8-9a2a-6c8cd8d40e90",
+              "parentUUID": "febe7a8a-632d-406f-9942-764c1899afed",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "les pages principales répondent en 200",
+              "fullTitle": "Pages d'erreur les pages principales répondent en 200",
+              "timedOut": null,
+              "duration": 593,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const pages = ['/', '/rechercher-une-donnee', '/decouvrir', '/mentions-legales', '/accessibilite'];\npages.forEach(page => {\n  cy.request({\n    url: page,\n    timeout: 15000\n  }).then(response => {\n    expect(response.status, `${page} doit répondre 200`).to.eq(200);\n  });\n});",
+              "err": {
+                "message": "CypressError: `cy.request()` failed trying to load:\n\nhttps://cartes.gouv.fr/rechercher-une-donnee\n\nWe attempted to make an http request to this URL but the request failed without a response.\n\nWe received this error at the network level:\n\n  > Error: Exceeded maxRedirects. Probably stuck in a redirect loop https://cartes.gouv.fr/rechercher-une-donnee\n\n-----------------------------------------------------------\n\nThe request we sent was:\n\nMethod: GET\nURL: https://cartes.gouv.fr/rechercher-une-donnee\n\n-----------------------------------------------------------\n\nCommon situations why this would fail:\n  - you don't have internet access\n  - you forgot to run / boot your web server\n  - your web server isn't accessible\n  - you have weird network configuration settings on your computer\n\nhttps://on.cypress.io/request",
+                "estack": "CypressError: `cy.request()` failed trying to load:\n\nhttps://cartes.gouv.fr/rechercher-une-donnee\n\nWe attempted to make an http request to this URL but the request failed without a response.\n\nWe received this error at the network level:\n\n  > Error: Exceeded maxRedirects. Probably stuck in a redirect loop https://cartes.gouv.fr/rechercher-une-donnee\n\n-----------------------------------------------------------\n\nThe request we sent was:\n\nMethod: GET\nURL: https://cartes.gouv.fr/rechercher-une-donnee\n\n-----------------------------------------------------------\n\nCommon situations why this would fail:\n  - you don't have internet access\n  - you forgot to run / boot your web server\n  - your web server isn't accessible\n  - you have weird network configuration settings on your computer\n\nhttps://on.cypress.io/request\n    at <unknown> (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:136458:70)\n    at tryCatcher (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1777:23)\n    at <unknown> (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:4173:37)\n    at tryCatcher (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise._settlePromiseFromHandler (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1489:31)\n    at Promise._settlePromise (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1546:18)\n    at Promise._settlePromise0 (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1591:10)\n    at Promise._settlePromises (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1667:18)\n    at _drainQueueStep (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:2377:12)\n    at _drainQueue (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:2370:9)\n    at Async._drainQueues (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:2386:5)\n    at Async.drainQueues (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:2256:14)\nFrom Your Spec Code:\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/e2e/error-pages.cy.js:64:8)\n    at getRet (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:122806:20)\n    at tryCatcher (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise.attempt.Promise.try (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:4285:29)\n    at Context.thenFn (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:122817:66)\n    at Context.then (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:123068:21)\n    at wrapped (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:146326:19)\n\nFrom Node.js Internals:\n  RequestError: Error: Exceeded maxRedirects. Probably stuck in a redirect loop https://cartes.gouv.fr/rechercher-une-donnee\n      at new r (<embedded>:251:160574)\n      at ee.callback (<embedded>:251:166575)\n      at e.callback.s.callback [as _callback] (<embedded>:251:166021)\n      at s._callback.s.callback.s.callback (<embedded>:314:108922)\n      at ee.emit (node:events:519:28)\n      at <unknown> (<embedded>:314:119461)\n      at r (<embedded>:314:96521)\n      at tryCatcher (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/util.js:16:23)\n      at Promise._settlePromiseFromHandler (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/promise.js:512:31)\n      at Promise._settlePromise (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/promise.js:569:18)\n      at Promise._settlePromise0 (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/promise.js:614:10)\n      at Promise._settlePromises (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/promise.js:694:18)\n      at _drainQueueStep (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/async.js:138:12)\n      at _drainQueue (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/async.js:131:9)\n      at Async._drainQueues (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/async.js:147:5)\n      at Immediate.<anonymous> (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/async.js:17:14)\n      at process.processImmediate (node:internal/timers:485:21)",
+                "diff": null
+              },
+              "uuid": "0162fe62-df46-45f2-9110-b1db60ea64c3",
+              "parentUUID": "febe7a8a-632d-406f-9942-764c1899afed",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "82b22bc8-cf31-4114-9eb8-43ff3ac52d45",
+            "1d92af4a-273d-4386-a0ac-d40396b4ff51",
+            "5e7d7cc2-ba74-4af4-8a25-b0c3af55869e",
+            "f9f2ffa5-e201-43dd-9873-d67ec7e4d26a",
+            "a1fa0aac-7666-43a8-9a2a-6c8cd8d40e90"
+          ],
+          "failures": [
+            "0162fe62-df46-45f2-9110-b1db60ea64c3"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 12869,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

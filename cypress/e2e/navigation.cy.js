@@ -65,7 +65,7 @@ describe('Navigation du menu principal', () => {
       .should('have.length.at.least', 1)
   })
 
-  it('le menu de navigation principal est visible et identifié', () => {
+  it('le menu de navigation principal est visible et identifié', { tags: '@smoke' }, () => {
     cy.get(NAV_SELECTOR)
       .first()
       .should('exist')

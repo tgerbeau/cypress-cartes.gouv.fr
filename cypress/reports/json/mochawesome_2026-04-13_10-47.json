@@ -1,0 +1,149 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2026-04-13T08:33:19.968Z",
+    "end": "2026-04-13T08:47:49.210Z",
+    "duration": 869242,
+    "testsRegistered": 3,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 2,
+    "hasSkipped": true
+  },
+  "results": [
+    {
+      "uuid": "2bb2ed5d-6b9e-47b1-8e23-c6e89b603934",
+      "title": "",
+      "fullFile": "cypress/e2e/editeur-carto.cy.js",
+      "file": "cypress/e2e/editeur-carto.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fae978e6-32fa-4236-8f5c-8fa8ac281a3c",
+          "title": "Editeur Carto Tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should open the editor and click \"Créer une carte\" button",
+              "fullTitle": "Editeur Carto Tests should open the editor and click \"Créer une carte\" button",
+              "timedOut": null,
+              "duration": 73685,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Test passes if beforeEach handled the popup\ncy.get('body').should('be.visible');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 5000ms: Expected to find content: 'Créer une carte' within the selector: 'button' but never did.\n\nBecause this error occurred during a `before each` hook we are skipping the remaining tests in the current suite: `Editeur Carto Tests`",
+                "estack": "AssertionError: Timed out retrying after 5000ms: Expected to find content: 'Créer une carte' within the selector: 'button' but never did.\n\nBecause this error occurred during a `before each` hook we are skipping the remaining tests in the current suite: `Editeur Carto Tests`\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/e2e/editeur-carto.cy.js:15:11)\n    at getRet (https://ignf.github.io/__cypress/runner/cypress_runner.js:122806:20)\n    at tryCatcher (https://ignf.github.io/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise.attempt.Promise.try (https://ignf.github.io/__cypress/runner/cypress_runner.js:4285:29)\n    at Context.thenFn (https://ignf.github.io/__cypress/runner/cypress_runner.js:122817:66)\n    at Context.then (https://ignf.github.io/__cypress/runner/cypress_runner.js:123068:21)\n    at wrapped (https://ignf.github.io/__cypress/runner/cypress_runner.js:146326:19)",
+                "diff": null
+              },
+              "uuid": "71d2e46c-6d76-4332-8a98-9863072e4f6c",
+              "parentUUID": "fae978e6-32fa-4236-8f5c-8fa8ac281a3c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should type \"Paris\" in the search input box",
+              "fullTitle": "Editeur Carto Tests should type \"Paris\" in the search input box",
+              "timedOut": null,
+              "duration": 0,
+              "state": "skipped",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Find and type in the search input - try multiple selectors\ncy.get('input').then($inputs => {\n  // Find the visible input that could be a search box\n  const $searchInput = $inputs.filter(':visible').first();\n  cy.wrap($searchInput).type('Paris', {\n    force: true,\n    delay: 100\n  });\n  // Wait for the value to be set\n  cy.wait(500);\n});",
+              "err": {},
+              "uuid": "b63918df-9976-4640-aae1-1e49014b23ee",
+              "parentUUID": "fae978e6-32fa-4236-8f5c-8fa8ac281a3c",
+              "isHook": false,
+              "skipped": true
+            },
+            {
+              "title": "should type \"toulouse\" and select \"Toulouse, 31000\" from results",
+              "fullTitle": "Editeur Carto Tests should type \"toulouse\" and select \"Toulouse, 31000\" from results",
+              "timedOut": null,
+              "duration": 0,
+              "state": "skipped",
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Find and type in the search input\ncy.get('input').then($inputs => {\n  const $searchInput = $inputs.filter(':visible').first();\n  cy.wrap($searchInput).clear({\n    force: true\n  }).type('toulouse', {\n    force: true,\n    delay: 100\n  });\n});\n// Wait for search results to appear\ncy.wait(2000);\n// Select \"Toulouse, 31000\" from the results - try different variations\ncy.get('body').then($body => {\n  const bodyText = $body.text();\n  if (bodyText.includes('Toulouse') && bodyText.includes('31000')) {\n    // Click on the result containing both Toulouse and 31000\n    cy.contains(/Toulouse.*31000|31000.*Toulouse/i, {\n      timeout: 5000\n    }).click({\n      force: true\n    });\n  } else if (bodyText.includes('Toulouse')) {\n    // Fallback: click on any Toulouse result\n    cy.contains('Toulouse', {\n      timeout: 5000\n    }).first().click({\n      force: true\n    });\n  }\n});\n// Wait for the selection to complete\ncy.wait(500);",
+              "err": {},
+              "uuid": "c29e9942-728c-41ea-97bb-2831478c2d98",
+              "parentUUID": "fae978e6-32fa-4236-8f5c-8fa8ac281a3c",
+              "isHook": false,
+              "skipped": true
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "71d2e46c-6d76-4332-8a98-9863072e4f6c"
+          ],
+          "pending": [],
+          "skipped": [
+            "b63918df-9976-4640-aae1-1e49014b23ee",
+            "c29e9942-728c-41ea-97bb-2831478c2d98"
+          ],
+          "duration": 73685,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

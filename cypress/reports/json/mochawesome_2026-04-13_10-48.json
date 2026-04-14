@@ -1,0 +1,201 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-04-13T08:47:52.352Z",
+    "end": "2026-04-13T08:48:05.688Z",
+    "duration": 13336,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "f118e05a-069e-447a-9e57-11d953214d2c",
+      "title": "",
+      "fullFile": "cypress/e2e/error-pages.cy.js",
+      "file": "cypress/e2e/error-pages.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "288988a2-e59f-4e83-ba4e-3603060d0db0",
+          "title": "Pages d'erreur",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "une URL inexistante retourne un code 404",
+              "fullTitle": "Pages d'erreur une URL inexistante retourne un code 404",
+              "timedOut": null,
+              "duration": 222,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  url: '/cette-page-nexiste-vraiment-pas-42',\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.eq(404);\n});",
+              "err": {},
+              "uuid": "3880f72d-c80d-4f36-b23c-d907276cca39",
+              "parentUUID": "288988a2-e59f-4e83-ba4e-3603060d0db0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la page 404 affiche un contenu lisible et pas une page vide",
+              "fullTitle": "Pages d'erreur la page 404 affiche un contenu lisible et pas une page vide",
+              "timedOut": null,
+              "duration": 3063,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/cette-page-nexiste-vraiment-pas-42', {\n  failOnStatusCode: false\n});\n// La page ne doit pas être vide\ncy.get('body').should('not.be.empty');\ncy.get('body').invoke('text').should('have.length.greaterThan', 50);",
+              "err": {},
+              "uuid": "4d3dd685-32f0-402b-8143-2a9301e613d3",
+              "parentUUID": "288988a2-e59f-4e83-ba4e-3603060d0db0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la page 404 contient un moyen de revenir à l'accueil",
+              "fullTitle": "Pages d'erreur la page 404 contient un moyen de revenir à l'accueil",
+              "timedOut": null,
+              "duration": 3080,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/cette-page-nexiste-vraiment-pas-42', {\n  failOnStatusCode: false\n});\n// Un lien vers l'accueil ou un bouton de retour doit exister\ncy.get('a[href=\"/\"], a[href*=\"cartes.gouv.fr\"]', {\n  timeout: 10000\n}).should('have.length.at.least', 1);",
+              "err": {},
+              "uuid": "6f242a48-bcf1-4059-982d-bc307ae217bc",
+              "parentUUID": "288988a2-e59f-4e83-ba4e-3603060d0db0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "le header et le footer restent présents sur la page 404",
+              "fullTitle": "Pages d'erreur le header et le footer restent présents sur la page 404",
+              "timedOut": null,
+              "duration": 3075,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/cette-page-nexiste-vraiment-pas-42', {\n  failOnStatusCode: false\n});\n// Le header DSFR doit être visible\ncy.get('header, .fr-header', {\n  timeout: 10000\n}).should('exist');\n// Le footer DSFR doit être visible\ncy.get('footer, .fr-footer', {\n  timeout: 10000\n}).should('exist');",
+              "err": {},
+              "uuid": "ba9ebe65-4123-439f-a9f3-477a7095897e",
+              "parentUUID": "288988a2-e59f-4e83-ba4e-3603060d0db0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "une route invalide sous /rechercher-une-donnee retourne une erreur gérée",
+              "fullTitle": "Pages d'erreur une route invalide sous /rechercher-une-donnee retourne une erreur gérée",
+              "timedOut": null,
+              "duration": 3103,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/rechercher-une-donnee/dataset/DATASET_QUI_NEXISTE_PAS_999', {\n  failOnStatusCode: false\n});\n// La page ne doit pas crasher (pas d'écran blanc)\ncy.get('body').should('not.be.empty');",
+              "err": {},
+              "uuid": "de254624-6524-4dfc-b395-496a3f77ae92",
+              "parentUUID": "288988a2-e59f-4e83-ba4e-3603060d0db0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "les pages principales répondent en 200",
+              "fullTitle": "Pages d'erreur les pages principales répondent en 200",
+              "timedOut": null,
+              "duration": 493,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const pages = ['https://cartes.gouv.fr/', 'https://cartes.gouv.fr/rechercher-une-donnee/', 'https://cartes.gouv.fr/decouvrir/', 'https://cartes.gouv.fr/mentions-legales', 'https://cartes.gouv.fr/accessibilite'];\npages.forEach(page => {\n  cy.request({\n    url: page,\n    timeout: 15000\n  }).then(response => {\n    expect(response.status, `${page} doit répondre 200`).to.eq(200);\n  });\n});",
+              "err": {},
+              "uuid": "35d8449b-e72c-4528-9c27-cfa69d4c03c2",
+              "parentUUID": "288988a2-e59f-4e83-ba4e-3603060d0db0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "3880f72d-c80d-4f36-b23c-d907276cca39",
+            "4d3dd685-32f0-402b-8143-2a9301e613d3",
+            "6f242a48-bcf1-4059-982d-bc307ae217bc",
+            "ba9ebe65-4123-439f-a9f3-477a7095897e",
+            "de254624-6524-4dfc-b395-496a3f77ae92",
+            "35d8449b-e72c-4528-9c27-cfa69d4c03c2"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 13036,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

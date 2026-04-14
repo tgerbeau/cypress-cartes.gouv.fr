@@ -1,0 +1,201 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-04-14T09:03:07.932Z",
+    "end": "2026-04-14T09:03:14.574Z",
+    "duration": 6642,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "3e8419f8-b87a-4cbd-ab75-34ef5750c9ec",
+      "title": "",
+      "fullFile": "cypress/e2e/catalogue-donnees.cy.js",
+      "file": "cypress/e2e/catalogue-donnees.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "95f705f3-b699-4fe5-9d2f-1bfc8107cdff",
+          "title": "Catalogue de données",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "la page du catalogue répond en 200 et contient du contenu",
+              "fullTitle": "Catalogue de données la page du catalogue répond en 200 et contient du contenu",
+              "timedOut": null,
+              "duration": 136,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request('https://cartes.gouv.fr/rechercher-une-donnee/').then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body).to.include('rechercher-une-donnee');\n});",
+              "err": {},
+              "uuid": "3ec3b414-3968-4482-9dd5-e2c8a1a4ea57",
+              "parentUUID": "95f705f3-b699-4fe5-9d2f-1bfc8107cdff",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "la page du catalogue se charge dans le navigateur",
+              "fullTitle": "Catalogue de données la page du catalogue se charge dans le navigateur",
+              "timedOut": null,
+              "duration": 3029,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.on('uncaught:exception', () => false);\ncy.visit('https://cartes.gouv.fr/rechercher-une-donnee/', {\n  timeout: 30000\n});\ncy.get('body', {\n  timeout: 15000\n}).should('not.be.empty');\n// Le header DSFR est présent\ncy.get('header, .fr-header').should('exist');\n// Le footer DSFR est présent\ncy.get('footer, .fr-footer').should('exist');",
+              "err": {},
+              "uuid": "9394d856-58bf-4f75-94a9-c3e7a386ed36",
+              "parentUUID": "95f705f3-b699-4fe5-9d2f-1bfc8107cdff",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "le HTML de la page catalogue référence des datasets",
+              "fullTitle": "Catalogue de données le HTML de la page catalogue référence des datasets",
+              "timedOut": null,
+              "duration": 3115,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.on('uncaught:exception', () => false);\ncy.visit('https://cartes.gouv.fr/rechercher-une-donnee/', {\n  timeout: 30000\n});\ncy.get('body', {\n  timeout: 15000\n}).should('contain.text', 'donn');",
+              "err": {},
+              "uuid": "a6e1e214-b857-4fdf-b85c-97087efbf726",
+              "parentUUID": "95f705f3-b699-4fe5-9d2f-1bfc8107cdff",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "l'API catalogue GeoNetwork est joignable",
+              "fullTitle": "Catalogue de données l'API catalogue GeoNetwork est joignable",
+              "timedOut": null,
+              "duration": 49,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  url: 'https://data.geopf.fr/catalog/api/search',\n  timeout: 15000,\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.be.lessThan(500);\n});",
+              "err": {},
+              "uuid": "741c5191-1934-4409-b600-b27ead0dd873",
+              "parentUUID": "95f705f3-b699-4fe5-9d2f-1bfc8107cdff",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "une fiche de données connue est accessible — BD ORTHO",
+              "fullTitle": "Catalogue de données une fiche de données connue est accessible — BD ORTHO",
+              "timedOut": null,
+              "duration": 127,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  url: 'https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO/',\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.be.oneOf([200, 301, 302]);\n});",
+              "err": {},
+              "uuid": "3333799b-b8f3-4e19-bb1a-467811c6bca2",
+              "parentUUID": "95f705f3-b699-4fe5-9d2f-1bfc8107cdff",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "une fiche de données connue est accessible — BD TOPO",
+              "fullTitle": "Catalogue de données une fiche de données connue est accessible — BD TOPO",
+              "timedOut": null,
+              "duration": 71,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.request({\n  url: 'https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-TOPO/',\n  failOnStatusCode: false\n}).then(response => {\n  expect(response.status).to.be.oneOf([200, 301, 302]);\n});",
+              "err": {},
+              "uuid": "76d01481-541e-4555-9a92-ba133f77d07b",
+              "parentUUID": "95f705f3-b699-4fe5-9d2f-1bfc8107cdff",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "3ec3b414-3968-4482-9dd5-e2c8a1a4ea57",
+            "9394d856-58bf-4f75-94a9-c3e7a386ed36",
+            "a6e1e214-b857-4fdf-b85c-97087efbf726",
+            "741c5191-1934-4409-b600-b27ead0dd873",
+            "3333799b-b8f3-4e19-bb1a-467811c6bca2",
+            "76d01481-541e-4555-9a92-ba133f77d07b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 6527,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

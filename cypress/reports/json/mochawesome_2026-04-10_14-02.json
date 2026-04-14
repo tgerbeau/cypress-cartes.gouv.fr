@@ -1,0 +1,356 @@
+{
+  "stats": {
+    "suites": 3,
+    "tests": 11,
+    "passes": 6,
+    "pending": 0,
+    "failures": 5,
+    "start": "2026-04-10T11:59:08.516Z",
+    "end": "2026-04-10T12:02:12.272Z",
+    "duration": 183756,
+    "testsRegistered": 11,
+    "passPercent": 54.54545454545454,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "ea82e1cc-cc6b-4813-a4c6-6d985fee5c2f",
+      "title": "",
+      "fullFile": "cypress/e2e/dataset-detail.cy.js",
+      "file": "cypress/e2e/dataset-detail.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ecbf49b0-8b64-4363-b9d5-651e3c558ef1",
+          "title": "Fiche détail d'un jeu de données",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+              "title": "BD ORTHO® (jeu de données de référence)",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "la page se charge et affiche le titre du jeu de données",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) la page se charge et affiche le titre du jeu de données",
+                  "timedOut": null,
+                  "duration": 4260,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('h1', 'BD ORTHO', {\n  timeout: 15000\n}).should('be.visible');",
+                  "err": {},
+                  "uuid": "49283839-1cfa-4dd3-b5be-dcf06f827a37",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "la description du jeu de données est présente",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) la description du jeu de données est présente",
+                  "timedOut": null,
+                  "duration": 4392,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('ortho images', {\n  timeout: 10000\n}).should('exist');",
+                  "err": {},
+                  "uuid": "e6201989-5031-44d4-b3ae-98ff4fdacc82",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "les informations du producteur sont affichées",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) les informations du producteur sont affichées",
+                  "timedOut": null,
+                  "duration": 3044,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('IGN', {\n  timeout: 10000\n}).should('exist');",
+                  "err": {},
+                  "uuid": "f6bc8163-e71c-4dff-8950-e62dc53a5445",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "les mots-clés sont affichés",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) les mots-clés sont affichés",
+                  "timedOut": null,
+                  "duration": 3478,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('photographies aériennes', {\n  timeout: 10000\n}).should('exist');",
+                  "err": {},
+                  "uuid": "d0ebe31e-39e5-4fb6-a974-aadba1b65a46",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "la section ressources et liens est présente",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) la section ressources et liens est présente",
+                  "timedOut": null,
+                  "duration": 13194,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('Resources and links', {\n  timeout: 10000\n}).should('exist');",
+                  "err": {
+                    "message": "AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Resources and links' but never did.",
+                    "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Resources and links' but never did.\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/e2e/dataset-detail.cy.js:30:61)",
+                    "diff": null
+                  },
+                  "uuid": "46d11c76-fa21-4ec6-866d-445b2dd93c55",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "les services API (WMTS) sont listés",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) les services API (WMTS) sont listés",
+                  "timedOut": null,
+                  "duration": 4028,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "// La fiche BD ORTHO contient des services WMTS\ncy.contains('WMTS', {\n  timeout: 10000\n}).should('exist');",
+                  "err": {},
+                  "uuid": "eaffecf9-3893-429d-9c4b-4d2287e61796",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "la section de prévisualisation carte est présente",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) la section de prévisualisation carte est présente",
+                  "timedOut": null,
+                  "duration": 13197,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('Preview', {\n  timeout: 10000\n}).should('exist');",
+                  "err": {
+                    "message": "AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Preview' but never did.",
+                    "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Preview' but never did.\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/e2e/dataset-detail.cy.js:39:49)",
+                    "diff": null
+                  },
+                  "uuid": "8dcb095f-5654-40df-b2f8-c2ca07bc350e",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "les liens de documentation PDF sont disponibles",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) les liens de documentation PDF sont disponibles",
+                  "timedOut": null,
+                  "duration": 13286,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('Links', {\n  timeout: 10000\n}).should('exist');\ncy.get('a[href*=\"data.geopf.fr\"][href*=\".pdf\"]', {\n  timeout: 10000\n}).should('have.length.at.least', 1);",
+                  "err": {
+                    "message": "AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Links' but never did.",
+                    "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Links' but never did.\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/e2e/dataset-detail.cy.js:43:47)",
+                    "diff": null
+                  },
+                  "uuid": "9c27a0b2-5ef4-4c04-a04b-2a091feedc58",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "les informations de contact sont affichées",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) les informations de contact sont affichées",
+                  "timedOut": null,
+                  "duration": 3084,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('Contact', {\n  timeout: 10000\n}).should('exist');\ncy.contains('contact.geoservices@ign.fr').should('exist');",
+                  "err": {},
+                  "uuid": "7bb0956d-c681-47cc-8140-4099ade45e00",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "l'indicateur de qualité des métadonnées est visible",
+                  "fullTitle": "Fiche détail d'un jeu de données BD ORTHO® (jeu de données de référence) l'indicateur de qualité des métadonnées est visible",
+                  "timedOut": null,
+                  "duration": 13217,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('Metadata Quality', {\n  timeout: 10000\n}).should('exist');",
+                  "err": {
+                    "message": "AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Metadata Quality' but never did.",
+                    "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Metadata Quality' but never did.\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/e2e/dataset-detail.cy.js:54:58)",
+                    "diff": null
+                  },
+                  "uuid": "6ce21328-8b0c-4a6a-82ef-0d2a81058cf2",
+                  "parentUUID": "4ab3af75-38c0-49fd-90ad-1dacda1613b1",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "49283839-1cfa-4dd3-b5be-dcf06f827a37",
+                "e6201989-5031-44d4-b3ae-98ff4fdacc82",
+                "f6bc8163-e71c-4dff-8950-e62dc53a5445",
+                "d0ebe31e-39e5-4fb6-a974-aadba1b65a46",
+                "eaffecf9-3893-429d-9c4b-4d2287e61796",
+                "7bb0956d-c681-47cc-8140-4099ade45e00"
+              ],
+              "failures": [
+                "46d11c76-fa21-4ec6-866d-445b2dd93c55",
+                "8dcb095f-5654-40df-b2f8-c2ca07bc350e",
+                "9c27a0b2-5ef4-4c04-a04b-2a091feedc58",
+                "6ce21328-8b0c-4a6a-82ef-0d2a81058cf2"
+              ],
+              "pending": [],
+              "skipped": [],
+              "duration": 75180,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "8ee78792-34cd-4ae5-9123-06af3f934be2",
+              "title": "Navigation depuis le catalogue",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "on peut naviguer du catalogue vers une fiche et revenir",
+                  "fullTitle": "Fiche détail d'un jeu de données Navigation depuis le catalogue on peut naviguer du catalogue vers une fiche et revenir",
+                  "timedOut": null,
+                  "duration": 432,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.visit('/rechercher-une-donnee');\ncy.get('a[href*=\"/rechercher-une-donnee/dataset/\"]', {\n  timeout: 15000\n}).first().click();\n// On est sur une page de détail\ncy.url().should('include', '/rechercher-une-donnee/dataset/');\n// Retour au catalogue\ncy.go('back');\ncy.url().should('include', '/rechercher-une-donnee');\ncy.url().should('not.include', '/dataset/');",
+                  "err": {
+                    "message": "CypressError: The following error originated from your application code, not from Cypress. It was caused by an unhandled promise rejection.\n\n  > `cy.visit()` failed trying to load:\n\nhttps://cartes.gouv.fr/rechercher-une-donnee\n\nWe attempted to make an http request to this URL but the request failed without a response.\n\nWe received this error at the network level:\n\n  > Error: Exceeded maxRedirects. Probably stuck in a redirect loop https://cartes.gouv.fr/rechercher-une-donnee\n\nCommon situations why this would fail:\n  - you don't have internet access\n  - you forgot to run / boot your web server\n  - your web server isn't accessible\n  - you have weird network configuration settings on your computer\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application",
+                    "estack": "CypressError: The following error originated from your application code, not from Cypress. It was caused by an unhandled promise rejection.\n\n  > `cy.visit()` failed trying to load:\n\nhttps://cartes.gouv.fr/rechercher-une-donnee\n\nWe attempted to make an http request to this URL but the request failed without a response.\n\nWe received this error at the network level:\n\n  > Error: Exceeded maxRedirects. Probably stuck in a redirect loop https://cartes.gouv.fr/rechercher-une-donnee\n\nCommon situations why this would fail:\n  - you don't have internet access\n  - you forgot to run / boot your web server\n  - your web server isn't accessible\n  - you have weird network configuration settings on your computer\n\nWhen Cypress detects uncaught errors originating from your application it will automatically fail the current test.\n\nThis behavior is configurable, and you can choose to turn this off by listening to the `uncaught:exception` event.\n\nhttps://on.cypress.io/uncaught-exception-from-application\n    at <unknown> (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:135156:74)\n    at visitFailedByErr (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:134730:12)\n    at <unknown> (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:135155:11)\n    at tryCatcher (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise._settlePromiseFromHandler (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1489:31)\n    at Promise._settlePromise (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1546:18)\n    at Promise._settlePromise0 (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1591:10)\n    at Promise._settlePromises (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:1667:18)\n    at _drainQueueStep (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:2377:12)\n    at _drainQueue (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:2370:9)\n    at Async._drainQueues (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:2386:5)\n    at Async.drainQueues (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:2256:14)\nFrom Your Spec Code:\n    at Context.eval (webpack://cypress-cartes-gouv-fr/./cypress/support/e2e.js:49:5)\n    at overridden.fn (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:114266:21)\n    at wrapped (https://cartes.gouv.fr/__cypress/runner/cypress_runner.js:146318:43)\n\nFrom Node.js Internals:\n  Error: Exceeded maxRedirects. Probably stuck in a redirect loop https://cartes.gouv.fr/rechercher-une-donnee\n      at r (<embedded>:314:96523)\n      at tryCatcher (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/util.js:16:23)\n      at Promise._settlePromiseFromHandler (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/promise.js:512:31)\n      at Promise._settlePromise (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/promise.js:569:18)\n      at Promise._settlePromise0 (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/promise.js:614:10)\n      at Promise._settlePromises (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/promise.js:694:18)\n      at _drainQueueStep (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/async.js:138:12)\n      at _drainQueue (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/async.js:131:9)\n      at Async._drainQueues (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/async.js:147:5)\n      at Immediate._onImmediate (/home/TGerbeau/.cache/Cypress/15.11.0/Cypress/resources/app/node_modules/bluebird/js/release/async.js:17:14)\n      at process.processImmediate (node:internal/timers:485:21)",
+                    "diff": null
+                  },
+                  "uuid": "195d4b2d-4f98-41bf-9b19-c053ba0e7c59",
+                  "parentUUID": "8ee78792-34cd-4ae5-9123-06af3f934be2",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [
+                "195d4b2d-4f98-41bf-9b19-c053ba0e7c59"
+              ],
+              "pending": [],
+              "skipped": [],
+              "duration": 432,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/json",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "yyyy-mm-dd_HH-MM"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

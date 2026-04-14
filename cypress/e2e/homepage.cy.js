@@ -5,7 +5,7 @@ describe('Homepage Tests', () => {
     cy.get('body').should('be.visible')
   })
 
-  it('should load the homepage successfully', () => {
+  it('should load the homepage successfully', { tags: '@smoke' }, () => {
     cy.url().should('include', 'cartes.gouv.fr')
 
     // Close welcome modal only if present/visible
@@ -19,7 +19,7 @@ describe('Homepage Tests', () => {
     // Cookie consent is handled globally via cy.acceptCookies() in support/e2e.js
   })
 
-  it('should display the main title or heading', () => {
+  it('should display the main title or heading', { tags: '@smoke' }, () => {
     // La homepage peut utiliser h1, h2 ou un titre dans un composant DSFR
     cy.get('h1, h2, [class*="fr-display"], [class*="fr-h1"]', { timeout: 10000 })
       .first()
