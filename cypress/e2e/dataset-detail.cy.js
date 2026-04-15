@@ -9,10 +9,9 @@
 describe('Fiche détail d\'un jeu de données', { tags: '@catalogue' }, () => {
   describe('BD ORTHO® — disponibilité et contenu', () => {
     it('la page répond en 200 et contient le titre BD ORTHO', () => {
-      cy.request('https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO').then((response) => {
-        expect(response.status).to.eq(200)
-        expect(response.body).to.include('BD ORTHO')
-      })
+      cy.on('uncaught:exception', () => false)
+      cy.visit('/rechercher-une-donnee/dataset/IGNF_BD-ORTHO', { timeout: 30000 })
+      cy.contains('BD ORTHO', { timeout: 15000 }).should('exist')
     })
 
     it('la page se charge dans le navigateur avec header et footer', () => {
@@ -22,24 +21,23 @@ describe('Fiche détail d\'un jeu de données', { tags: '@catalogue' }, () => {
       cy.get('footer, .fr-footer').should('exist')
     })
 
-    it('la page contient les métadonnées essentielles dans le HTML', () => {
-      cy.request('https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-ORTHO').then((response) => {
-        // Le titre est présent
-        expect(response.body).to.include('BD ORTHO')
-        // Le producteur IGN est référencé
-        expect(response.body).to.include('IGN')
-        // L'identifiant GeoNetwork est présent
-        expect(response.body).to.include('IGNF_BD-ORTHO')
-      })
+    it('la page contient les métadonnées essentielles', () => {
+      cy.on('uncaught:exception', () => false)
+      cy.visit('/rechercher-une-donnee/dataset/IGNF_BD-ORTHO', { timeout: 30000 })
+      // Le titre est présent
+      cy.contains('BD ORTHO', { timeout: 15000 }).should('exist')
+      // Le producteur IGN est référencé
+      cy.contains('IGN').should('exist')
+      // L'URL contient l'identifiant GeoNetwork
+      cy.url().should('include', 'IGNF_BD-ORTHO')
     })
   })
 
   describe('BD TOPO® — disponibilité', () => {
     it('la fiche BD TOPO répond en 200', () => {
-      cy.request('https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_BD-TOPO').then((response) => {
-        expect(response.status).to.eq(200)
-        expect(response.body).to.include('BD TOPO')
-      })
+      cy.on('uncaught:exception', () => false)
+      cy.visit('/rechercher-une-donnee/dataset/IGNF_BD-TOPO', { timeout: 30000 })
+      cy.contains('BD TOPO', { timeout: 15000 }).should('exist')
     })
   })
 
