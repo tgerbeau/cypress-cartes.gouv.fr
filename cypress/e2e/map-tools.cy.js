@@ -47,11 +47,17 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
     it('la recherche d\'une adresse retourne des suggestions', () => {
       cy.intercept({ url: /data\.geopf\.fr.*geocodage|completion/ }).as('geocode')
 
+      // Attendre et fermer la modale d'accueil qui recouvre systématiquement la page carte
+      cy.get('dialog.welcome-modal[open], .fr-modal--opened', { timeout: 10000 }).then(() => {
+        cy.get('body').type('{esc}')
+      })
+      cy.get('dialog.welcome-modal[open], .fr-modal--opened', { timeout: 5000 }).should('not.exist')
+
       cy.get('input.GPsearchInputText', { timeout: 15000 })
         .filter(':visible')
         .first()
-        .clear()
-        .type('Tour Eiffel')
+        .clear({ force: true })
+        .type('Tour Eiffel', { force: true })
 
       // Les suggestions du SDK GPF apparaissent
       cy.get('.GPautoCompleteList li, [class*="GPsearchResult"], [class*="suggestion"]', { timeout: 10000 })
