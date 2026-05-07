@@ -400,6 +400,67 @@ function buildAxeSection() {
     </div>`
 }
 
+// Section critères nécessitant une vérification humaine
+function buildHumanVerificationSection() {
+  const humanCriteria = [
+    { critere: '1.3', thematique: 'Images', raison: 'Vérifier la pertinence sémantique de l\'alternative textuelle (le test ne vérifie que l\'absence de noms de fichier)' },
+    { critere: '1.6', thematique: 'Images', raison: 'Vérifier que les images complexes (infographies, graphiques) ont une description détaillée adéquate' },
+    { critere: '1.7', thematique: 'Images', raison: 'Vérifier que la description détaillée est pertinente et complète par rapport au contenu de l\'image' },
+    { critere: '1.8', thematique: 'Images', raison: 'Déterminer si une image contient du texte qui devrait être remplacé par du texte stylé en CSS' },
+    { critere: '2.2', thematique: 'Cadres', raison: 'Vérifier que le titre de l\'iframe décrit correctement son contenu' },
+    { critere: '3.1', thematique: 'Couleurs', raison: 'Vérifier que l\'information n\'est jamais donnée uniquement par la couleur (ex : états, graphiques)' },
+    { critere: '3.3', thematique: 'Couleurs', raison: 'Mesurer le ratio de contraste ≥ 3:1 des composants d\'interface et éléments graphiques' },
+    { critere: '4.1', thematique: 'Multimédia', raison: 'Vérifier la qualité et la complétude des transcriptions textuelles des médias temporels' },
+    { critere: '4.2', thematique: 'Multimédia', raison: 'Vérifier que les sous-titres sont synchronisés, fidèles et complets' },
+    { critere: '4.4', thematique: 'Multimédia', raison: 'Vérifier que l\'audiodescription est pertinente et complète' },
+    { critere: '5.1', thematique: 'Tableaux', raison: 'Vérifier que le résumé d\'un tableau complexe décrit correctement sa structure' },
+    { critere: '6.1', thematique: 'Liens', raison: 'Vérifier que l\'intitulé de chaque lien est explicite hors contexte ou dans son contexte' },
+    { critere: '7.2', thematique: 'Scripts', raison: 'Vérifier que les alternatives aux scripts sont fonctionnellement équivalentes' },
+    { critere: '7.4', thematique: 'Scripts', raison: 'Vérifier que les changements de contexte par script sont prévisibles et contrôlables par l\'utilisateur' },
+    { critere: '8.2', thematique: 'Éléments obligatoires', raison: 'Valider le code source HTML avec le validateur W3C (pas seulement les doublons d\'ID)' },
+    { critere: '8.7', thematique: 'Éléments obligatoires', raison: 'Vérifier que tous les passages en langue étrangère sont signalés avec l\'attribut lang' },
+    { critere: '9.1', thematique: 'Structuration', raison: 'Vérifier que la hiérarchie des titres reflète correctement la structure du contenu' },
+    { critere: '10.2', thematique: 'Présentation', raison: 'Vérifier que l\'ordre de lecture reste logique sans CSS (pas seulement la présence de texte)' },
+    { critere: '10.6', thematique: 'Présentation', raison: 'Vérifier visuellement que les liens sont distinguables du texte (pas seulement par la couleur)' },
+    { critere: '10.7', thematique: 'Présentation', raison: 'Vérifier visuellement que l\'indicateur de focus est suffisamment visible sur tous les éléments interactifs' },
+    { critere: '10.11', thematique: 'Présentation', raison: 'Vérifier que tous les contenus sont accessibles sans scroll horizontal à 320px (pas seulement le body)' },
+    { critere: '10.13', thematique: 'Présentation', raison: 'Vérifier que les contenus au survol/focus sont masquables (Échap), persistants et survolables' },
+    { critere: '11.2', thematique: 'Formulaires', raison: 'Vérifier que les étiquettes sont pertinentes et compréhensibles pour l\'utilisateur' },
+    { critere: '11.10', thematique: 'Formulaires', raison: 'Vérifier que les messages d\'erreur indiquent le format attendu et les moyens de correction' },
+    { critere: '12.2', thematique: 'Navigation', raison: 'Vérifier la cohérence du menu de navigation sur l\'ensemble des pages (pas seulement 2 pages)' },
+    { critere: '12.3', thematique: 'Navigation', raison: 'Vérifier que la page courante est signalée visuellement et programmatiquement' },
+    { critere: '12.9', thematique: 'Navigation', raison: 'Tester manuellement l\'absence de piège clavier (Tab/Shift+Tab) sur toutes les pages' },
+    { critere: '13.2', thematique: 'Consultation', raison: 'Vérifier que l\'indication d\'ouverture dans une nouvelle fenêtre est compréhensible' },
+    { critere: '13.3', thematique: 'Consultation', raison: 'Vérifier l\'accessibilité des documents téléchargeables (PDF balisé, structure, etc.)' },
+    { critere: '13.6', thematique: 'Consultation', raison: 'Vérifier que les contenus en mouvement peuvent être mis en pause, arrêtés ou masqués' },
+  ]
+
+  let rows = humanCriteria.map(c => `<tr>
+    <td><strong>${c.critere}</strong></td>
+    <td>${c.thematique}</td>
+    <td>${escapeHtml(c.raison)}</td>
+  </tr>`).join('\n')
+
+  return `
+    <div class="section">
+      <div class="section-header" onclick="toggle(this)">
+        👁️ Critères nécessitant une vérification humaine (${humanCriteria.length} critères)
+        <span class="badge badge-warn">Audit manuel</span>
+      </div>
+      <div class="section-body collapsed">
+        <p style="padding: 1rem 1.5rem; color: #555; font-size: 0.9rem;">
+          Ces critères sont partiellement vérifiés par les tests automatisés, mais nécessitent une <strong>évaluation humaine</strong> 
+          pour confirmer la conformité. Les tests automatiques détectent des signaux structurels, mais ne peuvent pas juger 
+          de la <em>pertinence</em>, de la <em>compréhensibilité</em> ou de l\'<em>équivalence fonctionnelle</em>.
+        </p>
+        <table>
+          <thead><tr><th>Critère</th><th>Thématique</th><th>Raison de la vérification manuelle</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`
+}
+
 // Section recommandations
 function buildRecommendations() {
   const recommendations = []
@@ -648,6 +709,8 @@ const html = `<!DOCTYPE html>
     ${thematiques.map((t, i) => buildThematiqueSection(t, i)).join('\n')}
 
     ${buildAxeSection()}
+
+    ${buildHumanVerificationSection()}
 
     ${buildRecommendations()}
 
