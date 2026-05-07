@@ -28,6 +28,8 @@
     "test:monitoring": "cypress run --env grepTags=@monitoring",
     "test:crawl": "cypress run --env grepTags=@crawl",
     "test:visual": "cypress run --env grepTags=@visual",
+    "test:rgaa": "npm run clean:reports && npx cypress run --spec cypress/e2e/rgaa-criteres.cy.js --browser chrome 2>&1 | tee cypress/reports/cypress-output.log && npm run report:merge && node scripts/generate-rgaa-report.js",
+    "rgaa:report": "node scripts/generate-rgaa-report.js",
     "monitor": "cypress run --spec cypress/e2e/monitoring.cy.js",
     "crawl": "cypress run --spec cypress/e2e/site-crawler.cy.js"
   },

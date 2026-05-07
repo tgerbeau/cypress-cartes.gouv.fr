@@ -2,6 +2,7 @@
 cypress/screenshots
 cypress/videos
 cypress/downloads
+cypress/reports/
 
 # Dependencies
 node_modules/
