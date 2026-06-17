@@ -1,0 +1,22 @@
+{
+  "paris": {
+    "query": "Paris",
+    "expectedLabel": "Paris"
+  },
+  "lyon": {
+    "query": "Lyon",
+    "expectedLabel": "Lyon"
+  },
+  "eiffelTower": {
+    "query": "Tour Eiffel",
+    "expectedLabel": "Tour Eiffel"
+  },
+  "toulouse": {
+    "query": "Toulouse",
+    "expectedLabel": "Toulouse"
+  },
+  "unlikely": {
+    "query": "zzqzqxxyycartesgouvfr",
+    "expectedResultsMax": 0
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "home": "/",
+  "explorer": "/explorer-les-cartes/",
+  "editor": "/editeur",
+  "catalogue": "/rechercher-une-donnee/",
+  "discover": "/decouvrir/",
+  "contact": "/aide/fr/nous-ecrire/",
+  "login": "/login",
+  "legal": "/mentions-legales",
+  "accessibility": "/accessibilite",
+  "privacy": "/donnees-personnelles",
+  "terms": "/cgu"
+}

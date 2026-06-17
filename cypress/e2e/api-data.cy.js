@@ -4,6 +4,10 @@
  * cartes.gouv.fr
  */
 
+const datasets = require('../fixtures/datasets.json')
+const locations = require('../fixtures/locations.json')
+const routes = require('../fixtures/routes.json')
+
 describe('API et données', { tags: '@api' }, () => {
   it('l\'API Géoplateforme (data.geopf.fr) répond correctement', { tags: '@smoke' }, () => {
     cy.request({
@@ -20,21 +24,23 @@ describe('API et données', { tags: '@api' }, () => {
   })
 
   it('la fiche d\'un jeu de données connu est accessible', () => {
-    cy.visit('/rechercher-une-donnee/dataset/IGNF_BD-ORTHO', { failOnStatusCode: false })
+    cy.visit(`${routes.catalogue}dataset/${datasets.ortho.slug}`, { failOnStatusCode: false })
     cy.get('body').should('be.visible')
-    cy.url().should('include', 'BD-ORTHO')
+    cy.url().should('include', datasets.ortho.slug)
+    cy.contains(datasets.ortho.label, { timeout: 15000 }).should('exist')
+    cy.get('header, footer').should('have.length.at.least', 2)
   })
 
   it('la page découvrir affiche les jeux de données de référence', () => {
-    cy.visit('/decouvrir')
-    cy.contains('BD ORTHO').should('exist')
-    cy.contains('SCAN 25').should('exist')
+    cy.visit(routes.discover)
+    cy.contains(datasets.ortho.label).should('exist')
+    cy.contains(datasets.scan25.label).should('exist')
     cy.get('a[href*="rechercher-une-donnee/dataset"]').should('have.length.greaterThan', 0)
   })
 
   it('l\'API de géocodage répond en JSON avec des résultats pertinents', () => {
     cy.request({
-      url: 'https://data.geopf.fr/geocodage/search?q=Paris&limit=1',
+      url: `https://data.geopf.fr/geocodage/search?q=${locations.paris.query}&limit=1`,
       failOnStatusCode: false
     }).then((response) => {
       expect(response.status).to.eq(200)
@@ -44,7 +50,7 @@ describe('API et données', { tags: '@api' }, () => {
       // Le résultat contient un label lisible mentionnant Paris
       const firstResult = response.body.features[0]
       expect(firstResult.properties).to.have.property('label')
-      expect(firstResult.properties.label).to.match(/paris/i)
+      expect(firstResult.properties.label).to.match(new RegExp(locations.paris.expectedLabel, 'i'))
 
       // Le résultat contient des coordonnées valides
       expect(firstResult.geometry).to.have.property('coordinates')
@@ -52,6 +58,17 @@ describe('API et données', { tags: '@api' }, () => {
 
       // Temps de réponse acceptable (< 5s)
       expect(response.duration).to.be.lessThan(5000)
+    })
+  })
+
+  it('une requête de géocodage improbable retourne zéro ou très peu de résultats sans erreur serveur', () => {
+    cy.request({
+      url: `https://data.geopf.fr/geocodage/search?q=${locations.unlikely.query}&limit=1`,
+      failOnStatusCode: false
+    }).then((response) => {
+      expect(response.status).to.eq(200)
+      expect(response.body.features).to.be.an('array')
+      expect(response.body.features.length).to.be.at.most(1)
     })
   })
 })

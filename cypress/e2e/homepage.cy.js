@@ -1,6 +1,10 @@
+const routes = require('../fixtures/routes.json')
+
+const pathFragment = (path) => path.replace(/^\/|\/$/g, '')
+
 describe('Homepage Tests', { tags: '@nav' }, () => {
   beforeEach(() => {
-    cy.visit('/', { timeout: 120000 })
+    cy.visit(routes.home, { timeout: 120000 })
     cy.document().its('readyState').should('eq', 'complete')
     cy.get('body').should('be.visible')
   })
@@ -31,6 +35,32 @@ describe('Homepage Tests', { tags: '@nav' }, () => {
     cy.title().should('not.be.empty')
   })
 
+  it('propose les accès clés vers explorer, éditer et découvrir', () => {
+    ;[routes.explorer, routes.editor, routes.discover].forEach((path) => {
+      cy.get(`a[href*="${pathFragment(path)}"]`, { timeout: 10000 })
+        .should('have.length.at.least', 1)
+    })
+  })
+
+  it('un accès visible vers l’explorateur ouvre une page exploitable', () => {
+    cy.get(`a[href*="${pathFragment(routes.explorer)}"]`, { timeout: 10000 })
+      .filter(':visible')
+      .first()
+      .click({ force: true })
+
+    cy.location('pathname', { timeout: 30000 }).should('include', pathFragment(routes.explorer))
+    cy.get('.ol-viewport, main, [role="main"]', { timeout: 15000 }).should('exist')
+  })
+
+  it('le footer expose les liens légaux essentiels', () => {
+    cy.get('footer, .fr-footer', { timeout: 15000 }).should('be.visible')
+
+    ;[routes.legal, routes.privacy, routes.terms].forEach((path) => {
+      cy.get(`footer a[href*="${pathFragment(path)}"], .fr-footer a[href*="${pathFragment(path)}"]`)
+        .should('have.length.at.least', 1)
+    })
+  })
+
   it('la popup cookies s\'affiche et le bouton "Tout accepter" fonctionne', () => {
     cy.clearCookies()
     cy.clearLocalStorage()
@@ -57,7 +87,10 @@ describe('Homepage Tests', { tags: '@nav' }, () => {
       }
     })
     // Le DSFR affiche un bouton burger sur mobile
-    cy.get('.fr-btn--menu, button[data-fr-opened], .fr-header__menu-links button', { timeout: 5000 })
-      .should('be.visible')
+    cy.getPrimaryMenuButton().should('be.visible')
+    cy.openPrimaryMenu()
+    cy.get('nav.fr-nav, header nav, [role="navigation"]', { timeout: 10000 }).should('be.visible')
+    cy.get(`a[href*="${pathFragment(routes.catalogue)}"], a[href*="${pathFragment(routes.discover)}"]`)
+      .should('have.length.at.least', 1)
   })
 })

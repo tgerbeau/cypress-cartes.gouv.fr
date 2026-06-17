@@ -3,16 +3,21 @@
  * Tests E2E — Formulaires réels de cartes.gouv.fr
  */
 
+const auth = require('../fixtures/auth.json')
+const routes = require('../fixtures/routes.json')
+
+const EMAIL_SELECTOR = 'input#input-mail, input[name="email_contact"]'
+
 describe('Formulaires', { tags: '@form' }, () => {
   describe('Formulaire « Nous écrire »', () => {
     beforeEach(() => {
-      cy.visit('/aide/fr/nous-ecrire/')
+      cy.visit(routes.contact)
       cy.get('form, textarea', { timeout: 15000 }).should('exist')
     })
 
     it('affiche les champs obligatoires du formulaire de contact', () => {
       // Champ email
-      cy.get('input#input-mail, input[name="email_contact"]')
+      cy.get(EMAIL_SELECTOR)
         .should('exist')
         .and('be.visible')
 
@@ -48,7 +53,7 @@ describe('Formulaires', { tags: '@form' }, () => {
 
     it('la validation empêche l\'envoi si les champs sont vides', () => {
       // Vérifier que les champs du formulaire existent
-      cy.get('input#input-mail, input[name="email_contact"]').should('exist')
+      cy.get(EMAIL_SELECTOR).should('exist')
       cy.get('textarea').should('exist')
 
       // Soumettre sans remplir
@@ -59,11 +64,42 @@ describe('Formulaires', { tags: '@form' }, () => {
     })
 
     it('le champ email accepte du texte', () => {
-      cy.get('input#input-mail, input[name="email_contact"]')
+      cy.get(EMAIL_SELECTOR)
         .first()
         .clear()
         .type('test@example.com')
         .should('have.value', 'test@example.com')
+    })
+
+    it('un email au mauvais format est rejeté par la validation native', () => {
+      cy.get(EMAIL_SELECTOR)
+        .first()
+        .clear()
+        .type(auth.invalidUser.invalidEmailFormat)
+        .then(($input) => {
+          const input = $input[0]
+          expect(input.checkValidity()).to.be.false
+          expect(input.validationMessage).to.not.equal('')
+        })
+    })
+
+    it('un formulaire rempli reste sur la page tant que l’utilisateur ne valide pas', () => {
+      cy.get(EMAIL_SELECTOR)
+        .first()
+        .clear()
+        .type('test@example.com')
+        .should('have.value', 'test@example.com')
+
+      cy.get('textarea')
+        .first()
+        .clear()
+        .type('Message de test pour valider la saisie sans envoi.')
+        .should('contain.value', 'Message de test')
+
+      cy.url().should('include', 'nous-ecrire')
+      cy.get('form').first().within(() => {
+        cy.get('input, textarea, select').filter(':visible').should('have.length.at.least', 2)
+      })
     })
   })
 
