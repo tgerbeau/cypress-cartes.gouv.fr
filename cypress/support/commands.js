@@ -5,8 +5,12 @@
  * Seules les commandes réellement utilisées dans les tests sont conservées.
  */
 
-const COOKIE_ACCEPT_SELECTOR =
-  '[data-testid="accept-cookies"], button[aria-label*="accepter"], button[aria-label*="cookies"], .fr-consent-banner button'
+const COOKIE_ACCEPT_SELECTOR = [
+  '[data-testid="accept-cookies"]',
+  'button[aria-label*="accepter"]',
+  'button[aria-label*="cookies"]',
+  '.fr-consent-banner button',
+].join(', ')
 const WELCOME_MODAL_SELECTOR = 'dialog.fr-modal--opened, dialog.welcome-modal[open], .fr-modal--opened, .welcome-modal[open]'
 const LOGIN_TRIGGER_SELECTOR =
   '[data-testid="login-btn"], [aria-label*="connexion"], a[href*="login"], a[href*="connexion"], button[title*="connexion"], a[title*="connexion"]'

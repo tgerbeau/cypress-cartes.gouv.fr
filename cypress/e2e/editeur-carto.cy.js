@@ -42,7 +42,10 @@ describe('Editeur Carto Tests', { tags: '@map' }, () => {
     openEditorWorkspaceIfNeeded()
     cy.get('.ol-viewport, canvas, main, [role="main"]', { timeout: 20000 }).should('exist')
     cy.get('body').should(($body) => {
-      expect($body.text().trim().length).to.be.greaterThan(0)
+      const hasWorkspaceUi =
+        $body.find('.ol-viewport, canvas, [role="toolbar"], [class*="toolbar"], [class*="layer"]').length > 0
+
+      expect(hasWorkspaceUi, 'L’éditeur doit afficher une carte ou une barre d’outils').to.be.true
     })
   })
 

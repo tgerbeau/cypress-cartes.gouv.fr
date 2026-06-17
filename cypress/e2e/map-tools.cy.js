@@ -91,7 +91,22 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
             ].join(' ').trim()
 
             expect(accessibleName, 'Le contrôle doit avoir un nom accessible').to.not.be.empty
+
+            cy.wrap($button).click({ force: true })
           })
+
+        cy.get('body').should(($updatedBody) => {
+          const text = $updatedBody.text().toLowerCase()
+          const hasExpandedControl = $updatedBody.find('[aria-expanded="true"], [data-fr-opened="true"]').length > 0
+          const hasToolUiHint = ['mesure', 'outil', 'distance', 'dessin', 'draw'].some((hint) =>
+            text.includes(hint)
+          )
+
+          expect(
+            hasExpandedControl || hasToolUiHint,
+            'L’activation du contrôle doit exposer un panneau ou un mode outil'
+          ).to.be.true
+        })
       })
     })
   })

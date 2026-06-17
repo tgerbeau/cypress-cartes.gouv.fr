@@ -68,6 +68,14 @@ describe('Authentification — parcours critique', { tags: '@auth' }, () => {
     }).then((response) => {
       expect(response.status).to.be.lessThan(500)
       expect(response.status).to.be.oneOf([200, 301, 302, 303, 307, 308])
+
+      const location = response.redirectedToUrl || response.headers.location || ''
+
+      if ([301, 302, 303, 307, 308].includes(response.status)) {
+        expect(decodeURIComponent(location)).to.match(/sso\.geopf\.fr|\/login|\/connexion/i)
+      } else {
+        expect(String(response.body)).to.match(/sso\.geopf\.fr|connexion|login/i)
+      }
     })
   })
 })
