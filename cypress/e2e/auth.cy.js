@@ -30,7 +30,7 @@ describe('Authentification — parcours critique', { tags: '@auth' }, () => {
     cy.getLoginTrigger().click()
     cy.location('href', { timeout: 30000 }).should('include', 'sso.geopf.fr')
     cy.location('href').should((href) => {
-      expect(href).to.match(/cartes\.gouv\.fr|service=|redirect|callback/i)
+      expect(decodeURIComponent(href)).to.include('cartes.gouv.fr')
     })
   })
 

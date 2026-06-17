@@ -36,7 +36,7 @@ describe('Homepage Tests', { tags: '@nav' }, () => {
   })
 
   it('propose les accès clés vers explorer, éditer et découvrir', () => {
-    ;[routes.explorer, routes.editor, routes.discover].forEach((path) => {
+    [routes.explorer, routes.editor, routes.discover].forEach((path) => {
       cy.get(`a[href*="${pathFragment(path)}"]`, { timeout: 10000 })
         .should('have.length.at.least', 1)
     })
@@ -55,7 +55,7 @@ describe('Homepage Tests', { tags: '@nav' }, () => {
   it('le footer expose les liens légaux essentiels', () => {
     cy.get('footer, .fr-footer', { timeout: 15000 }).should('be.visible')
 
-    ;[routes.legal, routes.privacy, routes.terms].forEach((path) => {
+    [routes.legal, routes.privacy, routes.terms].forEach((path) => {
       cy.get(`footer a[href*="${pathFragment(path)}"], .fr-footer a[href*="${pathFragment(path)}"]`)
         .should('have.length.at.least', 1)
     })

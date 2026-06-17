@@ -68,7 +68,7 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
 
       cy.getMapSearchInput()
         .invoke('val')
-        .should('match', /Tour Eiffel|Paris|Champ/)
+        .should('match', new RegExp(locations.eiffelTower.expectedLabel, 'i'))
     })
   })
 

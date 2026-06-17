@@ -8,6 +8,7 @@ function openEditorWorkspaceIfNeeded() {
   cy.get('body', { timeout: 20000 }).then(($body) => {
     if (CREATE_MAP_PATTERN.test($body.text())) {
       cy.contains('button, a', CREATE_MAP_PATTERN).first().click({ force: true })
+      cy.get('.ol-viewport, canvas, main, [role="main"]', { timeout: 20000 }).should('exist')
     }
   })
 }
@@ -21,10 +22,10 @@ describe('Editeur Carto Tests', { tags: '@map' }, () => {
       url: routes.editor,
       failOnStatusCode: false,
     }).then((response) => {
-      expect(response.status).to.be.lessThan(500)
+      expect(response.status).to.be.lessThan(400)
     })
 
-    cy.visit(routes.editor, { timeout: 60000, failOnStatusCode: false })
+    cy.visit(routes.editor, { timeout: 60000 })
 
     // Wait for the page to load
     cy.document().its('readyState').should('eq', 'complete')
