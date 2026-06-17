@@ -17,6 +17,13 @@ describe('Editeur Carto Tests', { tags: '@map' }, () => {
     // Ignore uncaught exceptions from the application
     cy.on('uncaught:exception', () => false)
 
+    cy.request({
+      url: routes.editor,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.be.lessThan(500)
+    })
+
     cy.visit(routes.editor, { timeout: 60000, failOnStatusCode: false })
 
     // Wait for the page to load

@@ -27,7 +27,7 @@ describe('Authentification — parcours critique', { tags: '@auth' }, () => {
 
   it('redirige vers le SSO Géoplateforme au clic sur connexion', () => {
     cy.visit(routes.home)
-    cy.getLoginTrigger().click({ force: true })
+    cy.getLoginTrigger().click()
     cy.location('href', { timeout: 30000 }).should('include', 'sso.geopf.fr')
     cy.location('href').should((href) => {
       expect(href).to.match(/cartes\.gouv\.fr|service=|redirect|callback/i)
@@ -37,7 +37,7 @@ describe('Authentification — parcours critique', { tags: '@auth' }, () => {
   // ─── Le SSO est fonctionnel ────────────────────────────────────
   it('la page SSO propose un formulaire de connexion complet', () => {
     cy.visit(routes.home)
-    cy.getLoginTrigger().click({ force: true })
+    cy.getLoginTrigger().click()
     cy.origin('https://sso.geopf.fr', () => {
       cy.get('input[type="text"], input[type="email"], input[name*="username"]').should('exist')
       cy.get('input[type="password"]').should('exist')
@@ -47,7 +47,7 @@ describe('Authentification — parcours critique', { tags: '@auth' }, () => {
 
   it('affiche une erreur avec des identifiants invalides', () => {
     cy.visit(routes.home)
-    cy.getLoginTrigger().click({ force: true })
+    cy.getLoginTrigger().click()
 
     cy.origin('https://sso.geopf.fr', { args: { invalidUser: auth.invalidUser } }, ({ invalidUser }) => {
       cy.get('input[type="email"], input[type="text"], input[name*="email"], input[name*="username"], input[name*="login"]')

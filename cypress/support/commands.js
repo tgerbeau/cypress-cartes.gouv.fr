@@ -45,18 +45,30 @@ Cypress.Commands.add('dismissModal', () => {
   })
 })
 
+/**
+ * Retourne le premier déclencheur de connexion visible.
+ * Usage : cy.getLoginTrigger()
+ */
 Cypress.Commands.add('getLoginTrigger', () => (
   cy.get(LOGIN_TRIGGER_SELECTOR, { timeout: 15000 })
     .filter(':visible')
     .first()
 ))
 
+/**
+ * Retourne le premier champ de recherche cartographique visible.
+ * Usage : cy.getMapSearchInput()
+ */
 Cypress.Commands.add('getMapSearchInput', () => (
   cy.get(MAP_SEARCH_INPUT_SELECTOR, { timeout: 15000 })
     .filter(':visible')
     .first()
 ))
 
+/**
+ * Retourne le bouton visible d’ouverture du menu principal.
+ * Usage : cy.getPrimaryMenuButton()
+ */
 Cypress.Commands.add('getPrimaryMenuButton', () => (
   cy.get(PRIMARY_MENU_BUTTON_SELECTOR, { timeout: 15000 })
     .filter(':visible')
