@@ -1,9 +1,13 @@
 const locations = require('../fixtures/locations.json')
 const routes = require('../fixtures/routes.json')
 
-const CREATE_MAP_PATTERN = /Créer votre carte|Créer une carte|Nouveau projet/i
+const CREATE_MAP_PATTERN = /Créer\s+(votre\s+)?carte|Nouveau\s+projet/i
 const SEARCH_RESULT_SELECTOR = '.GPautoCompleteList li, [role="listbox"] [role="option"], [class*="GPsearchResult"], [class*="suggestion"]'
 
+/**
+ * Ouvre l’espace de travail si l’éditeur affiche encore un écran d’entrée,
+ * puis attend que l’UI principale de l’éditeur soit rendue.
+ */
 function openEditorWorkspaceIfNeeded() {
   cy.get('body', { timeout: 20000 }).then(($body) => {
     if (CREATE_MAP_PATTERN.test($body.text())) {

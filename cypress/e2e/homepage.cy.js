@@ -1,5 +1,9 @@
 const routes = require('../fixtures/routes.json')
 
+/**
+ * Supprime les slashs de début/fin pour réutiliser un chemin
+ * dans les sélecteurs `href*=`.
+ */
 const pathFragment = (path) => path.replace(/^\/|\/$/g, '')
 
 describe('Homepage Tests', { tags: '@nav' }, () => {

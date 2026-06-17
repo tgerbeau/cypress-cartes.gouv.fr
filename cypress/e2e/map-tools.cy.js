@@ -2,6 +2,8 @@ const locations = require('../fixtures/locations.json')
 const routes = require('../fixtures/routes.json')
 
 const SEARCH_RESULT_SELECTOR = '.GPautoCompleteList li, [role="listbox"] [role="option"], [class*="GPsearchResult"], [class*="suggestion"]'
+const TOOL_CONTROL_SELECTOR =
+  '[aria-label*="outil"], [aria-label*="mesur"], [aria-label*="tool"], button[class*="tool"], [class*="toolbox"] button, [class*="toolbar"] button'
 
 /**
  * map-tools.cy.js
@@ -75,9 +77,7 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
   describe('Outils de mesure', () => {
     it('le panneau d\'outils est accessible', () => {
       cy.get('body').then(($body) => {
-        const candidates = $body.find(
-          '[aria-label*="outil"], [aria-label*="mesur"], [aria-label*="tool"], button[class*="tool"], [class*="toolbox"] button, [class*="toolbar"] button'
-        )
+        const candidates = $body.find(TOOL_CONTROL_SELECTOR)
 
         expect(candidates.length, 'Au moins un contrôle d’outil doit être présent').to.be.greaterThan(0)
 
