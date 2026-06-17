@@ -217,16 +217,20 @@ describe('🩺 Monitoring synthétique — cartes.gouv.fr', { tags: '@monitoring
           'strict-transport-security': 'HSTS activé',
         }
 
+        const missingHeaders = []
+
         Object.entries(securityHeaders).forEach(([header, description]) => {
           if (headers[header]) {
             cy.task('log', `✅ ${description}: ${headers[header]}`)
           } else {
             cy.task('log', `⚠️ Header manquant: ${header} (${description})`)
+            missingHeaders.push(header)
           }
         })
 
         // Au minimum, vérifier que le content-type est correct
         expect(headers['content-type']).to.include('text/html')
+        expect(missingHeaders, 'Headers de sécurité manquants').to.be.empty
       })
     })
   })

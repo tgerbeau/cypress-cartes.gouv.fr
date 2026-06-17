@@ -1,0 +1,13 @@
+{
+  "ortho": {
+    "slug": "IGNF_BD-ORTHO",
+    "label": "BD ORTHO"
+  },
+  "topo": {
+    "slug": "IGNF_BD-TOPO",
+    "label": "BD TOPO"
+  },
+  "scan25": {
+    "label": "SCAN 25"
+  }
+}

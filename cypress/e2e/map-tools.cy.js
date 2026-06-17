@@ -1,3 +1,10 @@
+const locations = require('../fixtures/locations.json')
+const routes = require('../fixtures/routes.json')
+
+const SEARCH_RESULT_SELECTOR = '.GPautoCompleteList li, [role="listbox"] [role="option"], [class*="GPsearchResult"], [class*="suggestion"]'
+const TOOL_CONTROL_SELECTOR =
+  '[aria-label*="outil"], [aria-label*="mesur"], [aria-label*="tool"], button[class*="tool"], [class*="toolbox"] button, [class*="toolbar"] button'
+
 /**
  * map-tools.cy.js
  * Tests E2E — Outils cartographiques (mesure, itinéraire, isochrone)
@@ -7,7 +14,7 @@
 describe('Outils cartographiques', { tags: '@map' }, () => {
   beforeEach(() => {
     cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('tiles')
-    cy.visit('/explorer-les-cartes/')
+    cy.visit(routes.explorer)
     cy.get('.ol-viewport', { timeout: 15000 }).should('be.visible')
   })
 
@@ -37,10 +44,7 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
 
   describe('Barre de recherche', () => {
     it('le champ de recherche par adresse est visible', { tags: '@smoke' }, () => {
-      // Le SDK Géoplateforme utilise la classe GPsearchInputText pour l'input de recherche
-      cy.get('input.GPsearchInputText', { timeout: 15000 })
-        .filter(':visible')
-        .first()
+      cy.getMapSearchInput()
         .should('be.visible')
     })
 
@@ -53,23 +57,57 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
       })
       cy.get('dialog.welcome-modal[open], .fr-modal--opened', { timeout: 5000 }).should('not.exist')
 
-      cy.get('input.GPsearchInputText', { timeout: 15000 })
-        .filter(':visible')
-        .first()
+      cy.getMapSearchInput()
         .clear({ force: true })
-        .type('Tour Eiffel', { force: true })
+        .type(locations.eiffelTower.query, { force: true })
 
-      // Les suggestions du SDK GPF apparaissent
-      cy.get('.GPautoCompleteList li, [class*="GPsearchResult"], [class*="suggestion"]', { timeout: 10000 })
+      cy.wait('@geocode', { timeout: 15000 }).its('response.statusCode').should('be.lessThan', 500)
+
+      cy.get(SEARCH_RESULT_SELECTOR, { timeout: 10000 })
         .should('have.length.at.least', 1)
+        .first()
+        .click({ force: true })
+
+      cy.getMapSearchInput()
+        .invoke('val')
+        .should('match', new RegExp(locations.eiffelTower.expectedLabel, 'i'))
     })
   })
 
   describe('Outils de mesure', () => {
     it('le panneau d\'outils est accessible', () => {
-      // Chercher un bouton/menu d'outils (mesure, dessin, etc.)
-      cy.get('[aria-label*="outil"], [aria-label*="mesur"], [aria-label*="tool"], button[class*="tool"], [class*="toolbox"]', { timeout: 10000 })
-        .should('have.length.at.least', 0) // L'outil peut ne pas être directement visible
+      cy.get('body').then(($body) => {
+        const candidates = $body.find(TOOL_CONTROL_SELECTOR)
+
+        expect(candidates.length, 'Au moins un contrôle d’outil doit être présent').to.be.greaterThan(0)
+
+        cy.wrap(candidates[0])
+          .should('be.visible')
+          .then(($button) => {
+            const accessibleName = [
+              $button.attr('aria-label') || '',
+              $button.attr('title') || '',
+              $button.text().trim(),
+            ].join(' ').trim()
+
+            expect(accessibleName, 'Le contrôle doit avoir un nom accessible').to.not.be.empty
+
+            cy.wrap($button).click({ force: true })
+          })
+
+        cy.get('body').should(($updatedBody) => {
+          const text = $updatedBody.text().toLowerCase()
+          const hasExpandedControl = $updatedBody.find('[aria-expanded="true"], [data-fr-opened="true"]').length > 0
+          const hasToolUiHint = ['mesure', 'outil', 'distance', 'dessin', 'draw'].some((hint) =>
+            text.includes(hint)
+          )
+
+          expect(
+            hasExpandedControl || hasToolUiHint,
+            'L’activation du contrôle doit exposer un panneau ou un mode outil'
+          ).to.be.true
+        })
+      })
     })
   })
 
