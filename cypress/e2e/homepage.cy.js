@@ -29,7 +29,9 @@ describe('Homepage Tests', { tags: '@nav' }, () => {
 
   it('should display the main title or heading', { tags: '@smoke' }, () => {
     // La homepage peut utiliser h1, h2 ou un titre dans un composant DSFR
+    // filter(':visible') évite de sélectionner un heading dans un conteneur masqué (overflow:hidden, height:0)
     cy.get('h1, h2, [class*="fr-display"], [class*="fr-h1"]', { timeout: 10000 })
+      .filter(':visible')
       .first()
       .should('exist')
       .and('be.visible')
