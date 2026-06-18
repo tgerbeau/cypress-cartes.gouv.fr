@@ -14,7 +14,8 @@ describe('Homepage Tests', { tags: '@nav' }, () => {
   })
 
   it('should load the homepage successfully', { tags: '@smoke' }, () => {
-    cy.url().should('include', 'cartes.gouv.fr')
+    // Give extra time for the URL to update after the visit on slow connections
+    cy.location('href', { timeout: 30000 }).should('include', 'cartes.gouv.fr')
 
     // Close welcome modal only if present/visible
     cy.get('body').then($body => {
