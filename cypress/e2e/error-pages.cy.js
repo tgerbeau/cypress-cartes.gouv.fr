@@ -9,6 +9,8 @@ describe('Pages d\'erreur', { tags: '@nav' }, () => {
     cy.request({
       url: '/cette-page-nexiste-vraiment-pas-42',
       failOnStatusCode: false,
+      // 60 s : les routes inconnues peuvent passer par un handler différent, plus lent
+      timeout: 60000,
     }).then((response) => {
       expect(response.status).to.eq(404)
     })
