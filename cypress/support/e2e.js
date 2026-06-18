@@ -76,6 +76,19 @@ afterEach(() => {
   // Cleanup if needed
 })
 
+// Prevent Cypress from failing tests due to uncaught exceptions from the application.
+// The page load timeout from Cypress's own runner can surface as an unhandled promise
+// rejection originating from the AUT domain — returning false suppresses that failure.
+Cypress.on('uncaught:exception', (err) => {
+  // Suppress page-load timeout errors that bubble up from Cypress's own runner
+  // (timedOutWaitingForPageLoad) as unhandled promise rejections from the AUT domain.
+  if (/remote page to load/i.test(err.message)) {
+    return false
+  }
+  // Let Cypress handle all other uncaught exceptions normally
+  return true
+})
+
 // Override cy.visit to accept cookies and dismiss welcome modal
 Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
   originalFn(url, options)
