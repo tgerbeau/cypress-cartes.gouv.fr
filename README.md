@@ -5,6 +5,21 @@ Les tests s'exécutent contre le site de production.
 
 **401 tests** répartis dans **18 fichiers specs**.
 
+## 🚦 État des Smoke Tests
+
+> Dernière exécution : **19 juin 2026**
+
+| Spec | Tests | Résultat | Durée |
+|------|-------|----------|-------|
+| homepage.cy.js | 2 | ✅ Pass | 2s |
+| navigation.cy.js | 1 | ✅ Pass | 1s |
+| error-pages.cy.js | 2 | ✅ Pass | <1s |
+| map.cy.js | 1 | ✅ Pass | 3s |
+| map-tools.cy.js | 2 | ✅ Pass | 6s |
+| catalogue-donnees.cy.js | 1 | ✅ Pass | <1s |
+| api-data.cy.js | 1 | ✅ Pass | <1s |
+| **Total** | **10** | **✅ 10/10** | **19s** |
+
 ## Prérequis
 
 - **Node.js 22**
