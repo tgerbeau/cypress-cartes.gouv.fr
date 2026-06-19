@@ -82,6 +82,38 @@ describe('Navigation du menu principal', { tags: '@nav' }, () => {
       })
   })
 
+  it('cliquer un lien du menu navigue vers la page cible', { tags: '@smoke' }, () => {
+    cy.get(LINK_SELECTOR)
+      .filter(':visible')
+      .first()
+      .then(($link) => {
+        const href = $link.attr('href')
+        const text = $link.text().trim()
+        cy.log(`Navigation vers "${text}" (${href})`)
+        cy.wrap($link).click({ force: true })
+        // La page cible doit se charger avec un body visible
+        cy.get('body', { timeout: 30000 }).should('be.visible')
+        cy.url().should('not.eq', 'about:blank')
+        // Header et footer doivent être présents sur la page cible
+        cy.get('header, .fr-header', { timeout: 10000 }).should('exist')
+        cy.get('footer, .fr-footer').should('exist')
+      })
+  })
+
+  it('le header et le footer sont présents sur les pages clés', { tags: '@smoke' }, () => {
+    const pages = [
+      '/decouvrir',
+      '/rechercher-une-donnee/',
+      '/mentions-legales',
+      '/accessibilite',
+    ]
+    pages.forEach((page) => {
+      cy.visit(page, { timeout: 30000 })
+      cy.get('header, .fr-header', { timeout: 10000 }).should('exist')
+      cy.get('footer, .fr-footer').should('exist')
+    })
+  })
+
   it('les liens du menu principal ont un texte accessible', () => {
     cy.get(LINK_SELECTOR)
       .filter(':visible')

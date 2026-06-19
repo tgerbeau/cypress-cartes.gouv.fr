@@ -48,7 +48,7 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
         .should('be.visible')
     })
 
-    it('la recherche d\'une adresse retourne des suggestions', () => {
+    it('la recherche d\'une adresse retourne des suggestions et recentre la carte', { tags: '@smoke' }, () => {
       cy.intercept({ url: /data\.geopf\.fr.*geocodage|completion/ }).as('geocode')
 
       // Attendre et fermer la modale d'accueil qui recouvre systématiquement la page carte
