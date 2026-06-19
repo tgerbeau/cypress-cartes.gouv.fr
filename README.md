@@ -3,6 +3,8 @@
 Suite de tests end-to-end pour [cartes.gouv.fr](https://cartes.gouv.fr) avec Cypress.
 Les tests s'exécutent contre le site de production.
 
+**401 tests** répartis dans **18 fichiers specs**.
+
 ## Prérequis
 
 - **Node.js 22**
@@ -31,7 +33,7 @@ npm run test:spec -- "cypress/e2e/homepage.cy.js"
 
 # Par tag
 npm run test:smoke       # Tests critiques (CI horaire)
-npm run test:a11y        # Accessibilité
+npm run test:a11y        # Accessibilité (RGAA + axe-core)
 npm run test:api         # Endpoints API
 npm run test:map         # Carte / OpenLayers
 npm run test:nav         # Navigation / pages
@@ -40,6 +42,7 @@ npm run test:auth        # Authentification SSO
 npm run test:form        # Formulaires
 npm run test:monitoring  # Monitoring uptime
 npm run test:crawl       # Crawler de liens
+npm run test:visual      # Audit visuel (NNG, cibles tactiles)
 ```
 
 ### Rapports Mochawesome
@@ -55,31 +58,35 @@ Le rapport HTML est dans `cypress/reports/html/report.html`.
 
 ```
 cypress/
-├── e2e/                         # Fichiers de test (*.cy.js)
-│   ├── homepage.cy.js           # @nav @smoke — Page d'accueil
-│   ├── navigation.cy.js         # @nav @smoke — Navigation & liens
-│   ├── error-pages.cy.js        # @nav @smoke — Pages d'erreur (404, etc.)
-│   ├── map.cy.js                # @map @smoke — Carte interactive (OpenLayers)
-│   ├── map-tools.cy.js          # @map @smoke — Outils cartographiques
-│   ├── editeur-carto.cy.js      # @map — Éditeur cartographique
-│   ├── catalogue-donnees.cy.js  # @catalogue @smoke — Catalogue de données
-│   ├── dataset-detail.cy.js     # @catalogue — Fiche détail d'un jeu de données
-│   ├── api-data.cy.js           # @api @smoke — Endpoints API (Géoplateforme)
-│   ├── accessibility.cy.js      # @a11y — Audit accessibilité (page d'accueil)
-│   ├── a11y-secondary-pages.cy.js # @a11y — Audit accessibilité (pages secondaires)
+├── e2e/                              # Fichiers de test (*.cy.js)
+│   ├── homepage.cy.js                # @nav @smoke — Page d'accueil
+│   ├── navigation.cy.js              # @nav @smoke — Navigation & liens
+│   ├── error-pages.cy.js             # @nav @smoke — Pages d'erreur (404, etc.)
+│   ├── map.cy.js                     # @map @smoke — Carte interactive (OpenLayers)
+│   ├── map-tools.cy.js               # @map @smoke — Outils cartographiques
+│   ├── editeur-carto.cy.js           # @map — Éditeur cartographique
+│   ├── catalogue-donnees.cy.js       # @catalogue @smoke — Catalogue de données
+│   ├── dataset-detail.cy.js          # @catalogue — Fiche détail d'un jeu de données
+│   ├── api-data.cy.js                # @api @smoke — Endpoints API (Géoplateforme)
+│   ├── accessibility.cy.js           # @a11y — Audit accessibilité (page d'accueil)
+│   ├── a11y-secondary-pages.cy.js    # @a11y — Audit accessibilité (pages secondaires)
+│   ├── rgaa-criteres.cy.js           # @a11y — 106 critères RGAA 4.1.2 (13 thématiques)
 │   ├── nng-accessibility-audit.cy.js # @visual — Audit visuel NNG
-│   ├── show-small-targets.cy.js # @visual — Détection cibles tactiles trop petites
-│   ├── forms.cy.js              # @form — Formulaires
-│   ├── auth.cy.js               # @auth — Authentification SSO (Géoplateforme)
-│   ├── monitoring.cy.js         # @monitoring — Monitoring uptime & disponibilité
-│   └── site-crawler.cy.js       # @crawl — Crawler de liens internes
-├── fixtures/                    # Données de test (JSON)
+│   ├── show-small-targets.cy.js      # @visual — Détection cibles tactiles trop petites
+│   ├── forms.cy.js                   # @form — Formulaires
+│   ├── auth.cy.js                    # @auth — Authentification SSO (Géoplateforme)
+│   ├── monitoring.cy.js              # @monitoring — Monitoring uptime & disponibilité
+│   └── site-crawler.cy.js            # @crawl — Crawler de liens internes
+├── fixtures/                         # Données de test (JSON)
 ├── support/
-│   ├── commands.js              # Commandes custom
-│   └── e2e.js                   # Setup global (cypress-axe, override cy.visit)
-├── reports/                     # Rapports mochawesome (JSON + HTML)
-├── screenshots/                 # Captures d'écran (en cas d'échec)
-└── videos/                      # Vidéos des tests
+│   ├── commands.js                   # Commandes custom
+│   └── e2e.js                        # Setup global (cypress-axe, override cy.visit)
+├── reports/                          # Rapports mochawesome (JSON + HTML)
+├── screenshots/                      # Captures d'écran (en cas d'échec)
+└── videos/                           # Vidéos des tests
+scripts/
+├── generate-rgaa-report.js           # Génère le rapport RGAA HTML
+└── generate-rgaa-pdf.js              # Génère le rapport RGAA PDF
 ```
 
 ## Commandes custom
@@ -92,19 +99,19 @@ cypress/
 
 ## Tags disponibles
 
-| Tag | Specs | Description |
-|-----|-------|-------------|
-| `@smoke` | 7 specs | Tests critiques, exécutés en CI chaque heure (jours ouvrés) |
-| `@nav` | 3 specs | Navigation, pages statiques, erreurs |
-| `@map` | 3 specs | Carte OpenLayers, outils, éditeur |
-| `@catalogue` | 2 specs | Catalogue et fiches de données |
-| `@a11y` | 2 specs | Audits accessibilité WCAG 2.1 AA (axe-core) |
-| `@api` | 1 spec | Endpoints Géoplateforme |
-| `@auth` | 1 spec | Authentification SSO |
-| `@form` | 1 spec | Formulaires |
-| `@monitoring` | 1 spec | Monitoring uptime |
-| `@crawl` | 1 spec | Crawler de liens |
-| `@visual` | 2 specs | Audit visuel (taille cibles, contraste) |
+| Tag | Specs | Tests | Description |
+|-----|-------|-------|-------------|
+| `@smoke` | 7 specs | 10 | Tests critiques, exécutés en CI chaque heure (jours ouvrés) |
+| `@nav` | 3 specs | 20 | Navigation, pages statiques, erreurs |
+| `@map` | 3 specs | 22 | Carte OpenLayers, outils, éditeur |
+| `@catalogue` | 2 specs | 12 | Catalogue et fiches de données |
+| `@a11y` | 3 specs | 279 | Audits accessibilité WCAG 2.1 AA + RGAA 4.1.2 |
+| `@api` | 1 spec | 5 | Endpoints Géoplateforme |
+| `@auth` | 1 spec | 5 | Authentification SSO |
+| `@form` | 1 spec | 9 | Formulaires |
+| `@monitoring` | 1 spec | 10 | Monitoring uptime |
+| `@crawl` | 1 spec | 5 | Crawler de liens |
+| `@visual` | 2 specs | 34 | Audit visuel (taille cibles, contraste NNG) |
 
 ## CI / GitHub Actions
 
@@ -121,6 +128,7 @@ cypress/
 - **mochawesome** — Rapports de test (JSON → HTML)
 - **DSFR** — Design Système de l'État (préfixe `.fr-`)
 - **OpenLayers** — Carte interactive (tuiles `data.geopf.fr`, `wxs.ign.fr`)
+- **Claude Vision (IA)** — Vérification pertinence des alt et détection images-texte (RGAA 1.3, 1.8)
 
 ## Configuration Cypress
 
@@ -136,7 +144,8 @@ cypress/
 
 - [Cypress Documentation](https://docs.cypress.io)
 - [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices)
-- [Cypress API](https://docs.cypress.io/api/table-of-contents)
+- [RGAA 4.1.2 — Critères et tests](https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/)
+- [axe-core Rules](https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md)
 
 ## 🤝 Contributing
 

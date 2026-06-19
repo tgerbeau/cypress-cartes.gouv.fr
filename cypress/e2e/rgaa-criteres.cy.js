@@ -85,13 +85,61 @@ describe('RGAA Thématique 1 — Images', { tags: '@a11y' }, () => {
     })
   })
 
-  it('1.3 — Alternative textuelle des images pertinente (vérification structurelle)', () => {
-    // On vérifie que l'alt n'est pas un nom de fichier
+  it('1.3 — Alternative textuelle des images pertinente (vérification structurelle + IA)', () => {
+    // Vérification structurelle : l'alt n'est pas un nom de fichier
     cy.get('img[alt]:visible').each(($img) => {
       const alt = $img.attr('alt') || ''
       if (!alt) return // image décorative
       expect(alt).not.to.match(/\.(jpg|jpeg|png|gif|svg|webp|bmp)$/i,
         `L'alt ne doit pas être un nom de fichier : "${alt}"`)
+    })
+
+    // Vérification IA via Claude Vision sur plusieurs pages
+    const pagesToScan = [
+      { name: 'Accueil', url: '/' },
+      { name: 'Découvrir', url: '/decouvrir' },
+      { name: 'Offres', url: '/offres' },
+      { name: 'Actualités', url: '/actualites' },
+      { name: 'Découvrir — Explorer', url: '/decouvrir/explorer-les-cartes' },
+      { name: 'Découvrir — Publier', url: '/decouvrir/publier-une-donnee' }
+    ]
+
+    pagesToScan.forEach(({ name, url }) => {
+      cy.visit(url, { timeout: 120000 })
+      cy.get('body').should('be.visible')
+      cy.get('body').then(($body) => {
+        const imagesToAnalyze = []
+        $body.find('img[alt]:visible').each((_, img) => {
+          const $img = Cypress.$(img)
+          const alt = $img.attr('alt') || ''
+          const src = $img.attr('src') || ''
+          if (!alt || !src) return
+          if ($img.width() <= 1 || $img.height() <= 1) return
+          const absoluteUrl = src.startsWith('http') ? src : `https://cartes.gouv.fr${src.startsWith('/') ? '' : '/'}${src}`
+          imagesToAnalyze.push({ url: absoluteUrl, alt })
+        })
+
+        // Limiter à 3 images par page
+        const sample = imagesToAnalyze.slice(0, 3)
+        if (sample.length === 0) {
+          cy.task('log', `ℹ️  1.3 IA — ${name} : aucune image porteuse d'information`)
+          return
+        }
+
+        cy.task('log', `🤖 1.3 IA — ${name} : analyse de ${sample.length} image(s) via Claude Vision...`)
+        sample.forEach(({ url: imgUrl, alt }) => {
+          cy.task('analyzeAltRelevance', { imageUrl: imgUrl, altText: alt }).then((result) => {
+            if (!result.pertinent) {
+              cy.task('log', `⚠️  1.3 IA — [${name}] Alt non pertinent : "${alt}"`)
+              cy.task('log', `    Image : ${imgUrl.substring(0, 80)}`)
+              cy.task('log', `    Raison : ${result.reason}`)
+              cy.task('log', `    Suggestion : "${result.suggestedAlt}"`)
+            } else {
+              cy.task('log', `✓ 1.3 IA — [${name}] Alt pertinent : "${alt.substring(0, 50)}"`)
+            }
+          })
+        })
+      })
     })
   })
 
@@ -192,15 +240,60 @@ describe('RGAA Thématique 1 — Images', { tags: '@a11y' }, () => {
     })
   })
 
-  it('1.8 — Images texte remplacées par du texte stylé (vérification présence)', () => {
-    // Vérifier qu'il n'y a pas trop d'images contenant du texte
-    // (test structurel — signale les images avec alt long qui pourraient être du texte)
+  it('1.8 — Images texte remplacées par du texte stylé (vérification IA)', () => {
+    // Vérification structurelle : alt long = possible image-texte
     cy.get('img[alt]:visible').each(($img) => {
       const alt = $img.attr('alt') || ''
-      // Un alt de plus de 80 caractères pourrait indiquer une image-texte
       if (alt.length > 80) {
         cy.task('log', `⚠️  1.8 — Image possiblement texte (alt long) : "${alt.substring(0, 50)}..."`)
       }
+    })
+
+    // Vérification IA via Claude Vision sur plusieurs pages
+    const pagesToScan = [
+      { name: 'Accueil', url: '/' },
+      { name: 'Découvrir', url: '/decouvrir' },
+      { name: 'Offres', url: '/offres' },
+      { name: 'Actualités', url: '/actualites' },
+      { name: 'Découvrir — Explorer', url: '/decouvrir/explorer-les-cartes' },
+      { name: 'Découvrir — Publier', url: '/decouvrir/publier-une-donnee' }
+    ]
+
+    pagesToScan.forEach(({ name, url }) => {
+      cy.visit(url, { timeout: 120000 })
+      cy.get('body').should('be.visible')
+      cy.get('body').then(($body) => {
+        const imagesToAnalyze = []
+        $body.find('img:visible').each((_, img) => {
+          const $img = Cypress.$(img)
+          const src = $img.attr('src') || ''
+          if (!src) return
+          if ($img.width() <= 1 || $img.height() <= 1) return
+          if ($img.width() < 50 || $img.height() < 20) return
+          const absoluteUrl = src.startsWith('http') ? src : `https://cartes.gouv.fr${src.startsWith('/') ? '' : '/'}${src}`
+          imagesToAnalyze.push(absoluteUrl)
+        })
+
+        // Limiter à 3 images par page
+        const sample = imagesToAnalyze.slice(0, 3)
+        if (sample.length === 0) {
+          cy.task('log', `ℹ️  1.8 IA — ${name} : aucune image à analyser`)
+          return
+        }
+
+        cy.task('log', `🤖 1.8 IA — ${name} : détection de texte dans ${sample.length} image(s)...`)
+        sample.forEach((imgUrl) => {
+          cy.task('detectTextInImage', { imageUrl: imgUrl }).then((result) => {
+            if (result.hasText && result.shouldBeHtml) {
+              cy.task('log', `⚠️  1.8 IA — [${name}] Image-texte détectée : ${imgUrl.substring(0, 80)}`)
+              cy.task('log', `    Texte trouvé : "${result.textContent}"`)
+              cy.task('log', `    Raison : ${result.reason}`)
+            } else if (result.hasText) {
+              cy.task('log', `ℹ️  1.8 IA — [${name}] Texte acceptable : "${result.textContent.substring(0, 50)}" — ${result.reason}`)
+            }
+          })
+        })
+      })
     })
   })
 
