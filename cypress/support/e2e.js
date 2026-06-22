@@ -91,22 +91,8 @@ Cypress.on('uncaught:exception', (err) => {
 
 // Override cy.visit to accept cookies and dismiss welcome modal
 Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
-  originalFn(url, options)
-  cy.document().then((doc) => {
-    const btn = doc.querySelector(
-      '[data-testid="accept-cookies"], button[aria-label*="accepter"], .fr-consent-banner button'
-    )
-    if (btn) {
-      btn.click()
-    }
-  })
-  // Fermer la popup "Bienvenue sur cartes.gouv.fr" si elle apparaît
-  // Sur les pages carte/explorateur, la modale peut mettre du temps à apparaître (SPA)
-  cy.get('body').then(($body) => {
-    if ($body.find('dialog.welcome-modal[open], .fr-modal--opened').length) {
-      // Presser Échap — méthode la plus fiable pour fermer les modales DSFR
-      cy.get('body').type('{esc}')
-      cy.get('dialog.welcome-modal[open], .fr-modal--opened', { timeout: 5000 }).should('not.exist')
-    }
+  return originalFn(url, options).then(() => {
+    cy.acceptCookies()
+    cy.dismissModal()
   })
 })
