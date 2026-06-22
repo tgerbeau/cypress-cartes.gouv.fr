@@ -7,6 +7,10 @@ on:
   pull_request:        # Run on PRs (needed for Copilot agent auto-fix)
   workflow_dispatch:   # Allow manual trigger
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -50,14 +54,6 @@ jobs:
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-          retention-days: 7
-
-      - name: Upload videos
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: cypress-videos
-          path: cypress/videos
           retention-days: 7
 
       # ─── Notification email ─────────────────────────────────────────

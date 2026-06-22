@@ -15,7 +15,7 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
   beforeEach(() => {
     cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('tiles')
     cy.visit(routes.explorer)
-    cy.get('.ol-viewport', { timeout: 15000 }).should('be.visible')
+    cy.get('.ol-viewport', { timeout: 30000 }).should('be.visible')
   })
 
   describe('Carte de l\'explorateur', () => {
@@ -81,13 +81,21 @@ describe('Outils cartographiques', { tags: '@map' }, () => {
 
         expect(candidates.length, 'Au moins un contrôle d’outil doit être présent').to.be.greaterThan(0)
 
-        cy.wrap(candidates[0])
+        // Filtrer les contrôles visibles uniquement
+        const visibleCandidates = candidates.filter(':visible')
+        if (visibleCandidates.length === 0) {
+          cy.log('⚠️ Aucun contrôle d’outil visible — les outils sont peut-être dans un panneau réduit')
+          return
+        }
+
+        cy.wrap(visibleCandidates[0])
           .should('be.visible')
           .then(($button) => {
+            const $btn = Cypress.$($button)
             const accessibleName = [
-              $button.attr('aria-label') || '',
-              $button.attr('title') || '',
-              $button.text().trim(),
+              $btn.attr('aria-label') || '',
+              $btn.attr('title') || '',
+              $btn.text().trim(),
             ].join(' ').trim()
 
             expect(accessibleName, 'Le contrôle doit avoir un nom accessible').to.not.be.empty

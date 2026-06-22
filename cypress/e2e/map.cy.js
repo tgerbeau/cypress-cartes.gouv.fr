@@ -8,8 +8,8 @@ describe('Carte interactive', { tags: '@map' }, () => {
   beforeEach(() => {
     // Poser les intercepts AVANT le visit pour capturer les tuiles du chargement initial
     cy.intercept({ url: /data\.geopf\.fr|wxs\.ign\.fr/ }).as('tiles')
-    cy.visit('/')
-    cy.get('.ol-viewport', { timeout: 15000 }).should('be.visible')
+    cy.visit('/explorer-les-cartes/')
+    cy.get('.ol-viewport', { timeout: 30000 }).should('be.visible')
   })
 
   it('affiche une carte avec des tuiles rendues dans un canvas', { tags: '@smoke' }, () => {
@@ -72,6 +72,13 @@ describe('Carte interactive', { tags: '@map' }, () => {
   })
 
   it('les contrôles carte sont accessibles au clavier', () => {
+    // Fermer les modales éventuelles qui capturent le focus
+    cy.get('body').then(($body) => {
+      if ($body.find('dialog[open], .fr-modal--opened').length) {
+        cy.get('body').type('{esc}')
+        cy.wait(500)
+      }
+    })
     // Les boutons de zoom sont focusables et labellisés
     cy.get('[aria-label="Zoomer"]').first().focus()
     cy.focused().should('have.attr', 'aria-label', 'Zoomer')

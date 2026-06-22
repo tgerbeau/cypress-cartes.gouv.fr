@@ -17,15 +17,16 @@ module.exports = defineConfig({
   },
   e2e: {
     experimentalPromptCommand: true,
+    experimentalMemoryManagement: true,
     baseUrl: 'https://cartes.gouv.fr',
     viewportWidth: 1280,
     viewportHeight: 720,
-    video: true,
+    video: false,
     screenshotOnRunFailure: true,
-    defaultCommandTimeout: 10000,
-    pageLoadTimeout: 120000,
+    defaultCommandTimeout: 8000,
+    pageLoadTimeout: 60000,
     retries: {
-      runMode: 2,   // CI : 2 retries automatiques par test
+      runMode: 1,   // CI : 1 retry automatique par test
       openMode: 0   // Local : pas de retry
     },
     setupNodeEvents(on, config) {

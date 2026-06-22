@@ -3,22 +3,42 @@
 Suite de tests end-to-end pour [cartes.gouv.fr](https://cartes.gouv.fr) avec Cypress.
 Les tests s'exécutent contre le site de production.
 
-**401 tests** répartis dans **18 fichiers specs**.
+**404 tests** répartis dans **18 fichiers specs**.
 
-## 🚦 État des Smoke Tests
+## 🚦 Dernière exécution complète
 
-> Dernière exécution : **19 juin 2026**
+> Dernière exécution : **22 juin 2026** — Durée totale : **9m01s**
 
-| Spec | Tests | Résultat | Durée |
-|------|-------|----------|-------|
-| homepage.cy.js | 2 | ✅ Pass | 2s |
-| navigation.cy.js | 1 | ✅ Pass | 1s |
-| error-pages.cy.js | 2 | ✅ Pass | <1s |
-| map.cy.js | 1 | ✅ Pass | 3s |
-| map-tools.cy.js | 2 | ✅ Pass | 6s |
-| catalogue-donnees.cy.js | 1 | ✅ Pass | <1s |
-| api-data.cy.js | 1 | ✅ Pass | <1s |
-| **Total** | **10** | **✅ 10/10** | **19s** |
+| Spec | Tests | Passing | Failing | Durée | Résultat |
+|------|-------|---------|---------|-------|----------|
+| a11y-secondary-pages.cy.js | 48 | 48 | 0 | 22s | ✅ |
+| accessibility.cy.js | 8 | 7 | 1 | 40s | ❌ |
+| api-data.cy.js | 5 | 5 | 0 | 40s | ✅ |
+| auth.cy.js | 5 | 5 | 0 | 13s | ✅ |
+| catalogue-donnees.cy.js | 7 | 7 | 0 | 9s | ✅ |
+| dataset-detail.cy.js | 6 | 6 | 0 | 36s | ✅ |
+| editeur-carto.cy.js | 3 | 1 | 0 | <1s | ✅ (2 skipped) |
+| error-pages.cy.js | 6 | 6 | 0 | 4s | ✅ |
+| forms.cy.js | 9 | 9 | 0 | 6s | ✅ |
+| homepage.cy.js | 8 | 7 | 1 | 36s | ❌ |
+| map-tools.cy.js | 10 | 10 | 0 | 22s | ✅ |
+| map.cy.js | 9 | 9 | 0 | 23s | ✅ |
+| monitoring.cy.js | 10 | 10 | 0 | 9s | ✅ |
+| navigation.cy.js | 8 | 8 | 0 | 11s | ✅ |
+| nng-accessibility-audit.cy.js | 33 | 32 | 1 | 40s | ❌ |
+| rgaa-criteres.cy.js | 223 | 222 | 1 | 3m20s | ❌ |
+| show-small-targets.cy.js | 1 | 1 | 0 | 6s | ✅ |
+| site-crawler.cy.js | 5 | 5 | 0 | 18s | ✅ |
+| **Total** | **404** | **398** | **4** | **9m01s** | **98.5%** |
+
+### Échecs connus
+
+| Spec | Test | Erreur |
+|------|------|--------|
+| accessibility.cy.js | — | Violation axe-core sur le site |
+| homepage.cy.js | — | 1 assertion en échec |
+| nng-accessibility-audit.cy.js | 2.1 Navigation clavier possible | Focus non reçu par l'élément |
+| rgaa-criteres.cy.js | 10.7 Prise de focus visible | `expected '<a.router-link-active>' to be 'focused'` (timeout) |
 
 ## Prérequis
 
@@ -149,11 +169,12 @@ scripts/
 
 - **Base URL :** `https://cartes.gouv.fr`
 - **Viewport :** 1280×720
-- **Timeout commandes :** 10 s
-- **Timeout chargement page :** 120 s
-- **Retries CI :** 2 (mode run) / 0 (mode open)
-- **Vidéo :** activée
+- **Timeout commandes :** 8 s
+- **Timeout chargement page :** 60 s
+- **Retries CI :** 1 (mode run) / 0 (mode open)
+- **Vidéo :** désactivée (perf CI)
 - **Screenshots :** en cas d'échec
+- **Memory management :** expérimental activé
 
 ## 📚 Resources
 

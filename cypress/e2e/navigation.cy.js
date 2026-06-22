@@ -211,6 +211,13 @@ describe('Navigation du menu principal', { tags: '@nav' }, () => {
   })
 
   it('la navigation est accessible au clavier (les liens sont focusables)', () => {
+    // Fermer les modales éventuelles qui capturent le focus
+    cy.get('body').then(($body) => {
+      if ($body.find('dialog[open], .fr-modal--opened').length) {
+        cy.get('body').type('{esc}')
+        cy.wait(500)
+      }
+    })
     // Les liens de navigation doivent être focusables
     cy.get(LINK_SELECTOR)
       .filter(':visible')
