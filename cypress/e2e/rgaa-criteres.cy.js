@@ -1121,20 +1121,16 @@ describe('RGAA Thématique 10 — Présentation de l\'information', { tags: '@a1
 
   it('10.7 — Prise de focus visible', () => {
     // Vérifier que le outline n'est pas masqué globalement
-    cy.get('a:visible').first().then(($el) => {
-      $el[0].focus()
-      cy.wrap($el).should('have.focus')
+    cy.get('a:visible').first().focus().should('have.focus').then(($el) => {
       // Vérifier qu'un style de focus est appliqué
-      cy.wrap($el).then(($focused) => {
-        const outline = getComputedStyle($focused[0]).outline
-        const boxShadow = getComputedStyle($focused[0]).boxShadow
-        // Au moins un indicateur de focus devrait être visible
-        const hasVisibleFocus = (outline && outline !== 'none' && !outline.includes('0px')) ||
-          (boxShadow && boxShadow !== 'none')
-        if (!hasVisibleFocus) {
-          cy.task('log', '⚠️  10.7 — Focus potentiellement non visible sur le premier lien')
-        }
-      })
+      const outline = getComputedStyle($el[0]).outline
+      const boxShadow = getComputedStyle($el[0]).boxShadow
+      // Au moins un indicateur de focus devrait être visible
+      const hasVisibleFocus = (outline && outline !== 'none' && !outline.includes('0px')) ||
+        (boxShadow && boxShadow !== 'none')
+      if (!hasVisibleFocus) {
+        cy.task('log', '⚠️  10.7 — Focus potentiellement non visible sur le premier lien')
+      }
     })
   })
 

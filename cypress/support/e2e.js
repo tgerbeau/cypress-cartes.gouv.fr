@@ -102,6 +102,8 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
   })
   // Fermer la popup "Bienvenue sur cartes.gouv.fr" si elle apparaît
   // Sur les pages carte/explorateur, la modale peut mettre du temps à apparaître (SPA)
+  // On attend que Vue.js ait eu le temps de rendre la modale avant de vérifier son existence
+  cy.wait(1000)
   cy.get('body').then(($body) => {
     if ($body.find('dialog.welcome-modal[open], .fr-modal--opened').length) {
       // Presser Échap — méthode la plus fiable pour fermer les modales DSFR
