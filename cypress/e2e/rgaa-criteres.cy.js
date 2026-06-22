@@ -1121,7 +1121,8 @@ describe('RGAA Thématique 10 — Présentation de l\'information', { tags: '@a1
 
   it('10.7 — Prise de focus visible', () => {
     // Vérifier que le outline n'est pas masqué globalement
-    cy.get('a:visible').first().focus().should('have.focus').then(($el) => {
+    cy.get('a:visible').first().focus()
+    cy.focused().should('match', 'a').then(($el) => {
       // Vérifier qu'un style de focus est appliqué
       const outline = getComputedStyle($el[0]).outline
       const boxShadow = getComputedStyle($el[0]).boxShadow
